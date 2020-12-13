@@ -1,4 +1,3 @@
 module.exports = {
-	extends: "jonhaddow",
-	sourceType: "module",
+	extends: ["jonhaddow", "jonhaddow/typescript"],
 };
