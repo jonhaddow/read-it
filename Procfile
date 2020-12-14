@@ -1,1 +1,1 @@
-web: tsc && node ./dist/app.js
+web: node dist/app.js
