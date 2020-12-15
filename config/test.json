@@ -1,0 +1,9 @@
+{
+	"db_config": {
+		"host": "localhost",
+		"database": "travis_ci_test",
+		"user": "postgres",
+		"password": "",
+		"port": "5432"
+	}
+}
