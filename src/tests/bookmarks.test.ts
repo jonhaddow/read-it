@@ -9,7 +9,7 @@ beforeAll(async () => {
 	let client: PoolClient | null = null;
 	try {
 		client = await pool.connect();
-		await client.query("DROP TABLE bookmarks");
+		await client.query("DROP TABLE IF EXISTS bookmarks");
 		await client.query(`
 			CREATE TABLE bookmarks (
 				id char(36),
