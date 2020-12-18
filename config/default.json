@@ -2,7 +2,7 @@
 	"db_config": {
 		"host": "localhost",
 		"database": "postgres",
-		"user": "postgres",
+		"username": "postgres",
 		"password": "",
 		"port": "5432"
 	}

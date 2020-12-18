@@ -1,37 +1,24 @@
-import config from "config";
-import { Pool, PoolClient } from "pg";
 import request from "supertest";
-import { app, server } from "../app";
-
-const pool = new Pool(config.get("db_config"));
+import { getConnection } from "typeorm";
+import { ResultSet } from "../interfaces";
+import { Bookmark } from "../entities";
+import { startServer } from "../server";
 
 beforeAll(async () => {
-	let client: PoolClient | null = null;
-	try {
-		client = await pool.connect();
-		await client.query("DROP TABLE IF EXISTS bookmarks");
-		await client.query(`
-			CREATE TABLE bookmarks (
-				id char(36),
-				url varchar(2000)
-			)
-		`);
-	} finally {
-		client?.release();
-	}
+	// Starts up the express server
+	await startServer();
+
+	// Drops the bookmarks table.
+	await getConnection().getRepository(Bookmark).clear();
 });
 
 describe("bookmarks", () => {
 	it("should return empty list of bookmarks", async () => {
-		const response = await request(app).get("/api/bookmarks");
+		const response = await request("http://0.0.0.0:3000").get("/api/bookmarks");
 
 		expect(response.status).toBe(200);
 
-		expect(response.body).toHaveProperty("results");
-		expect(response.body.results).toHaveLength(0);
+		const resultSet = response.body as ResultSet<Bookmark>;
+		expect(resultSet.results).toHaveLength(0);
 	});
-});
-
-afterAll(() => {
-	server.close();
 });

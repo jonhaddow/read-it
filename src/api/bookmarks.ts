@@ -1,18 +1,15 @@
-import express from "express";
+import { Request, Response } from "express";
 import { getBookmarks } from "../services";
 
-const router = express.Router();
-
-router.get("/", async (req, res) => {
-	const bookmarksResponse = await getBookmarks();
-
-	if (!bookmarksResponse.isSuccess) {
-		res
-			.status(bookmarksResponse.statusCode ?? 500)
-			.send(bookmarksResponse.error);
+export const getBookmarksApi = async (
+	req: Request,
+	res: Response
+): Promise<void> => {
+	try {
+		const bookmarksResponse = await getBookmarks();
+		res.json(bookmarksResponse);
+	} catch (ex) {
+		console.error(ex);
+		res.status(500).send("Failed to get bookmarks");
 	}
-
-	res.send(bookmarksResponse.body);
-});
-
-export { router as bookmarksRouter };
+};
