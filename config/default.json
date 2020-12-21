@@ -5,5 +5,11 @@
 		"username": "postgres",
 		"password": "",
 		"port": "5432"
-	}
+	},
+	"google_auth": {
+		"client_id": "",
+		"client_secret": "",
+		"callback_url": ""
+	},
+	"session_secret": "secret"
 }

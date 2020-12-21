@@ -1,14 +1,18 @@
 import config from "config";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import { createConnection } from "typeorm";
-import { Bookmark } from "./entities";
-import { AppRoutes } from "./routes";
+import { Bookmark, Session, User } from "./entities";
+import { authRouter, bookmarksRouter } from "./api";
+import { setupPassport } from "./utils";
+import { homeRouter } from "./controllers";
+import session from "express-session";
+import { TypeormStore } from "connect-typeorm/out";
 
 export const startServer = async (): Promise<void> => {
 	try {
-		await createConnection({
+		const connection = await createConnection({
 			type: "postgres",
-			entities: [Bookmark],
+			entities: [Bookmark, Session, User],
 			synchronize: true,
 			logging: ["warn", "error"],
 			...config.get("db_config"),
@@ -19,25 +23,32 @@ export const startServer = async (): Promise<void> => {
 		const hostname = "0.0.0.0";
 		const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-		// register all application routes
-		AppRoutes.forEach((route) => {
-			app[route.method](
-				route.path,
-				// eslint-disable-next-line @typescript-eslint/no-misused-promises -- Express support async handlers.
-				async (
-					request: Request,
-					response: Response,
-					next: NextFunction
-				): Promise<void> => {
-					try {
-						await route.action(request, response);
-						next();
-					} catch (err) {
-						next(err);
-					}
-				}
-			);
-		});
+		// View engine setup
+		app.set("view engine", "ejs");
+		app.set("views", "./src/views");
+
+		// setup session
+		app.use(
+			session({
+				secret: config.get("session_secret"),
+				resave: false,
+				saveUninitialized: false,
+				store: new TypeormStore({
+					cleanupLimit: 2,
+					ttl: 86400,
+				}).connect(connection.getRepository(Session)),
+			})
+		);
+
+		// Setup auth middleware
+		setupPassport(app);
+		app.use(authRouter);
+
+		// API routes
+		app.use(bookmarksRouter);
+
+		// Controller routes
+		app.use(homeRouter);
 
 		app.listen(port, hostname, () => {
 			console.log(`Express server running at http://${hostname}:${port}/`);
