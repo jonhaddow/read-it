@@ -3,6 +3,15 @@ import { getConnection } from "typeorm";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "../entities";
 import { startServer } from "../server";
+import { NextFunction } from "express";
+
+// Bypass authentication middleware
+jest.mock("../middleware", () => ({
+	__esModule: true,
+	isAuthenticated: jest
+		.fn()
+		.mockImplementation((req, res, next: NextFunction) => next()),
+}));
 
 beforeAll(async () => {
 	// Starts up the express server

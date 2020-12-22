@@ -7,6 +7,7 @@ import { setupPassport } from "./utils";
 import { homeRouter } from "./controllers";
 import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
+import { isAuthenticated } from "./middleware";
 
 export const startServer = async (): Promise<void> => {
 	try {
@@ -45,7 +46,7 @@ export const startServer = async (): Promise<void> => {
 		app.use(authRouter);
 
 		// API routes
-		app.use(bookmarksRouter);
+		app.use("/api/bookmarks", isAuthenticated, bookmarksRouter);
 
 		// Controller routes
 		app.use(homeRouter);

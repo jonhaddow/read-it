@@ -4,7 +4,7 @@ import { getBookmarks } from "../services";
 export const bookmarksRouter = Router();
 
 bookmarksRouter.get(
-	"/api/bookmarks",
+	"/",
 	async (req, res): Promise<void> => {
 		try {
 			const bookmarksResponse = await getBookmarks();
