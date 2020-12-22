@@ -7,14 +7,14 @@
 		"port": "5432"
 	},
 	"google_auth": {
-		"client_id": "",
-		"client_secret": "",
-		"callback_url": ""
+		"client_id": "clientId",
+		"client_secret": "clientSecret",
+		"callback_url": "http://localhost:3000/auth/google/callback"
 	},
 	"github_auth": {
-		"client_id": "",
-		"client_secret": "",
-		"callback_url": ""
+		"client_id": "clientId",
+		"client_secret": "clientSecret",
+		"callback_url": "http://localhost:3000/auth/github/callback"
 	},
 	"session_secret": "secret"
 }
