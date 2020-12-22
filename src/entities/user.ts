@@ -19,6 +19,9 @@ export class User {
 	email: string;
 
 	@Index()
-	@Column()
+	@Column({ nullable: true })
 	providerId?: string;
+
+	@Column({ nullable: true })
+	provider?: string;
 }

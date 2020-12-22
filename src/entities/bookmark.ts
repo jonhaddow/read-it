@@ -26,12 +26,12 @@ export class Bookmark {
 	/**
 	 * The title of the page this bookmark points to.
 	 */
-	@Column()
+	@Column({ nullable: true })
 	title?: string;
 
 	/**
 	 * The description of the page this bookmark points to.
 	 */
-	@Column()
+	@Column({ nullable: true })
 	description?: string;
 }
