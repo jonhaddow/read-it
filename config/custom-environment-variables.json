@@ -1,6 +1,6 @@
 {
 	"db_config": {
-		"host": "DATABASE_URL"
+		"url": "DATABASE_URL"
 	},
 	"google_auth": {
 		"client_id": "GOOGLE_AUTH_ID",

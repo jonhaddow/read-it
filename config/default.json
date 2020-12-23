@@ -1,5 +1,6 @@
 {
 	"db_config": {
+		"url": "",
 		"host": "localhost",
 		"database": "postgres",
 		"username": "postgres",
