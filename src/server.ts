@@ -21,8 +21,7 @@ export const startServer = async (): Promise<void> => {
 
 		const app = express();
 
-		const hostname = "0.0.0.0";
-		const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+		app.use(express.json()); // for parsing application/json
 
 		// View engine setup
 		app.set("view engine", "ejs");
@@ -51,6 +50,8 @@ export const startServer = async (): Promise<void> => {
 		// Controller routes
 		app.use(homeRouter);
 
+		const hostname = "0.0.0.0";
+		const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 		app.listen(port, hostname, () => {
 			console.log(`Express server running at http://${hostname}:${port}/`);
 		});

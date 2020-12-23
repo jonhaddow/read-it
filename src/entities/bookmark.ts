@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from ".";
 
 /**
  * Describes a bookmark of a website or web app.
@@ -34,4 +35,16 @@ export class Bookmark {
 	 */
 	@Column({ nullable: true })
 	description?: string;
+
+	/**
+	 * The date the bookmark was created.
+	 */
+	@Column()
+	dateCreated!: Date;
+
+	/**
+	 * The user this bookmark belongs to.
+	 */
+	@ManyToOne(() => User)
+	user!: User;
 }
