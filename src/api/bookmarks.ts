@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Bookmark, User } from "../entities";
 import {
 	addBookmark,
+	deleteBookmark,
 	getBookmark,
 	getBookmarks,
 	updateBookmark,
@@ -84,11 +85,38 @@ bookmarksRouter.put(
 
 			const user = req.user as User;
 
+			// Check the entity exists for the current user
+			const currentBookmark = await getBookmark(user, id);
+			if (!currentBookmark) {
+				res.status(404).end();
+			}
+
 			const updatedBookmark = await updateBookmark(user, bookmark);
 			res.json(updatedBookmark);
 		} catch (ex) {
 			console.error(ex);
 			res.status(500).send("Failed to update bookmark");
+		}
+	}
+);
+
+bookmarksRouter.delete(
+	"/:id",
+	async (req, res): Promise<void> => {
+		try {
+			if (!req.params.id) {
+				res.status(400).send("Bookmark ID required");
+			}
+			const id = parseInt(req.params.id);
+
+			const user = req.user as User;
+
+			await deleteBookmark(user, id);
+
+			res.status(204).end();
+		} catch (ex) {
+			console.error(ex);
+			res.status(500).send("Failed to delete bookmark");
 		}
 	}
 );

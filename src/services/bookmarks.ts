@@ -1,13 +1,11 @@
 import { Bookmark, User } from "../entities";
 import { ResultSet } from "../interfaces";
-import { getManager, getRepository } from "typeorm";
+import { getRepository } from "typeorm";
 
 export const getBookmarks = async (
 	user: User
 ): Promise<ResultSet<Bookmark>> => {
-	const results = await getManager()
-		.getRepository(Bookmark)
-		.find({ where: { user: user } });
+	const results = await getRepository(Bookmark).find({ where: { user: user } });
 	return { results };
 };
 
@@ -15,9 +13,9 @@ export const getBookmark = async (
 	user: User,
 	id: number
 ): Promise<Bookmark | undefined> => {
-	const result = await getManager()
-		.getRepository(Bookmark)
-		.findOne({ where: { user: user, id: id } });
+	const result = await getRepository(Bookmark).findOne({
+		where: { user: user, id: id },
+	});
 	return result;
 };
 
@@ -37,4 +35,8 @@ export const updateBookmark = async (
 ): Promise<Bookmark> => {
 	bookmark.user = user;
 	return await getRepository(Bookmark).save(bookmark);
+};
+
+export const deleteBookmark = async (user: User, id: number): Promise<void> => {
+	await getRepository(Bookmark).delete({ id, user });
 };
