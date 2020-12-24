@@ -1,14 +1,19 @@
 import { Router } from "express";
 import { Bookmark, User } from "../entities";
-import { addBookmark, getBookmark, getBookmarks } from "../services";
+import {
+	addBookmark,
+	getBookmark,
+	getBookmarks,
+	updateBookmark,
+} from "../services";
 
 export const bookmarksRouter = Router();
 
 bookmarksRouter.get(
 	"/",
 	async (req, res): Promise<void> => {
-		const user = req.user as User;
 		try {
+			const user = req.user as User;
 			const bookmarks = await getBookmarks(user);
 			res.json(bookmarks);
 		} catch (ex) {
@@ -21,16 +26,16 @@ bookmarksRouter.get(
 bookmarksRouter.get(
 	"/:id",
 	async (req, res): Promise<void> => {
-		if (!req.params.id) {
-			res.status(400).send("Bookmark ID required");
-		}
-
-		const id = parseInt(req.params.id);
-		const user = req.user as User;
 		try {
+			if (!req.params.id) {
+				res.status(400).send("Bookmark ID required");
+			}
+
+			const id = parseInt(req.params.id);
+			const user = req.user as User;
 			const bookmark = await getBookmark(user, id);
 			if (!bookmark) {
-				res.status(404);
+				res.status(404).end();
 			}
 			res.json(bookmark);
 		} catch (ex) {
@@ -43,24 +48,47 @@ bookmarksRouter.get(
 bookmarksRouter.post(
 	"/",
 	async (req, res): Promise<void> => {
-		// URL validation
-		const bookmark = req.body as Bookmark;
-		if (!bookmark.url) {
-			res.status(400).send("Bookmark URL required");
-		}
 		try {
-			new URL(bookmark.url);
-		} catch (_) {
-			res.status(400).send("Invalid URL");
-		}
+			const bookmark = Object.assign(new Bookmark(), req.body) as Bookmark;
 
-		const user = req.user as User;
-		try {
+			const validateResult = bookmark.validate();
+			if (validateResult.error) {
+				res.status(400).send(validateResult.error);
+			}
+
+			const user = req.user as User;
 			const response = await addBookmark(user, req.body);
-			res.json(response);
+			res.status(201).json(response);
 		} catch (ex) {
 			console.error(ex);
 			res.status(500).send("Failed to add bookmark");
+		}
+	}
+);
+
+bookmarksRouter.put(
+	"/:id",
+	async (req, res): Promise<void> => {
+		try {
+			if (!req.params.id) {
+				res.status(400).send("Bookmark ID required");
+			}
+			const id = parseInt(req.params.id);
+
+			const bookmark = Object.assign(new Bookmark(), req.body) as Bookmark;
+			bookmark.id = id;
+			const validateResult = bookmark.validate();
+			if (validateResult.error) {
+				res.status(400).send(validateResult.error);
+			}
+
+			const user = req.user as User;
+
+			const updatedBookmark = await updateBookmark(user, bookmark);
+			res.json(updatedBookmark);
+		} catch (ex) {
+			console.error(ex);
+			res.status(500).send("Failed to update bookmark");
 		}
 	}
 );

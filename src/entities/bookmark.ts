@@ -6,10 +6,6 @@ import { User } from ".";
  */
 @Entity()
 export class Bookmark {
-	constructor(url: string) {
-		this.url = url;
-	}
-
 	/**
 	 * A auto generated unique identifier for this bookmark.
 	 */
@@ -22,7 +18,7 @@ export class Bookmark {
 	@Column({
 		length: 2000, // Max-length of URL
 	})
-	url: string;
+	url!: string;
 
 	/**
 	 * The title of the page this bookmark points to.
@@ -47,4 +43,17 @@ export class Bookmark {
 	 */
 	@ManyToOne(() => User)
 	user!: User;
+
+	validate(): { error?: string } {
+		if (this.url) {
+			try {
+				new URL(this.url);
+			} catch (_) {
+				return { error: "Bookmark URL invalid" };
+			}
+		} else {
+			return { error: "Bookmark URL required" };
+		}
+		return {};
+	}
 }

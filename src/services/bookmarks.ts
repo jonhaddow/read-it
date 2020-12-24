@@ -1,6 +1,6 @@
 import { Bookmark, User } from "../entities";
 import { ResultSet } from "../interfaces";
-import { getManager } from "typeorm";
+import { getManager, getRepository } from "typeorm";
 
 export const getBookmarks = async (
 	user: User
@@ -28,6 +28,13 @@ export const addBookmark = async (
 	bookmark.dateCreated = new Date();
 	bookmark.user = user;
 
-	const response = await getManager().getRepository(Bookmark).save(bookmark);
-	return response;
+	return await getRepository(Bookmark).save(bookmark);
+};
+
+export const updateBookmark = async (
+	user: User,
+	bookmark: Bookmark
+): Promise<Bookmark> => {
+	bookmark.user = user;
+	return await getRepository(Bookmark).save(bookmark);
 };
