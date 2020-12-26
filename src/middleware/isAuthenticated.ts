@@ -5,6 +5,9 @@ export const isAuthenticated = (
 	res: Response,
 	next: NextFunction
 ): void => {
-	if (!req.isAuthenticated()) res.status(401).end();
-	next();
+	if (!req.isAuthenticated()) {
+		res.status(401).end();
+	} else {
+		next();
+	}
 };
