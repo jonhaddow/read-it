@@ -21,6 +21,7 @@ export const startServer = async (): Promise<void> => {
 
 		const app = express();
 
+		app.use(express.urlencoded({ extended: true }));
 		app.use(express.json()); // for parsing application/json
 
 		// View engine setup

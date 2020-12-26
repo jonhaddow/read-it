@@ -4,16 +4,18 @@ import {
 	VerifyCallback,
 } from "passport-google-oauth20";
 import { Strategy as GitHubStrategy } from "passport-github2";
+import { IVerifyOptions, Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
 import config from "config";
-import { getConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { User } from "../entities";
+import { compare } from "bcrypt";
 
 const handleIdentity = async (
 	profile: Profile,
 	done: VerifyCallback
 ): Promise<void> => {
-	const userRepository = getConnection().getRepository(User);
+	const userRepository = getRepository(User);
 	try {
 		let user = await userRepository.findOne({
 			where: {
@@ -82,7 +84,51 @@ const setupGithub = (): void => {
 	);
 };
 
+const setupLocal = (): void => {
+	passport.use(
+		new LocalStrategy(
+			{
+				usernameField: "username",
+				passwordField: "password",
+				passReqToCallback: false,
+				session: true,
+			},
+			async (
+				username: string,
+				password: string,
+				done: (
+					error: string | null,
+					user?: User | false,
+					options?: IVerifyOptions
+				) => void
+			) => {
+				const userRepository = getRepository(User);
+				const user = await userRepository.findOne({
+					where: {
+						email: username,
+					},
+				});
+
+				if (!user || !user.hashedPassword) return done(null, false);
+
+				try {
+					const verifyResult = await compare(password, user.hashedPassword);
+					if (!verifyResult) {
+						return done(null, false);
+					}
+				} catch (ex) {
+					return done(null, false);
+				}
+				return done(null, user);
+			}
+		)
+	);
+};
+
 export const setupPassport = (app: Express): void => {
+	setupLocal();
+
+	// External authentication methods
 	setupGoogleLogin();
 	setupGithub();
 

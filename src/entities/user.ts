@@ -19,6 +19,10 @@ export class User {
 	@Column({ nullable: true })
 	providerId?: string;
 
+	@Index()
 	@Column({ nullable: true })
 	provider?: string;
+
+	@Column({ nullable: true })
+	hashedPassword?: string;
 }

@@ -27,3 +27,15 @@ authRouter.get(
 	passport.authenticate("github", { failureRedirect: "/login" }),
 	(req, res) => res.redirect("/")
 );
+
+authRouter.get("/login", (req, res) => {
+	res.render("login");
+});
+
+authRouter.post(
+	"/login",
+	passport.authenticate("local", {
+		successRedirect: "/",
+		failureRedirect: "/login",
+	})
+);
