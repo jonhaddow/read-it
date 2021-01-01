@@ -1,3 +1,8 @@
+import { EventEmitter } from "events";
+
+// Establish the shared event emitter before anything else
+export const eventEmitter = new EventEmitter();
+
 import { createApp } from "./app";
 import { createDBConnection } from "./connection";
 

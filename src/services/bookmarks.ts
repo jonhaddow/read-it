@@ -1,6 +1,7 @@
 import { Bookmark, User } from "../entities";
 import { ResultSet } from "../interfaces";
 import { getRepository } from "typeorm";
+import { eventEmitter } from "../server";
 
 export const getBookmarks = async (
 	user: User
@@ -26,7 +27,11 @@ export const addBookmark = async (
 	bookmark.dateCreated = new Date();
 	bookmark.user = user;
 
-	return await getRepository(Bookmark).save(bookmark);
+	bookmark = await getRepository(Bookmark).save(bookmark);
+
+	eventEmitter.emit("addBookmark", bookmark);
+
+	return bookmark;
 };
 
 export const updateBookmark = async (
@@ -34,7 +39,12 @@ export const updateBookmark = async (
 	bookmark: Bookmark
 ): Promise<Bookmark> => {
 	bookmark.user = user;
-	return await getRepository(Bookmark).save(bookmark);
+
+	bookmark = await getRepository(Bookmark).save(bookmark);
+
+	eventEmitter.emit("updateBookmark", bookmark);
+
+	return bookmark;
 };
 
 export const deleteBookmark = async (user: User, id: number): Promise<void> => {
