@@ -1,14 +1,15 @@
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "../entities";
-import { startTestServer, stopTestServer } from "./utils";
+import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
 
 describe("bookmarks_crud", () => {
 	let agent: SuperAgentTest;
 	let bookmark: Bookmark;
 
 	beforeAll(async () => {
-		agent = await startTestServer("bookmarks_crud");
+		const app = await startTestServer("bookmarks_crud");
+		agent = await createSuperAgent(app);
 	});
 
 	afterAll(async () => {

@@ -45,43 +45,70 @@ export const dropDatabase = async (name: string): Promise<void> => {
 };
 
 /**
- * Starts the express server and creates an authenticated "agent"
- * to use to make requests.
+ * Add user to database with the details provided.
+ * @param email The email to use.
+ * @param password The password to use.
  */
-export const getAuthenticatedAgent = async (
-	app: Express
-): Promise<SuperAgentTest> => {
-	const agent = request.agent(app);
-
-	// Add test user to database.
-	const user = new User(`test_user@email.com`);
-	user.hashedPassword = await hash("testPassword", 10);
+export const addUserToDatabase = async (
+	email: string,
+	password: string
+): Promise<void> => {
+	const user = new User(email);
+	user.hashedPassword = await hash(password, 10);
 	await getRepository(User).insert(user);
+};
 
-	// Login as default user to store session cookie on the agent
+/**
+ * Logins in with the agent and credentials provided.
+ * @param agent The super agent to use.
+ * @param email The email to use.
+ * @param password The password to use.
+ */
+export const login = async (
+	agent: SuperAgentTest,
+	email: string,
+	password: string
+): Promise<void> => {
 	await agent
 		.post("/login")
-		.send({ username: user.email, password: "testPassword" })
+		.send({ username: email, password: password })
 		.set("Accept", "application/json");
+};
+
+/**
+ * Create a Super Agent authenticated with the app and credentials provided.
+ * @param app The express app to authenticate with.
+ * @param email The email to use.
+ * @param password The password to use.
+ */
+export const createSuperAgent = async (
+	app: Express,
+	email = "test_user@email.com",
+	password = "testPassword"
+): Promise<SuperAgentTest> => {
+	await addUserToDatabase(email, password);
+
+	const agent = request.agent(app);
+
+	await login(agent, email, password);
 
 	return agent;
 };
 
 /**
- * Creates and connects to a database, starts the express app and authenticates a test user.
+ * Creates and connects to a database and starts the express app.
  * @param databaseName The database name to use.
  */
 export const startTestServer = async (
 	databaseName: string
-): Promise<SuperAgentTest> => {
+): Promise<Express> => {
 	await createDatabase(databaseName);
 	await createDBConnection(databaseName);
-	const app = createApp();
-	return await getAuthenticatedAgent(app);
+	return createApp();
 };
 
 /**
- * Closes and drops a database, starts the express app and authenticates a test user.
+ * Closes and drops a database.
  * @param databaseName The database name to use.
  */
 export const stopTestServer = async (databaseName: string): Promise<void> => {
