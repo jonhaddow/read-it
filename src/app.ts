@@ -9,7 +9,6 @@ import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
 import { isAuthenticated } from "./middleware";
 import { getRepository } from "typeorm";
-import "./subscribers";
 
 export const createApp = (): Express => {
 	const app = express();

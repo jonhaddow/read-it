@@ -1,7 +1,7 @@
 import { Bookmark, User } from "../entities";
 import { ResultSet } from "../interfaces";
 import { getRepository } from "typeorm";
-import { eventEmitter } from "../server";
+import { getEmitter } from "../events";
 
 export const getBookmarks = async (
 	user: User
@@ -29,7 +29,7 @@ export const addBookmark = async (
 
 	bookmark = await getRepository(Bookmark).save(bookmark);
 
-	eventEmitter.emit("addBookmark", bookmark);
+	getEmitter().emit("addBookmark", bookmark);
 
 	return bookmark;
 };
@@ -42,7 +42,7 @@ export const updateBookmark = async (
 
 	bookmark = await getRepository(Bookmark).save(bookmark);
 
-	eventEmitter.emit("updateBookmark", bookmark);
+	getEmitter().emit("updateBookmark", bookmark);
 
 	return bookmark;
 };

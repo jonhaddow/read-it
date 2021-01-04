@@ -1,6 +1,6 @@
 import { Bookmark } from "../entities";
-import { eventEmitter } from "../server";
 import fetch from "node-fetch";
+import { getEmitter } from "../events";
 
 const populateBookmark = async (data: Bookmark): Promise<void> => {
 	try {
@@ -13,5 +13,5 @@ const populateBookmark = async (data: Bookmark): Promise<void> => {
 	}
 };
 
-eventEmitter.on("addBookmark", populateBookmark);
-eventEmitter.on("updateBookmark", populateBookmark);
+getEmitter().on("addBookmark", populateBookmark);
+getEmitter().on("updateBookmark", populateBookmark);
