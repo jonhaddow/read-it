@@ -9,6 +9,7 @@ import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
 import { isAuthenticated } from "./middleware";
 import { getRepository } from "typeorm";
+import { registerSubscribers } from "./subscribers";
 
 export const createApp = (): Express => {
 	const app = express();
@@ -42,6 +43,8 @@ export const createApp = (): Express => {
 
 	// Controller routes
 	app.use(homeRouter);
+
+	registerSubscribers();
 
 	return app;
 };

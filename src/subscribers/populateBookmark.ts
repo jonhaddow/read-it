@@ -1,17 +1,12 @@
 import { Bookmark } from "../entities";
-import fetch from "node-fetch";
-import { getEmitter } from "../events";
+import puppeteer from "puppeteer";
 
-const populateBookmark = async (data: Bookmark): Promise<void> => {
-	try {
-		const response = await fetch(data.url);
-		await response.text();
+export const populateBookmark = async (data: Bookmark): Promise<void> => {
+	const browser = await puppeteer.launch();
+	const page = await browser.newPage();
+	await page.goto(data.url);
 
-		// TODO: Parse HTML for title and description
-	} catch (ex) {
-		console.error("Failed to fetch the URL.", ex);
-	}
+	// Scrap page...
+
+	await browser.close();
 };
-
-getEmitter().on("addBookmark", populateBookmark);
-getEmitter().on("updateBookmark", populateBookmark);
