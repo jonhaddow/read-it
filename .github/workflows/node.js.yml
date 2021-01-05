@@ -5,18 +5,17 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
+
     # Docker Hub image that `container-job` executes in
     container: node:14
-    
+
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
@@ -34,11 +33,15 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Install
-      run: npm install
-    - name: Test
-      run: npm test
-      env:
-        NODE_ENV: test
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install puppeteer libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgbm1
+      - name: Install
+        run: npm install
+      - name: Test
+        run: npm test
+        env:
+          NODE_ENV: test
