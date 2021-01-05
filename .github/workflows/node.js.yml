@@ -35,8 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: install puppeteer libraries
-        run: apt-get install -y libgbm1
+      - name: Install puppeteer libraries
+        run: apt update && apt-get install -y libgbm1
       - name: Install
         run: npm install
       - name: Test
