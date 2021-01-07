@@ -28,10 +28,6 @@ authRouter.get(
 	(req, res) => res.redirect("/")
 );
 
-authRouter.get("/login", (req, res) => {
-	res.render("login");
-});
-
 authRouter.post(
 	"/login",
 	passport.authenticate("local", {
@@ -39,3 +35,8 @@ authRouter.post(
 		failureRedirect: "/login",
 	})
 );
+
+authRouter.get("/logout", (req, res) => {
+	req.logout();
+	res.redirect("/login");
+});

@@ -44,6 +44,9 @@ export const createApp = (): Express => {
 	// Controller routes
 	app.use(homeRouter);
 
+	// Static assets
+	app.use(express.static("src/public"));
+
 	registerSubscribers();
 
 	return app;
