@@ -30,6 +30,7 @@ bookmarksRouter.get(
 		try {
 			if (!req.params.id) {
 				res.status(400).send("Bookmark ID required");
+				return;
 			}
 
 			const id = parseInt(req.params.id);
@@ -37,6 +38,7 @@ bookmarksRouter.get(
 			const bookmark = await getBookmark(user, id);
 			if (!bookmark) {
 				res.status(404).end();
+				return;
 			}
 			res.json(bookmark);
 		} catch (ex) {
@@ -55,6 +57,7 @@ bookmarksRouter.post(
 			const validateResult = bookmark.validate();
 			if (validateResult.error) {
 				res.status(400).send(validateResult.error);
+				return;
 			}
 
 			const user = req.user as User;
@@ -73,6 +76,7 @@ bookmarksRouter.put(
 		try {
 			if (!req.params.id) {
 				res.status(400).send("Bookmark ID required");
+				return;
 			}
 			const id = parseInt(req.params.id);
 
@@ -81,6 +85,7 @@ bookmarksRouter.put(
 			const validateResult = bookmark.validate();
 			if (validateResult.error) {
 				res.status(400).send(validateResult.error);
+				return;
 			}
 
 			const user = req.user as User;
@@ -89,6 +94,7 @@ bookmarksRouter.put(
 			const currentBookmark = await getBookmark(user, id);
 			if (!currentBookmark) {
 				res.status(404).end();
+				return;
 			}
 
 			const updatedBookmark = await updateBookmark(user, bookmark);
@@ -106,6 +112,7 @@ bookmarksRouter.delete(
 		try {
 			if (!req.params.id) {
 				res.status(400).send("Bookmark ID required");
+				return;
 			}
 			const id = parseInt(req.params.id);
 
