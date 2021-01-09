@@ -4,7 +4,11 @@ import { User } from ".";
 /**
  * Describes a bookmark of a website or web app.
  */
-@Entity()
+@Entity({
+	orderBy: {
+		dateCreated: "DESC",
+	},
+})
 export class Bookmark {
 	/**
 	 * A auto generated unique identifier for this bookmark.
