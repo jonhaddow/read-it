@@ -9,7 +9,6 @@ import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
 import { isAuthenticated } from "./middleware";
 import { getRepository } from "typeorm";
-import { registerSubscribers } from "./subscribers";
 
 export const createApp = (): Express => {
 	const app = express();
@@ -46,8 +45,6 @@ export const createApp = (): Express => {
 
 	// Static assets
 	app.use(express.static("src/public"));
-
-	registerSubscribers();
 
 	return app;
 };
