@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 import { User } from ".";
 
 /**
@@ -39,7 +45,7 @@ export class Bookmark {
 	/**
 	 * The date the bookmark was created.
 	 */
-	@Column()
+	@CreateDateColumn()
 	dateCreated!: Date;
 
 	/**

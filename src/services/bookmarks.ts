@@ -24,7 +24,6 @@ export const addBookmark = async (
 	user: User,
 	bookmark: Bookmark
 ): Promise<Bookmark> => {
-	bookmark.dateCreated = new Date();
 	bookmark.user = user;
 
 	bookmark = await getRepository(Bookmark).save(bookmark);
