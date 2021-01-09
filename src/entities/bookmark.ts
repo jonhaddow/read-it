@@ -7,6 +7,12 @@ import {
 } from "typeorm";
 import { User } from ".";
 
+export enum BookmarkState {
+	CREATED = "created",
+	PROCESSED = "processed",
+	ARCHIVED = "archived",
+}
+
 /**
  * Describes a bookmark of a website or web app.
  */
@@ -47,6 +53,13 @@ export class Bookmark {
 	 */
 	@CreateDateColumn()
 	dateCreated!: Date;
+
+	@Column({
+		type: "enum",
+		enum: BookmarkState,
+		default: BookmarkState.CREATED,
+	})
+	state!: BookmarkState;
 
 	/**
 	 * The user this bookmark belongs to.

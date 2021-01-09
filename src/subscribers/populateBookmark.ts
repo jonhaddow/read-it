@@ -1,4 +1,4 @@
-import { Bookmark } from "../entities";
+import { Bookmark, BookmarkState } from "../entities";
 import puppeteer from "puppeteer";
 import { getRepository } from "typeorm";
 
@@ -44,6 +44,8 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 
 		const description = await getDescription(page);
 		if (description) bookmark.description = description;
+
+		bookmark.state = BookmarkState.PROCESSED;
 
 		await getRepository(Bookmark).save(bookmark);
 	} catch (ex) {
