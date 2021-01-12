@@ -1,8 +1,9 @@
 import { Bookmark, BookmarkState } from "../entities";
-import puppeteer from "puppeteer";
+import { Page } from "puppeteer";
 import { getRepository } from "typeorm";
+import { getBrowser } from "../services";
 
-const getTitle = async (page: puppeteer.Page): Promise<string | undefined> => {
+const getTitle = async (page: Page): Promise<string | undefined> => {
 	let titleEl = await page.$('[property="og:title"]');
 	if (titleEl) {
 		const titleContent = await titleEl.evaluate((node) =>
@@ -18,9 +19,7 @@ const getTitle = async (page: puppeteer.Page): Promise<string | undefined> => {
 	console.log("Failed to find a suitable description.");
 };
 
-const getDescription = async (
-	page: puppeteer.Page
-): Promise<string | undefined> => {
+const getDescription = async (page: Page): Promise<string | undefined> => {
 	const descriptionEl = await page.$('[property="og:description"]');
 	if (descriptionEl) {
 		const descriptionContent = await descriptionEl.evaluate((node) =>
@@ -33,10 +32,20 @@ const getDescription = async (
 };
 
 export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
-	let browser: puppeteer.Browser | undefined = undefined;
 	try {
-		browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+		const browser = await getBrowser();
 		const page = await browser.newPage();
+
+		// Disable requests for images
+		await page.setRequestInterception(true);
+		page.on("request", async (request) => {
+			if (request.resourceType() === "image") {
+				await request.abort();
+			} else {
+				await request.continue();
+			}
+		});
+
 		await page.goto(bookmark.url);
 
 		const title = await getTitle(page);
@@ -50,7 +59,5 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 		await getRepository(Bookmark).save(bookmark);
 	} catch (ex) {
 		console.error("Failed to populate bookmarks", ex);
-	} finally {
-		await browser?.close();
 	}
 };
