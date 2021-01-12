@@ -11,12 +11,6 @@ describe("populate_bookmarks", () => {
 	beforeAll(async () => {
 		const app = await startTestServer("populate_bookmarks");
 		agent = await createSuperAgent(app);
-
-		// Add a test bookmark to the app.
-		const response = await agent.post("/api/bookmarks").send({
-			url: "https://jon.haddow.me/blog/setup-react-with-webpack",
-		});
-		bookmark = response.body;
 	});
 
 	afterAll(async () => {
@@ -26,7 +20,7 @@ describe("populate_bookmarks", () => {
 	it("should retrieve the bookmark metadata without error", async () => {
 		// Add a test bookmark to the app.
 		const response = await agent.post("/api/bookmarks").send({
-			url: "https://jon.haddow.me/blog/benefits-of-css-in-js",
+			url: "https://www.eff.org",
 		});
 		bookmark = response.body;
 
@@ -40,9 +34,9 @@ describe("populate_bookmarks", () => {
 		const response = await agent.get(`/api/bookmarks/${bookmark.id}`);
 		bookmark = response.body as Bookmark;
 
-		expect(bookmark.title).toEqual("Benefits of CSS-in-JS");
+		expect(bookmark.title).toEqual("Electronic Frontier Foundation");
 		expect(bookmark.description).toEqual(
-			"5 reasons why you should consider writing CSS within your JSX"
+			"Defending your rights in the digital world"
 		);
 	});
 });
