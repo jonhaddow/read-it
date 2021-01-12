@@ -10,6 +10,7 @@ import { User } from "../entities";
 import { hash } from "bcrypt";
 import { createDBConnection } from "../connection";
 import { createApp } from "../app";
+import { closeBrowser } from "../services";
 
 /**
  * Creates a database with the provided name.
@@ -19,7 +20,7 @@ export const createDatabase = async (name: string): Promise<void> => {
 	await pgGodCreateDatabase(
 		{
 			databaseName: name,
-			errorIfExist: true,
+			errorIfExist: false,
 		},
 		{
 			...config.get("db_config"),
@@ -36,7 +37,7 @@ export const dropDatabase = async (name: string): Promise<void> => {
 		{
 			databaseName: name,
 			dropConnections: true,
-			errorIfNonExist: true,
+			errorIfNonExist: false,
 		},
 		{
 			...config.get("db_config"),
@@ -114,4 +115,5 @@ export const startTestServer = async (
 export const stopTestServer = async (databaseName: string): Promise<void> => {
 	await getConnection().close();
 	await dropDatabase(databaseName);
+	await closeBrowser();
 };
