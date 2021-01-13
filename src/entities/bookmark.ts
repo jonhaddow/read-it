@@ -49,11 +49,21 @@ export class Bookmark {
 	description?: string;
 
 	/**
+	 * The estimate number of minutes to read the contents of the page
+	 * this bookmark links to.
+	 */
+	@Column({ nullable: true, type: "decimal" })
+	minuteEstimate?: number;
+
+	/**
 	 * The date the bookmark was created.
 	 */
 	@CreateDateColumn()
 	dateCreated!: Date;
 
+	/**
+	 * The processing state of this bookmark.
+	 */
 	@Column({
 		type: "enum",
 		enum: BookmarkState,

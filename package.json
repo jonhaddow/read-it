@@ -73,6 +73,7 @@
 		"passport-local": "^1.0.0",
 		"pg": "^8.5.1",
 		"puppeteer": "^5.5.0",
+		"reading-time": "^1.2.1",
 		"reflect-metadata": "^0.1.13",
 		"typeorm": "^0.2.29"
 	},

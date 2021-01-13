@@ -1,7 +1,8 @@
 import { Bookmark, BookmarkState } from "../entities";
-import { Page } from "puppeteer";
+import { ElementHandle, Page } from "puppeteer";
 import { getRepository } from "typeorm";
 import { getBrowser } from "../services";
+import readingTime from "reading-time";
 
 const getTitle = async (page: Page): Promise<string | undefined> => {
 	let titleEl = await page.$('[property="og:title"]');
@@ -31,6 +32,17 @@ const getDescription = async (page: Page): Promise<string | undefined> => {
 	console.log("Failed to find a suitable description.");
 };
 
+const getReadingTime = async (page: Page): Promise<number | null> => {
+	let results: number | null = null;
+	const body = (await page.$("body")) as ElementHandle<HTMLElement>;
+	if (body) {
+		const text = await body.evaluate((b) => b.innerText);
+		results = readingTime(text).minutes;
+	}
+
+	return results;
+};
+
 export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 	try {
 		const browser = await getBrowser();
@@ -53,6 +65,9 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 
 		const description = await getDescription(page);
 		if (description) bookmark.description = description;
+
+		const minuteEstimate = await getReadingTime(page);
+		if (minuteEstimate) bookmark.minuteEstimate = minuteEstimate;
 
 		bookmark.state = BookmarkState.PROCESSED;
 
