@@ -1,6 +1,6 @@
 import puppeteer, { Browser, ElementHandle, Page } from "puppeteer";
 import readingTime from "reading-time";
-import { Metadata } from "../interfaces";
+import { MetadataProps } from "../subscribers/metadata-strategies";
 
 let instance: Browser | null = null;
 
@@ -64,7 +64,7 @@ const getReadingTime = async (page: Page): Promise<number | undefined> => {
 	return results;
 };
 
-export const getMetadata = async (url: string): Promise<Metadata> => {
+export const getMetadata = async (url: string): Promise<MetadataProps> => {
 	const browser = await getBrowser();
 	const page = await browser.newPage();
 

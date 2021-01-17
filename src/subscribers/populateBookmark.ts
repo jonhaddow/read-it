@@ -16,13 +16,19 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 		strategy = getDefaultStrategy();
 	}
 
-	const { title, description, minuteEstimate } = await strategy.getMetadata(
-		bookmark
-	);
+	const {
+		title,
+		description,
+		minuteEstimate,
+		specialType,
+		targetURL,
+	} = await strategy.getMetadata(bookmark);
 
 	if (title) bookmark.title = title;
 	if (description) bookmark.description = description;
 	if (minuteEstimate) bookmark.minuteEstimate = minuteEstimate;
+	if (specialType) bookmark.specialType = specialType;
+	if (targetURL) bookmark.targetURL = targetURL;
 
 	try {
 		bookmark.state = BookmarkState.PROCESSED;

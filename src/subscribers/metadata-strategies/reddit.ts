@@ -1,9 +1,8 @@
 import { Bookmark } from "../../entities";
-import { IMetadataStrategy } from ".";
+import { IMetadataStrategy, MetadataProps } from ".";
 import snoowrap, { SnoowrapOptions } from "snoowrap";
 import { getMetadata } from "../../services";
 import config from "config";
-import { Metadata } from "../../interfaces";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
 	/reddit\.com\/r\/.*?\/comments\/(.{6})(?:$|\/)/,
@@ -16,7 +15,7 @@ export class RedditStrategy implements IMetadataStrategy {
 		return REDDIT_LINK_REGEXES.some((x) => x.test(bookmark.url));
 	}
 
-	async getMetadata(bookmark: Readonly<Bookmark>): Promise<Metadata> {
+	async getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps> {
 		let shortId: string | undefined;
 
 		for (const regex of REDDIT_LINK_REGEXES) {
@@ -37,14 +36,20 @@ export class RedditStrategy implements IMetadataStrategy {
 			...config.get<Partial<SnoowrapOptions>>("redditAPI"),
 		});
 
-		let metadata: Metadata = {};
+		let metadata: MetadataProps = {
+			specialType: "reddit",
+		};
 
 		// Process the metadata of the full article link of the reddit submission.
 		await r
 			.getSubmission(shortId)
 			.fetch()
 			.then(async (postData) => {
-				metadata = await getMetadata(postData.url);
+				metadata = {
+					...metadata,
+					targetURL: postData.url,
+					...(await getMetadata(postData.url)),
+				};
 			});
 
 		return metadata;

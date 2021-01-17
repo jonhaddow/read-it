@@ -1,18 +1,22 @@
 import { Bookmark } from "../../entities";
-import { Metadata } from "../../interfaces";
 import { DefaultStrategy } from "./default";
 import { RedditStrategy } from "./reddit";
+
+export type MetadataProps = Pick<
+	Bookmark,
+	"title" | "description" | "minuteEstimate" | "specialType" | "targetURL"
+>;
 
 export interface IMetadataStrategy {
 	/**
 	 * Determines whether the strategy should process this particular bookmark.
 	 */
-	shouldProcess?(bookmark: Bookmark): boolean;
+	shouldProcess?(bookmark: Readonly<Bookmark>): boolean;
 
 	/**
 	 * Gets the provided bookmarks metadata and updates the bookmark
 	 */
-	getMetadata(bookmark: Readonly<Bookmark>): Promise<Metadata>;
+	getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps>;
 }
 
 export const getStrategies = (): IMetadataStrategy[] => [new RedditStrategy()];

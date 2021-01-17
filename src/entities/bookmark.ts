@@ -72,6 +72,22 @@ export class Bookmark {
 	state!: BookmarkState;
 
 	/**
+	 * The URL of the submission (when a news aggregation site has been detected)
+	 */
+	@Column({ nullable: true })
+	targetURL?: string;
+
+	/**
+	 * The name of the site when a "special case" has been detected.
+	 *
+	 * Special cases may have additional metadata gathered.
+	 *
+	 * E.g. this would be "reddit" if the `url` is a link to a reddit thread.
+	 */
+	@Column({ nullable: true })
+	specialType?: string;
+
+	/**
 	 * The user this bookmark belongs to.
 	 */
 	@ManyToOne(() => User)

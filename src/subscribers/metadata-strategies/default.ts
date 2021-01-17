@@ -1,6 +1,5 @@
-import { IMetadataStrategy } from ".";
+import { IMetadataStrategy, MetadataProps } from ".";
 import { Bookmark } from "../../entities";
-import { Metadata } from "../../interfaces";
 import { getMetadata } from "../../services";
 
 /**
@@ -9,7 +8,7 @@ import { getMetadata } from "../../services";
  * from open graph and meta tags.
  */
 export class DefaultStrategy implements IMetadataStrategy {
-	getMetadata(bookmark: Readonly<Bookmark>): Promise<Metadata> {
+	getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps> {
 		return getMetadata(bookmark.url);
 	}
 }
