@@ -12,5 +12,11 @@
 		"client_secret": "GITHUB_AUTH_SECRET",
 		"callback_url": "GITHUB_AUTH_CALLBACK_URL"
 	},
-	"session_secret": "SESSION_SECRET"
+	"session_secret": "SESSION_SECRET",
+	"redditAPI": {
+		"clientId": "REDDIT_CLIENT_ID",
+		"clientSecret": "REDDIT_CLIENT_SECRET",
+		"username": "REDDIT_USERNAME",
+		"password": "REDDIT_PASSWORD"
+	}
 }

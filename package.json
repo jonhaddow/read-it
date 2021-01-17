@@ -75,6 +75,7 @@
 		"puppeteer": "^5.5.0",
 		"reading-time": "^1.2.1",
 		"reflect-metadata": "^0.1.13",
+		"snoowrap": "^1.22.0",
 		"typeorm": "^0.2.29"
 	},
 	"husky": {

@@ -17,5 +17,11 @@
 		"client_secret": "clientSecret",
 		"callback_url": "http://localhost:3000/auth/github/callback"
 	},
-	"session_secret": "secret"
+	"session_secret": "secret",
+	"redditAPI": {
+		"clientId": "",
+		"clientSecret": "",
+		"username": "",
+		"password": ""
+	}
 }
