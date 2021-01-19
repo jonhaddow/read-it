@@ -1,7 +1,11 @@
 import { Bookmark } from "../../entities";
 import { IMetadataStrategy, MetadataProps } from ".";
 import snoowrap, { SnoowrapOptions } from "snoowrap";
-import { getMetadata } from "../../services";
+import {
+	estimateReadingTime,
+	findMetadata,
+	openWebpage,
+} from "../../services/puppeteer";
 import config from "config";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
@@ -10,6 +14,11 @@ const REDDIT_LINK_REGEXES: RegExp[] = [
 	/reddit\.com\/(.{6})(?:$|\/)/,
 ];
 
+/**
+ * A metadata strategy for handling Reddit urls.
+ * This uses the Reddit API to gather metadata about the submission.
+ * It additional finds missing metadata from the submission url through Puppeteer.
+ */
 export class RedditStrategy implements IMetadataStrategy {
 	shouldProcess(bookmark: Bookmark): boolean {
 		return REDDIT_LINK_REGEXES.some((x) => x.test(bookmark.url));
@@ -36,7 +45,7 @@ export class RedditStrategy implements IMetadataStrategy {
 			...config.get<Partial<SnoowrapOptions>>("redditAPI"),
 		});
 
-		let metadata: MetadataProps = {
+		const metadata: MetadataProps = {
 			specialType: "reddit",
 		};
 
@@ -45,11 +54,22 @@ export class RedditStrategy implements IMetadataStrategy {
 			.getSubmission(shortId)
 			.fetch()
 			.then(async (postData) => {
-				metadata = {
-					...metadata,
-					targetURL: postData.url,
-					...(await getMetadata(postData.url)),
-				};
+				const { title, url, thumbnail, selftext } = postData;
+
+				metadata.title = title;
+				metadata.thumbnailUrl = thumbnail !== "default" ? thumbnail : undefined;
+
+				if (url) {
+					metadata.targetURL = url;
+
+					const page = await openWebpage(url);
+					metadata.minuteEstimate = await estimateReadingTime(page);
+					metadata.description = await findMetadata("description", page);
+					metadata.thumbnailUrl =
+						metadata.thumbnailUrl || (await findMetadata("thumbnail", page));
+				} else {
+					metadata.description = selftext;
+				}
 			});
 
 		return metadata;

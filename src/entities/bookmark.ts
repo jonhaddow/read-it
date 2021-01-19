@@ -78,6 +78,12 @@ export class Bookmark {
 	targetURL?: string;
 
 	/**
+	 * The URL of the thumbnail associated with this bookmark.
+	 */
+	@Column({ nullable: true })
+	thumbnailUrl?: string;
+
+	/**
 	 * The name of the site when a "special case" has been detected.
 	 *
 	 * Special cases may have additional metadata gathered.

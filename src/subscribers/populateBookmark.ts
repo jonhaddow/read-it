@@ -22,6 +22,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 		minuteEstimate,
 		specialType,
 		targetURL,
+		thumbnailUrl,
 	} = await strategy.getMetadata(bookmark);
 
 	if (title) bookmark.title = title;
@@ -29,6 +30,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 	if (minuteEstimate) bookmark.minuteEstimate = minuteEstimate;
 	if (specialType) bookmark.specialType = specialType;
 	if (targetURL) bookmark.targetURL = targetURL;
+	if (thumbnailUrl) bookmark.thumbnailUrl = thumbnailUrl;
 
 	try {
 		bookmark.state = BookmarkState.PROCESSED;

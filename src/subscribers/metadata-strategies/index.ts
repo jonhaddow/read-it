@@ -4,7 +4,12 @@ import { RedditStrategy } from "./reddit";
 
 export type MetadataProps = Pick<
 	Bookmark,
-	"title" | "description" | "minuteEstimate" | "specialType" | "targetURL"
+	| "title"
+	| "description"
+	| "minuteEstimate"
+	| "specialType"
+	| "targetURL"
+	| "thumbnailUrl"
 >;
 
 export interface IMetadataStrategy {

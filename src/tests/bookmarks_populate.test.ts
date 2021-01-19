@@ -38,5 +38,8 @@ describe("populate_bookmarks", () => {
 		expect(bookmark.description).toEqual(
 			"Defending your rights in the digital world"
 		);
+		expect(bookmark.thumbnailUrl).toEqual(
+			"https://www.eff.org/files/eff-og.png"
+		);
 	});
 });

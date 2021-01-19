@@ -10,7 +10,7 @@ import { User } from "../entities";
 import { hash } from "bcrypt";
 import { createDBConnection } from "../connection";
 import { createApp } from "../app";
-import { closeBrowser } from "../services";
+import { closeBrowser } from "../services/puppeteer";
 
 /**
  * Creates a database with the provided name.
