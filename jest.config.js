@@ -9,4 +9,7 @@ module.exports = {
 
 	// The test environment that will be used for testing
 	testEnvironment: "node",
+
+	// Give some time for E2E web scraping
+	testTimeout: 20000,
 };

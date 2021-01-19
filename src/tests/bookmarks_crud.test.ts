@@ -1,3 +1,4 @@
+import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "../entities";
@@ -8,12 +9,12 @@ describe("bookmarks_crud", () => {
 	let bookmark: Bookmark;
 
 	beforeAll(async () => {
-		const app = await startTestServer("bookmarks_crud");
+		const app = await startTestServer(path.basename(__filename));
 		agent = await createSuperAgent(app);
 	});
 
 	afterAll(async () => {
-		await stopTestServer("bookmarks_crud");
+		await stopTestServer(path.basename(__filename));
 	});
 
 	it("should return empty list of bookmarks", async () => {

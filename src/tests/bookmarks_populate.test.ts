@@ -1,3 +1,4 @@
+import path from "path";
 import { SuperAgentTest } from "supertest";
 import { Bookmark } from "../entities";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
@@ -9,12 +10,12 @@ describe("populate_bookmarks", () => {
 	let agent: SuperAgentTest;
 
 	beforeAll(async () => {
-		const app = await startTestServer("populate_bookmarks");
+		const app = await startTestServer(path.basename(__filename));
 		agent = await createSuperAgent(app);
 	});
 
 	afterAll(async () => {
-		await stopTestServer("populate_bookmarks");
+		await stopTestServer(path.basename(__filename));
 	});
 
 	it("should retrieve the bookmark metadata without error", async () => {

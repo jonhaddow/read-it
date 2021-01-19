@@ -1,3 +1,4 @@
+import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "../entities";
@@ -12,14 +13,14 @@ describe("bookmarks_multiple_users", () => {
 	let user2: SuperAgentTest;
 
 	beforeAll(async () => {
-		app = await startTestServer("bookmarks_multiple_users");
+		app = await startTestServer(path.basename(__filename));
 
 		user1 = await createSuperAgent(app, "user1@email.com");
 		user2 = await createSuperAgent(app, "user2@email.com");
 	});
 
 	afterAll(async () => {
-		await stopTestServer("bookmarks_multiple_users");
+		await stopTestServer(path.basename(__filename));
 	});
 
 	it("should return empty list of bookmarks for user 1", async () => {
