@@ -48,3 +48,9 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
+      - name: CapRover
+        uses: AlexxNB/caprover-action@v1
+        with:
+          server: "${{ secrets.CAPROVER_URL }}"
+          password: "${{ secrets.CAPROVER_PASSWORD }}"
+          appname: "${{ secrets.CAPROVER_APP }}"
