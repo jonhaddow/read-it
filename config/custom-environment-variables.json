@@ -1,6 +1,11 @@
 {
 	"db_config": {
-		"url": "DATABASE_URL"
+		"url": "DATABASE_URL",
+		"host": "DATABASE_HOST",
+		"database": "DATABASE_NAME",
+		"username": "DATABASE_USERNAME",
+		"password": "DATABASE_PASSWORD",
+		"port": "DATABASE_PORT"
 	},
 	"google_auth": {
 		"client_id": "GOOGLE_AUTH_ID",
