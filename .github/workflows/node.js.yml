@@ -48,10 +48,7 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
+      - name: Install CapRover
+        run: npm install -g caprover
       - name: CapRover
-        uses: AlexxNB/caprover-action@v1
-        with:
-          server: "${{ secrets.CAPROVER_URL }}"
-          password: "${{ secrets.CAPROVER_PASSWORD }}"
-          appname: "alligator"
-          branch: "main"
+        run: caprover deploy -h ${{ secrets.CAPROVER_URL }} -p ${{ secrets.CAPROVER_PASSWORD }} -b main -a alligator
