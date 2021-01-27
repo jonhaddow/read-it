@@ -54,3 +54,4 @@ jobs:
           server: "${{ secrets.CAPROVER_URL }}"
           password: "${{ secrets.CAPROVER_PASSWORD }}"
           appname: "alligator"
+          branch: "main"
