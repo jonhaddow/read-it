@@ -48,7 +48,5 @@ jobs:
         run: npm test
         env:
           NODE_ENV: test
-      - name: Install CapRover
-        run: npm install -g caprover
-      - name: CapRover
-        run: caprover deploy -h ${{ secrets.CAPROVER_URL }} -p ${{ secrets.CAPROVER_PASSWORD }} -b main -a alligator
+      - name: CapRover deploy
+        run: curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
