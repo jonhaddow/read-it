@@ -47,6 +47,4 @@ jobs:
       # - name: Test
       #   run: npm test
       - name: Trigger deployment
-        uses: joelwmale/webhook-action@master
-        with:
-          url: ${{ secrets.WEBHOOK_URL }}
+        run: apt-get update && apt-get install -y curl && curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
