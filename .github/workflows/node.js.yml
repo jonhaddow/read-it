@@ -35,13 +35,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install puppeteer libraries
+        run: >
+          apt-get update && apt-get install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3	
+          libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4	
+          libx11-xcb1 libxcb1 libxcomposite1	
+          libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6	
+          libnss3 lsb-release xdg-utils wget
       - name: Install
-        uses: tj-actions/puppeteer@v2
-        with:
-          args: npm install
+        run: npm install
       - name: Test
-        uses: tj-actions/puppeteer@v2
-        with:
-          args: npm install
+        run: npm test
       - name: Trigger deployment
         run: curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
