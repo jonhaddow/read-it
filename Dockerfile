@@ -6,6 +6,11 @@ WORKDIR /app
 
 COPY ["package.json", "package-lock.json*", "./"]
 
+RUN apk add --no-cache \
+	udev \
+	ttf-freefont \
+	chromium
+
 RUN npm install
 
 COPY . .
@@ -16,4 +21,3 @@ ENV PORT 80
 EXPOSE 80
 
 CMD [ "node", "dist/src/server.js" ]
-
