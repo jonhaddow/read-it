@@ -47,4 +47,6 @@ jobs:
       - name: Test
         run: npm test
       - name: Trigger deployment
-        run: curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.CAPROVER_WEBHOOK }}
