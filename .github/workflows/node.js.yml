@@ -36,11 +36,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install
-        uses: ianwalter/puppeteer-container@4.0.0
-        run: npm install
+        uses: tj-actions/puppeteer@v2
+        with:
+          args: npm install
       - name: Test
-        run: npm test
-        env:
-          NODE_ENV: test
-      - name: Deploy
+        uses: tj-actions/puppeteer@v2
+        with:
+          args: npm install
+      - name: Trigger deployment
         run: curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
