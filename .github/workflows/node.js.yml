@@ -48,5 +48,5 @@ jobs:
       #   run: npm test
       - name: Trigger deployment
         uses: joelwmale/webhook-action@master
-        env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        with:
+          url: ${{ secrets.WEBHOOK_URL }}
