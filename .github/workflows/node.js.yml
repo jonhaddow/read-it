@@ -47,4 +47,4 @@ jobs:
       # - name: Test
       #   run: npm test
       - name: Trigger deployment
-        run: apt-get update && apt-get install -y curl && curl -X POST ${{ secrets.CAPROVER_WEBHOOK }}
+        run: curl -X POST "${{ secrets.CAPROVER_WEBHOOK }}"
