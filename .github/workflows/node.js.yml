@@ -6,8 +6,6 @@ name: Node.js CI
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   deploy:
@@ -54,3 +52,10 @@ jobs:
           registry: docker.pkg.github.com
           repository: jonhaddow/read-it/alligator
           tag_with_ref: true
+      - name: Deploy
+        uses: stardustventures/caprover-deploy@v2
+        with:
+          server: "${{ secrets.CAPROVER_URL }}"
+          password: "${{ secrets.CAPROVER_PASSWORD }}"
+          appname: "${{ secrets.CAPROVER_APP }}"
+          image: docker.pkg.github.com/jonhaddow/read-it/alligator:main
