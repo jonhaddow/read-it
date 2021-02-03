@@ -9,6 +9,7 @@ homeRouter.get(
 	async (req, res): Promise<void> => {
 		if (!req.isAuthenticated()) {
 			res.redirect("/login");
+			return;
 		}
 
 		const bookmarks = await getBookmarks(req.user as User);
