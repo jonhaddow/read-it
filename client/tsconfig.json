@@ -13,7 +13,9 @@
 
 		"allowJs": true /* Allow javascript files to be compiled. */,
 
-		"outDir": "./dist" /* Redirect output structure to the directory. */,
+		"outDir": "../dist" /* Redirect output structure to the directory. */,
+
+		"jsx": "react",
 
 		/* Strict Type-Checking Options */
 		"strict": true /* Enable all strict type-checking options. */,
@@ -28,6 +30,5 @@
 		/* Advanced Options */
 		"skipLibCheck": true /* Skip type checking of declaration files. */,
 		"forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
-	},
-	"include": ["server"]
+	}
 }
