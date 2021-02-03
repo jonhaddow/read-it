@@ -7,7 +7,7 @@
 		"node": "14.x"
 	},
 	"scripts": {
-		"dev": "nodemon ./src/server.ts",
+		"dev": "nodemon ./server/server.ts",
 		"start": "node dist/server.js",
 		"test": "jest"
 	},

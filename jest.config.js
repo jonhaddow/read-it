@@ -4,9 +4,6 @@
  */
 
 module.exports = {
-	// The root directory that Jest should scan for tests and modules within
-	rootDir: "src",
-
 	// The test environment that will be used for testing
 	testEnvironment: "node",
 

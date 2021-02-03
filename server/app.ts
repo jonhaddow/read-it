@@ -18,7 +18,7 @@ export const createApp = (): Express => {
 
 	// View engine setup
 	app.set("view engine", "ejs");
-	app.set("views", "./src/views");
+	app.set("views", "./server/views");
 
 	// setup session
 	app.use(
@@ -44,7 +44,7 @@ export const createApp = (): Express => {
 	app.use(homeRouter);
 
 	// Static assets
-	app.use(express.static("src/public"));
+	app.use(express.static("server/public"));
 
 	return app;
 };

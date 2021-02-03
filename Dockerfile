@@ -22,4 +22,4 @@ RUN npx tsc
 ENV PORT 80
 EXPOSE 80
 
-CMD [ "node", "dist/src/server.js" ]
+CMD [ "node", "dist/server/server.js" ]
