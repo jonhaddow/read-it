@@ -34,6 +34,11 @@ module.exports = {
 		contentBase: path.join(__dirname, "dist/client"),
 		compress: true,
 		port: 9000,
+		proxy: {
+			// Pass through to the server api
+			"/api": "http://localhost:3000",
+		},
+		historyApiFallback: true,
 	},
 	plugins: [
 		new ForkTsCheckerWebpackPlugin({

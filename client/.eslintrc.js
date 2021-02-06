@@ -4,4 +4,7 @@ module.exports = {
 		sourceType: "module",
 		project: "./client/tsconfig.json",
 	},
+	rules: {
+		"react/prop-types": "off",
+	},
 };
