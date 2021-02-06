@@ -2,9 +2,8 @@ import "reflect-metadata";
 import config from "config";
 import express, { Express } from "express";
 import { Session } from "./entities";
-import { authRouter, bookmarksRouter } from "./api";
+import { authRouter, bookmarksRouter, userRouter } from "./api";
 import { setupPassport } from "./utils";
-import { homeRouter } from "./controllers";
 import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
 import { isAuthenticated } from "./middleware";
@@ -15,10 +14,6 @@ export const createApp = (): Express => {
 
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json()); // for parsing application/json
-
-	// View engine setup
-	app.set("view engine", "ejs");
-	app.set("views", "./server/views");
 
 	// setup session
 	app.use(
@@ -39,12 +34,7 @@ export const createApp = (): Express => {
 
 	// API routes
 	app.use("/api/bookmarks", isAuthenticated, bookmarksRouter);
-
-	// Controller routes
-	app.use(homeRouter);
-
-	// Static assets
-	app.use(express.static("server/public"));
+	app.use("/api/users", isAuthenticated, userRouter);
 
 	return app;
 };

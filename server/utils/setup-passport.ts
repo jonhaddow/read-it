@@ -134,7 +134,7 @@ export const setupPassport = (app: Express): void => {
 
 	passport.serializeUser((user, cb) => cb(null, user));
 
-	passport.deserializeUser((obj, cb) => cb(null, obj));
+	passport.deserializeUser<Express.User>((obj, cb) => cb(null, obj));
 
 	app.use(passport.initialize());
 	app.use(passport.session());

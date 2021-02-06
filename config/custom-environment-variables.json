@@ -23,5 +23,6 @@
 		"clientSecret": "REDDIT_CLIENT_SECRET",
 		"username": "REDDIT_USERNAME",
 		"password": "REDDIT_PASSWORD"
-	}
+	},
+	"client_url": "CLIENT_URL"
 }
