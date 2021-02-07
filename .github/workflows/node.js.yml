@@ -1,6 +1,7 @@
 on: push
 
 jobs:
+  # Runs the full test suite for both client and server applications.
   test:
     runs-on: ubuntu-latest
     container: node:14
@@ -34,6 +35,7 @@ jobs:
       - name: Test
         run: npm test
 
+  # Publishes a docker image of the server app, and deploys it Caprover.
   server-deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -56,6 +58,7 @@ jobs:
           appname: "${{ secrets.CAPROVER_APP }}"
           image: docker.pkg.github.com/jonhaddow/read-it/alligator:main
 
+  # Deploys to Netlify on each build. Non-production branch will be a preview only.
   client-deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -70,7 +73,9 @@ jobs:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
         with:
+          production-branch: main
           publish-dir: "./dist/client"
+          deploy-message: "Deploy from GitHub Actions"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
