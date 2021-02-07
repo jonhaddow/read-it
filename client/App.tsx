@@ -1,8 +1,7 @@
 import React from "react";
-import { Login } from "./Login";
+import { Login, Dashboard } from "./pages";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Dashboard } from "./Dashboard";
-import { ProvideAuth } from "./Authentication";
+import { ProvideAuth } from "./services";
 
 export const App: React.FC = () => {
 	return (

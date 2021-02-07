@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { BookmarksList } from "./BookmarksList";
-import { useAuth } from "./hooks";
+import { BookmarksList } from "../components";
+import { useAuth } from "../hooks";
 
 export const Dashboard: React.FC = () => {
 	const auth = useAuth();
