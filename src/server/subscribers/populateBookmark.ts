@@ -8,9 +8,12 @@ import { getDefaultStrategy, getStrategies } from "./metadata-strategies";
  * @param bookmark The bookmark to populate.
  */
 export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
-	let strategy = getStrategies().find((x) =>
-		x.shouldProcess?.call(this, bookmark)
-	);
+	let strategy = getStrategies().find((x) => {
+		if (x.shouldProcess) {
+			return x.shouldProcess.call(this, bookmark);
+		}
+		return false;
+	});
 
 	if (!strategy) {
 		strategy = getDefaultStrategy();

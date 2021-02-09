@@ -1,14 +1,18 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
-	entry: "./client/index.tsx",
+	entry: "./src/client/index.tsx",
 	output: {
 		path: path.resolve(__dirname, "dist/client"),
 	},
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
+		plugins: [
+			new TsconfigPathsPlugin({ configFile: "./src/client/tsconfig.json" }),
+		],
 	},
 	mode: "production",
 	module: {
@@ -42,12 +46,15 @@ module.exports = {
 	},
 	plugins: [
 		new ForkTsCheckerWebpackPlugin({
+			typescript: {
+				configFile: "./src/client/tsconfig.json",
+			},
 			eslint: {
-				files: "./client/**/*.{ts,tsx}",
+				files: "./src/**/*.{ts,tsx}",
 			},
 		}),
 		new HtmlWebpackPlugin({
-			template: "./client/index.html",
+			template: "./src/client/index.html",
 		}),
 	],
 };

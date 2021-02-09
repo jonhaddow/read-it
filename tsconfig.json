@@ -15,6 +15,9 @@
 
 		"outDir": "./dist" /* Redirect output structure to the directory. */,
 
+		/* Base directory to resolve non-relative module names */
+		"baseUrl": "./src",
+
 		/* Strict Type-Checking Options */
 		"strict": true /* Enable all strict type-checking options. */,
 
@@ -29,5 +32,5 @@
 		"skipLibCheck": true /* Skip type checking of declaration files. */,
 		"forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
 	},
-	"include": ["server", "core"]
+	"include": ["src"]
 }
