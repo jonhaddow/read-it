@@ -1,0 +1,28 @@
+{
+	"db_config": {
+		"url": "DATABASE_URL",
+		"host": "DATABASE_HOST",
+		"database": "DATABASE_NAME",
+		"username": "DATABASE_USERNAME",
+		"password": "DATABASE_PASSWORD",
+		"port": "DATABASE_PORT"
+	},
+	"google_auth": {
+		"client_id": "GOOGLE_AUTH_ID",
+		"client_secret": "GOOGLE_AUTH_SECRET",
+		"callback_url": "GOOGLE_AUTH_CALLBACK_URL"
+	},
+	"github_auth": {
+		"client_id": "GITHUB_AUTH_ID",
+		"client_secret": "GITHUB_AUTH_SECRET",
+		"callback_url": "GITHUB_AUTH_CALLBACK_URL"
+	},
+	"session_secret": "SESSION_SECRET",
+	"redditAPI": {
+		"clientId": "REDDIT_CLIENT_ID",
+		"clientSecret": "REDDIT_CLIENT_SECRET",
+		"username": "REDDIT_USERNAME",
+		"password": "REDDIT_PASSWORD"
+	},
+	"client_url": "CLIENT_URL"
+}

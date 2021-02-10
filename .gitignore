@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Local node-config files
-config/local.json
+src/server/config/local.json

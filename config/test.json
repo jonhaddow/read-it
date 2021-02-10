@@ -1,9 +1,0 @@
-{
-	"db_config": {
-		"host": "postgres",
-		"database": "postgres",
-		"user": "postgres",
-		"password": "postgres",
-		"port": "5432"
-	}
-}

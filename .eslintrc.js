@@ -13,5 +13,9 @@ module.exports = {
 		"@typescript-eslint/no-unsafe-assignment": "off",
 		"@typescript-eslint/no-unsafe-member-access": "off",
 		"@typescript-eslint/no-unsafe-call": "off",
+
+		// Disabling because of some strange false positives
+		// May be related - https://github.com/typescript-eslint/typescript-eslint/issues/2972
+		"@typescript-eslint/no-unused-vars": "off",
 	},
 };

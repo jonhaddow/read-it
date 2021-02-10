@@ -1,26 +1,16 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
-
-on:
-  push:
-    branches: [main]
+on: push
 
 jobs:
-  deploy:
+  # Runs the full test suite for both client and server applications.
+  test:
     runs-on: ubuntu-latest
-
-    # Docker Hub image that `container-job` executes in
     container: node:14
 
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -44,7 +34,15 @@ jobs:
         run: npm install
       - name: Test
         run: npm test
-      - name: Push to GitHub Packages
+
+  # Publishes a docker image of the server app, and deploys it Caprover.
+  server-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    container: node:14
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Push docker image to GitHub Packages
         uses: docker/build-push-action@v1
         with:
           username: ${{ github.actor }}
@@ -52,10 +50,32 @@ jobs:
           registry: docker.pkg.github.com
           repository: jonhaddow/read-it/alligator
           tag_with_ref: true
-      - name: Deploy
+      - name: Deploy image
         uses: stardustventures/caprover-deploy@v2
         with:
           server: "${{ secrets.CAPROVER_URL }}"
           password: "${{ secrets.CAPROVER_PASSWORD }}"
           appname: "${{ secrets.CAPROVER_APP }}"
           image: docker.pkg.github.com/jonhaddow/read-it/alligator:main
+
+  # Deploys to Netlify on each build. Non-production branch will be a preview only.
+  client-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    container: node:14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run client-build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          production-branch: main
+          publish-dir: "./dist/client"
+          deploy-message: "Deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
