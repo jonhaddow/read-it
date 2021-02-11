@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Bookmark } from "core/bookmarks";
+import { Bookmark } from "core/models";
 
 export const BookmarksList: React.FC = () => {
 	const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
