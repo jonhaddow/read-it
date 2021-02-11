@@ -1,28 +1,34 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "core/models";
+import { EntitySchema } from "typeorm";
 
-@Entity()
-export class User {
-	constructor(email: string) {
-		this.email = email;
-	}
-
-	@PrimaryGeneratedColumn()
-	id!: number;
-
-	@Index()
-	@Column({
-		unique: true,
-	})
-	email: string;
-
-	@Index()
-	@Column({ nullable: true })
-	providerId?: string;
-
-	@Index()
-	@Column({ nullable: true })
-	provider?: string;
-
-	@Column({ nullable: true })
-	hashedPassword?: string;
-}
+export const UserEntity = new EntitySchema<User>({
+	name: "user",
+	columns: {
+		id: {
+			type: Number,
+			primary: true,
+			generated: true,
+		},
+		email: {
+			type: String,
+			unique: true,
+		},
+		hashedPassword: {
+			type: String,
+			nullable: true,
+		},
+		providerId: {
+			type: String,
+			nullable: true,
+		},
+		provider: {
+			type: String,
+			nullable: true,
+		},
+	},
+	indices: [
+		{
+			columns: ["email", "providerId", "provider"],
+		},
+	],
+});

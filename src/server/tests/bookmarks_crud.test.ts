@@ -1,7 +1,7 @@
 import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
-import { Bookmark } from "../entities";
+import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
 
 describe("bookmarks_crud", () => {
@@ -39,6 +39,7 @@ describe("bookmarks_crud", () => {
 	});
 
 	it("should allow a bookmark to be edited", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await agent.put(`/api/bookmarks/${bookmark.id}`).send({
 			...bookmark,
 			title: "customTitle",
@@ -65,6 +66,7 @@ describe("bookmarks_crud", () => {
 	});
 
 	it("should allow a single bookmark to be retrieved", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await agent.get(`/api/bookmarks/${bookmark.id}`);
 
 		expect(response.status).toBe(200);
@@ -74,12 +76,14 @@ describe("bookmarks_crud", () => {
 	});
 
 	it("should allow a bookmark to be removed", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await agent.delete(`/api/bookmarks/${bookmark.id}`);
 
 		expect(response.status).toBe(204);
 	});
 
 	it("should not find the single bookmark", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await agent.get(`/api/bookmarks/${bookmark.id}`);
 
 		expect(response.status).toBe(404);

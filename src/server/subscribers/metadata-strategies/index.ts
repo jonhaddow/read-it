@@ -1,4 +1,4 @@
-import { Bookmark } from "../../entities";
+import { Bookmark } from "core/models";
 import { DefaultStrategy } from "./default";
 import { RedditStrategy } from "./reddit";
 

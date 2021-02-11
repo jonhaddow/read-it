@@ -1,5 +1,5 @@
+import { Bookmark } from "core/models";
 import { IMetadataStrategy, MetadataProps } from ".";
-import { Bookmark } from "../../entities";
 import {
 	estimateReadingTime,
 	findMetadata,

@@ -1,11 +1,5 @@
-import {
-	Column,
-	CreateDateColumn,
-	Entity,
-	ManyToOne,
-	PrimaryGeneratedColumn,
-} from "typeorm";
-import { User } from ".";
+import { EntitySchema } from "typeorm";
+import { Bookmark } from "core/models";
 
 export enum BookmarkState {
 	CREATED = "created",
@@ -13,102 +7,59 @@ export enum BookmarkState {
 	ARCHIVED = "archived",
 }
 
-/**
- * Describes a bookmark of a website or web app.
- */
-@Entity({
+export const BookmarkEntity = new EntitySchema<Bookmark>({
+	name: "bookmark",
+	columns: {
+		id: {
+			type: Number,
+			primary: true,
+			generated: true,
+		},
+		dateCreated: {
+			type: Date,
+			createDate: true,
+		},
+		url: {
+			type: String,
+			length: 2000,
+		},
+		title: {
+			type: String,
+			nullable: true,
+		},
+		description: {
+			type: String,
+			nullable: true,
+		},
+		minuteEstimate: {
+			type: "decimal",
+			nullable: true,
+		},
+		state: {
+			type: "enum",
+			enum: BookmarkState,
+			default: BookmarkState.CREATED,
+		},
+		targetURL: {
+			type: String,
+			nullable: true,
+		},
+		thumbnailUrl: {
+			type: String,
+			nullable: true,
+		},
+		specialType: {
+			type: String,
+			nullable: true,
+		},
+	},
+	relations: {
+		user: {
+			type: "many-to-one",
+			target: "user", // UserEntity
+		},
+	},
 	orderBy: {
 		dateCreated: "DESC",
 	},
-})
-export class Bookmark {
-	/**
-	 * A auto generated unique identifier for this bookmark.
-	 */
-	@PrimaryGeneratedColumn()
-	id!: number;
-
-	/**
-	 * The absolute url for the bookmark.
-	 */
-	@Column({
-		length: 2000, // Max-length of URL
-	})
-	url!: string;
-
-	/**
-	 * The title of the page this bookmark points to.
-	 */
-	@Column({ nullable: true })
-	title?: string;
-
-	/**
-	 * The description of the page this bookmark points to.
-	 */
-	@Column({ nullable: true })
-	description?: string;
-
-	/**
-	 * The estimate number of minutes to read the contents of the page
-	 * this bookmark links to.
-	 */
-	@Column({ nullable: true, type: "decimal" })
-	minuteEstimate?: number;
-
-	/**
-	 * The date the bookmark was created.
-	 */
-	@CreateDateColumn()
-	dateCreated!: Date;
-
-	/**
-	 * The processing state of this bookmark.
-	 */
-	@Column({
-		type: "enum",
-		enum: BookmarkState,
-		default: BookmarkState.CREATED,
-	})
-	state!: BookmarkState;
-
-	/**
-	 * The URL of the submission (when a news aggregation site has been detected)
-	 */
-	@Column({ nullable: true })
-	targetURL?: string;
-
-	/**
-	 * The URL of the thumbnail associated with this bookmark.
-	 */
-	@Column({ nullable: true })
-	thumbnailUrl?: string;
-
-	/**
-	 * The name of the site when a "special case" has been detected.
-	 *
-	 * Special cases may have additional metadata gathered.
-	 *
-	 * E.g. this would be "reddit" if the `url` is a link to a reddit thread.
-	 */
-	@Column({ nullable: true })
-	specialType?: string;
-
-	/**
-	 * The user this bookmark belongs to.
-	 */
-	@ManyToOne(() => User)
-	user!: User;
-
-	validate(): { error?: string } {
-		if (this.url) {
-			try {
-				new URL(this.url);
-			} catch (_) {
-				return { error: "Bookmark URL invalid" };
-			}
-		} else {
-			return { error: "Bookmark URL required" };
-		}
-		return {};
-	}
-}
+});

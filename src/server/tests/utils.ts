@@ -6,11 +6,12 @@ import {
 	dropDatabase as pgGodDropDatabase,
 } from "pg-god";
 import config from "config";
-import { User } from "../entities";
+import { User } from "core/models";
 import { hash } from "bcrypt";
 import { createDBConnection } from "../connection";
 import { createApp } from "../app";
 import { closeBrowser } from "../services/puppeteer";
+import { UserEntity } from "server/entities";
 
 /**
  * Creates a database with the provided name.
@@ -54,9 +55,9 @@ export const addUserToDatabase = async (
 	email: string,
 	password: string
 ): Promise<void> => {
-	const user = new User(email);
+	const user: User = { email };
 	user.hashedPassword = await hash(password, 10);
-	await getRepository(User).insert(user);
+	await getRepository(UserEntity).insert(user);
 };
 
 /**

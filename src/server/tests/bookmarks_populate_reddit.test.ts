@@ -1,9 +1,10 @@
 import path from "path";
 import { SuperAgentTest } from "supertest";
-import { Bookmark } from "../entities";
+import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
 import { populateBookmark } from "../subscribers/populateBookmark";
 import { Submission } from "snoowrap";
+import { assert } from "console";
 
 // Mocking the reddit API response.
 jest.mock("snoowrap", () => {
@@ -54,6 +55,7 @@ describe("bookmarks_populate_reddit", () => {
 			});
 
 			it("should have the correct details", async () => {
+				if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 				const response = await agent.get(`/api/bookmarks/${bookmark.id}`);
 				bookmark = response.body as Bookmark;
 

@@ -1,11 +1,12 @@
+import { Bookmark, User } from "core/models";
 import { Router } from "express";
-import { Bookmark, User } from "../entities";
 import {
 	addBookmark,
 	deleteBookmark,
 	getBookmark,
 	getBookmarks,
 	updateBookmark,
+	validateBookmark,
 } from "../services";
 
 export const bookmarksRouter = Router();
@@ -52,9 +53,9 @@ bookmarksRouter.post(
 	"/",
 	async (req, res): Promise<void> => {
 		try {
-			const bookmark = Object.assign(new Bookmark(), req.body) as Bookmark;
+			const bookmark = req.body as Bookmark;
 
-			const validateResult = bookmark.validate();
+			const validateResult = validateBookmark(bookmark);
 			if (validateResult.error) {
 				res.status(400).send(validateResult.error);
 				return;
@@ -80,9 +81,9 @@ bookmarksRouter.put(
 			}
 			const id = parseInt(req.params.id);
 
-			const bookmark = Object.assign(new Bookmark(), req.body) as Bookmark;
+			const bookmark = req.body as Bookmark;
 			bookmark.id = id;
-			const validateResult = bookmark.validate();
+			const validateResult = validateBookmark(bookmark);
 			if (validateResult.error) {
 				res.status(400).send(validateResult.error);
 				return;

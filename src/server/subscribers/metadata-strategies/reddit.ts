@@ -1,4 +1,3 @@
-import { Bookmark } from "../../entities";
 import { IMetadataStrategy, MetadataProps } from ".";
 import snoowrap, { SnoowrapOptions } from "snoowrap";
 import {
@@ -7,6 +6,7 @@ import {
 	openWebpage,
 } from "../../services/puppeteer";
 import config from "config";
+import { Bookmark } from "core/models";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
 	/reddit\.com\/r\/.*?\/comments\/(.{6})(?:$|\/)/,

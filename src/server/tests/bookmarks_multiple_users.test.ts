@@ -1,7 +1,7 @@
 import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
-import { Bookmark } from "../entities";
+import { Bookmark } from "core/models";
 import { stopTestServer, startTestServer, createSuperAgent } from "./utils";
 import { Express } from "express";
 
@@ -72,12 +72,14 @@ describe("bookmarks_multiple_users", () => {
 	});
 
 	it("should allow a single bookmark to be retrieved for user 1", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await user1.get(`/api/bookmarks/${bookmark.id}`);
 
 		expect(response.status).toBe(200);
 	});
 
 	it("should allow a single bookmark to be retrieved for user 2", async () => {
+		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
 		const response = await user2.get(`/api/bookmarks/${bookmark.id}`);
 
 		expect(response.status).toBe(404);

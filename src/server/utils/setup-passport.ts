@@ -8,14 +8,15 @@ import { IVerifyOptions, Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
 import config from "config";
 import { getRepository } from "typeorm";
-import { User } from "../entities";
 import { compare } from "bcrypt";
+import { UserEntity } from "../entities";
+import { User } from "core/models";
 
 const handleIdentity = async (
 	profile: Profile,
 	done: VerifyCallback
 ): Promise<void> => {
-	const userRepository = getRepository(User);
+	const userRepository = getRepository(UserEntity);
 	try {
 		let user = await userRepository.findOne({
 			where: {
@@ -36,7 +37,7 @@ const handleIdentity = async (
 			});
 
 			if (!user) {
-				user = new User(profile.emails[0].value);
+				user = { email: profile.emails[0].value };
 				user.providerId = profile.id;
 				user.provider = profile.provider;
 				await userRepository.insert(user);
@@ -102,7 +103,7 @@ const setupLocal = (): void => {
 					options?: IVerifyOptions
 				) => void
 			) => {
-				const userRepository = getRepository(User);
+				const userRepository = getRepository(UserEntity);
 				const user = await userRepository.findOne({
 					where: {
 						email: username,

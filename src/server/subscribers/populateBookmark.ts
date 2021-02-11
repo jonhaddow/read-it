@@ -1,6 +1,7 @@
-import { Bookmark, BookmarkState } from "../entities";
+import { BookmarkEntity, BookmarkState } from "../entities";
 import { getRepository } from "typeorm";
 import { getDefaultStrategy, getStrategies } from "./metadata-strategies";
+import { Bookmark } from "core/models";
 
 /**
  * Populates a bookmark with metadata.
@@ -38,7 +39,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 	try {
 		bookmark.state = BookmarkState.PROCESSED;
 
-		await getRepository(Bookmark).save(bookmark);
+		await getRepository(BookmarkEntity).save(bookmark);
 	} catch (ex) {
 		console.error("Failed to populate bookmarks", ex);
 	}
