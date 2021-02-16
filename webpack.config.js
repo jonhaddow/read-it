@@ -2,8 +2,9 @@ const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const { DefinePlugin } = require("webpack");
 
-module.exports = {
+module.exports = ({ production }) => ({
 	entry: "./src/client/index.tsx",
 	output: {
 		path: path.resolve(__dirname, "dist/client"),
@@ -14,7 +15,7 @@ module.exports = {
 			new TsconfigPathsPlugin({ configFile: "./src/client/tsconfig.json" }),
 		],
 	},
-	mode: "production",
+	mode: production ? "production" : "development",
 	module: {
 		rules: [
 			{
@@ -56,5 +57,10 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: "./src/client/index.html",
 		}),
+		new DefinePlugin({
+			API_URL: production
+				? JSON.stringify("https://alligator.app.haddow.me")
+				: JSON.stringify(""),
+		}),
 	],
-};
+});

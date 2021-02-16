@@ -7,7 +7,7 @@ export const BookmarksList: React.FC = () => {
 
 	useEffect(() => {
 		async function getBookmarks(): Promise<void> {
-			const response = await fetch("/api/bookmarks");
+			const response = await fetch(`${API_URL}/api/bookmarks`);
 			if (response.status == 200) {
 				const b = (await response.json()) as { results: Bookmark[] };
 				setBookmarks(b.results);
@@ -18,7 +18,7 @@ export const BookmarksList: React.FC = () => {
 	}, []);
 
 	const addBookmark = async (): Promise<void> => {
-		const response = await fetch("/api/bookmarks", {
+		const response = await fetch(`${API_URL}/api/bookmarks`, {
 			body: JSON.stringify({
 				url,
 			}),
