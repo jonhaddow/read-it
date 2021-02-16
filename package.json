@@ -7,11 +7,13 @@
 		"node": "14.x"
 	},
 	"scripts": {
-		"dev-client": "webpack serve",
-		"dev-server": "nodemon ./src/server/index.ts",
+		"dev:client": "webpack serve",
+		"dev:server": "nodemon ./src/server/index.ts",
 		"dev": "concurrently \"npm:dev-client\" \"npm:dev-server\" -c green,blue",
-		"client-build": "webpack --env=production",
-		"server-start": "npx tsc && node dist/server/server.js",
+		"build:client": "webpack --env=production",
+		"build:server": "npx tsc --build ./src/server/tsconfig.json",
+		"configure:server": "cp -r ./src/server/config/ ./dist/server/",
+		"start:server": "node dist/server/server.js",
 		"test": "jest"
 	},
 	"repository": {

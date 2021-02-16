@@ -16,8 +16,10 @@ RUN apt-get update \
 COPY . .
 
 RUN npm install
+RUN npm run build:server
+RUN npm run configure:server
 
 ENV PORT 80
 EXPOSE 80
 
-CMD [ "npm", "run", "server-start" ]
+CMD [ "npm", "run", "start:start" ]
