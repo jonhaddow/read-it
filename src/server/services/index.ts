@@ -1,1 +1,1 @@
-export * from "./bookmarks";
+export * from "./bookmarkServices";

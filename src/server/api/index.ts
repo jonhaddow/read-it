@@ -1,3 +1,3 @@
-export * from "./auth";
-export * from "./bookmarks";
-export * from "./user";
+export * from "./authController";
+export * from "./bookmarksController";
+export * from "./userController";
