@@ -13,7 +13,7 @@
 		"build:client": "webpack --env=production",
 		"build:server": "npx tsc --build ./src/server/tsconfig.json",
 		"configure:server": "cp -r ./src/server/config/ ./dist/server/",
-		"start:server": "node dist/server/server.js",
+		"start:server": "node dist/server/index.js",
 		"test": "jest"
 	},
 	"repository": {
