@@ -8,9 +8,16 @@ import session from "express-session";
 import { TypeormStore } from "connect-typeorm/out";
 import { isAuthenticated } from "./middleware";
 import { getRepository } from "typeorm";
+import cors from "cors";
 
 export const createApp = (): Express => {
 	const app = express();
+
+	app.use(
+		cors({
+			origin: config.get<string>("client_url"),
+		})
+	);
 
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json()); // for parsing application/json
