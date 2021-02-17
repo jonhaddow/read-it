@@ -7,7 +7,9 @@ export const BookmarksList: React.FC = () => {
 
 	useEffect(() => {
 		async function getBookmarks(): Promise<void> {
-			const response = await fetch(`${API_URL}/api/bookmarks`);
+			const response = await fetch(`${API_URL}/api/bookmarks`, {
+				credentials: "same-origin",
+			});
 			if (response.status == 200) {
 				const b = (await response.json()) as { results: Bookmark[] };
 				setBookmarks(b.results);
@@ -26,6 +28,7 @@ export const BookmarksList: React.FC = () => {
 				"Content-Type": "application/json",
 			},
 			method: "POST",
+			credentials: "same-origin",
 		});
 		const newBookmark = (await response.json()) as Bookmark;
 		setBookmarks([...bookmarks, newBookmark]);

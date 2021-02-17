@@ -14,7 +14,9 @@ export const ProvideAuth: React.FC = ({ children }) => {
 
 	useEffect(() => {
 		const getUser = async (): Promise<void> => {
-			const response = await fetch(`${API_URL}/api/users/me`);
+			const response = await fetch(`${API_URL}/api/users/me`, {
+				credentials: "same-origin",
+			});
 			if (response.status == 200) {
 				const user = (await response.json()) as User;
 				setUser(user);
