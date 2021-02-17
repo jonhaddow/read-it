@@ -24,5 +24,6 @@
 		"username": "REDDIT_USERNAME",
 		"password": "REDDIT_PASSWORD"
 	},
-	"client_url": "CLIENT_URL"
+	"client_url": "CLIENT_URL",
+	"cookie_domain": "COOKIE_DOMAIN"
 }

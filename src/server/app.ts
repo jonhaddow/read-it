@@ -25,6 +25,9 @@ export const createApp = (): Express => {
 	// setup session
 	app.use(
 		session({
+			cookie: {
+				domain: config.get("cookie_domain"),
+			},
 			secret: config.get("session_secret"),
 			resave: false,
 			saveUninitialized: false,

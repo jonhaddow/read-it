@@ -24,5 +24,6 @@
 		"username": "",
 		"password": ""
 	},
-	"client_url": "http://localhost:9000"
+	"client_url": "http://localhost:9000",
+	"cookie_domain": ""
 }
