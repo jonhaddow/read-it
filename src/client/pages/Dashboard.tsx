@@ -13,8 +13,6 @@ export const Dashboard: React.FC = () => {
 		return <>Loading...</>;
 	}
 
-	console.log(auth);
-
 	return (
 		<>{auth.user == null ? <Redirect to="/login" /> : <BookmarksList />}</>
 	);
