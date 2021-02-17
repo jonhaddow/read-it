@@ -9,7 +9,7 @@
 	"scripts": {
 		"dev:client": "webpack serve",
 		"dev:server": "nodemon ./src/server/index.ts",
-		"dev": "concurrently \"npm:dev-client\" \"npm:dev-server\" -c green,blue",
+		"dev": "concurrently \"npm:dev:client\" \"npm:dev:server\" -c green,blue",
 		"build:client": "webpack --env=production",
 		"build:server": "npx tsc --build ./src/server/tsconfig.json",
 		"configure:server": "cp -r ./src/server/config/ ./dist/server/",
