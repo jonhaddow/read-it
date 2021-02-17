@@ -5,6 +5,6 @@ module.exports = {
 		project: "./src/client/tsconfig.json",
 	},
 	rules: {
-		"react/prop-types": "off",
+		"no-console": "warn",
 	},
 };
