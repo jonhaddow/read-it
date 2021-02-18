@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import { Api } from ".";
 
 interface User {
 	id: string;
@@ -14,9 +15,7 @@ export const ProvideAuth: React.FC = ({ children }) => {
 
 	useEffect(() => {
 		const getUser = async (): Promise<void> => {
-			const response = await fetch(`${API_URL}/api/users/me`, {
-				credentials: "same-origin",
-			});
+			const response = await Api.get("/api/users/me");
 			if (response.status == 200) {
 				const user = (await response.json()) as User;
 				setUser(user);

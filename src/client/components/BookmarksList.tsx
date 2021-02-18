@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Bookmark } from "core/models";
+import { Api } from "client/services";
 
 export const BookmarksList: React.FC = () => {
 	const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
@@ -7,9 +8,7 @@ export const BookmarksList: React.FC = () => {
 
 	useEffect(() => {
 		async function getBookmarks(): Promise<void> {
-			const response = await fetch(`${API_URL}/api/bookmarks`, {
-				credentials: "same-origin",
-			});
+			const response = await Api.get("/api/bookmarks");
 			if (response.status == 200) {
 				const b = (await response.json()) as { results: Bookmark[] };
 				setBookmarks(b.results);
@@ -20,16 +19,7 @@ export const BookmarksList: React.FC = () => {
 	}, []);
 
 	const addBookmark = async (): Promise<void> => {
-		const response = await fetch(`${API_URL}/api/bookmarks`, {
-			body: JSON.stringify({
-				url,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			credentials: "same-origin",
-		});
+		const response = await Api.post("/api/bookmarks", { url });
 		const newBookmark = (await response.json()) as Bookmark;
 		setBookmarks([...bookmarks, newBookmark]);
 	};
