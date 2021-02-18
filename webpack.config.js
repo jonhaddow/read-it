@@ -3,6 +3,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = ({ production }) => ({
 	entry: "./src/client/index.tsx",
@@ -61,6 +62,9 @@ module.exports = ({ production }) => ({
 			API_URL: production
 				? JSON.stringify("https://alligator.app.haddow.me")
 				: JSON.stringify(""),
+		}),
+		new CopyWebpackPlugin({
+			patterns: [{ from: "src/client/assets", to: "" }],
 		}),
 	],
 });
