@@ -28,7 +28,7 @@ export const BookmarksList: React.FC = () => {
 
 	return (
 		<>
-			<a href="/api/logout">Log out</a>
+			<a href={`${API_URL}/api/logout`}>Log out</a>
 			<h1>Bookmarks</h1>
 			{bookmarks.length ? (
 				<ul>
