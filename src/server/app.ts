@@ -16,6 +16,7 @@ export const createApp = (): Express => {
 	app.use(
 		cors({
 			origin: config.get<string>("client_url"),
+			credentials: true,
 		})
 	);
 
