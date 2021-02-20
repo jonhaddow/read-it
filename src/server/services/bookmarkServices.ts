@@ -3,6 +3,7 @@ import { ResultSet } from "../interfaces";
 import { getRepository } from "typeorm";
 import { getEmitter } from "../events";
 import { Bookmark, User } from "core/models";
+import { isWebUri } from "valid-url";
 
 export const getBookmarks = async (
 	user: User
@@ -55,9 +56,7 @@ export const deleteBookmark = async (user: User, id: number): Promise<void> => {
 
 export const validateBookmark = (bookmark: Bookmark): { error?: string } => {
 	if (bookmark.url) {
-		try {
-			new URL(bookmark.url);
-		} catch (_) {
+		if (isWebUri(bookmark.url) === undefined) {
 			return { error: "Bookmark URL invalid" };
 		}
 	} else {
