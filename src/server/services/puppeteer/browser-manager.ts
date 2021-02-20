@@ -26,7 +26,7 @@ export const closeBrowser = async (): Promise<void> => {
 /**
  * Opens a Puppeteer webpage with the provided URL.
  */
-export const openWebpage = async (url: string): Promise<Page> => {
+export const openWebpage = async (url: string): Promise<Page | undefined> => {
 	const browser = await getBrowser();
 	const page = await browser.newPage();
 
@@ -40,7 +40,16 @@ export const openWebpage = async (url: string): Promise<Page> => {
 		}
 	});
 
-	await page.goto(url);
+	try {
+		await page.goto(url);
+	} catch (error) {
+		console.error(
+			`Failed to open site with the following URL: ${url}. Error: ${
+				error as string
+			}`
+		);
+		return;
+	}
 
 	return page;
 };

@@ -14,6 +14,9 @@ import {
 export class DefaultStrategy implements IMetadataStrategy {
 	async getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps> {
 		const page = await openWebpage(bookmark.url);
+		if (!page) {
+			return {};
+		}
 		return {
 			title: await findMetadata("title", page),
 			description: await findMetadata("description", page),

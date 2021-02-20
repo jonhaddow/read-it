@@ -63,6 +63,7 @@ export class RedditStrategy implements IMetadataStrategy {
 					metadata.targetURL = url;
 
 					const page = await openWebpage(url);
+					if (!page) return;
 					metadata.minuteEstimate = await estimateReadingTime(page);
 					metadata.description = await findMetadata("description", page);
 					metadata.thumbnailUrl =
