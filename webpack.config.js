@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 module.exports = ({ production }) => ({
 	entry: "./src/client/index.tsx",
@@ -65,6 +66,9 @@ module.exports = ({ production }) => ({
 		}),
 		new CopyWebpackPlugin({
 			patterns: [{ from: "src/client/assets", to: "" }],
+		}),
+		new WorkboxPlugin.InjectManifest({
+			swSrc: "./src/client/assets/service-worker.js",
 		}),
 	],
 });

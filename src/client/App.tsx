@@ -4,6 +4,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ProvideAuth } from "./services";
 
 export const App: React.FC = () => {
+	// Check that service workers are supported
+	if ("serviceWorker" in navigator) {
+		// Use the window load event to keep the page load performant
+		window.addEventListener("load", () => {
+			void navigator.serviceWorker.register("/service-worker.js");
+		});
+	}
 	return (
 		<ProvideAuth>
 			<Router>
