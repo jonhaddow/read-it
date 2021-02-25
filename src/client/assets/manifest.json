@@ -17,5 +17,14 @@
 	"display": "standalone",
 	"scope": "/",
 	"theme_color": "#3367D6",
-	"description": "Save bookmarks across the web"
+	"description": "Save bookmarks across the web",
+	"share_target": {
+		"action": "/bookmark",
+		"method": "POST",
+		"enctype": "multipart/form-data",
+		"params": {
+			"title": "title",
+			"url": "url"
+		}
+	}
 }
