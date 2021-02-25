@@ -19,7 +19,7 @@
 	"theme_color": "#3367D6",
 	"description": "Save bookmarks across the web",
 	"share_target": {
-		"action": "/bookmark",
+		"action": "/_share-target",
 		"method": "POST",
 		"enctype": "multipart/form-data",
 		"params": {
