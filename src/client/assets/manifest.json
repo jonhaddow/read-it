@@ -24,12 +24,9 @@
 		"enctype": "multipart/form-data",
 		"method": "POST",
 		"params": {
-			"files": [
-				{
-					"name": "media",
-					"accept": ["audio/*", "image/*", "video/*"]
-				}
-			]
+			"title": "title",
+			"text": "text",
+			"url": "url"
 		}
 	},
 	"shortcuts": [

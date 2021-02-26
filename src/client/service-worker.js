@@ -23,7 +23,11 @@ offlineFallback();
 // When received, grab the info and pass it to the server.
 const shareTargetHandler = async ({ event }) => {
 	const formData = await event.request.formData();
-	const url = formData.get("url") || formData.get("title");
+
+	// No clue what platform is going to send what parameter...
+	const url =
+		formData.get("url") || formData.get("title") || formData.get("text");
+
 	// eslint-disable-next-line no-undef
 	await fetch(`${API_URL}/api/bookmark`, {
 		method: "POST",
