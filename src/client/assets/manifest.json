@@ -1,4 +1,5 @@
 {
+	"short_name": "Alligator",
 	"name": "Alligator",
 	"icons": [
 		{
@@ -12,11 +13,12 @@
 			"sizes": "512x512"
 		}
 	],
-	"start_url": "/",
-	"background_color": "#3367D6",
-	"display": "standalone",
+
+	"start_url": "https://alligator.haddow.me",
+	"background_color": "#ffffff",
 	"scope": "/",
-	"theme_color": "#3367D6",
+	"display": "standalone",
+	"theme_color": "#ffffff",
 	"description": "Save bookmarks across the web",
 	"share_target": {
 		"action": "/_share-target",
@@ -26,5 +28,11 @@
 			"title": "title",
 			"url": "url"
 		}
-	}
+	},
+	"shortcuts": [
+		{
+			"name": "Search",
+			"url": "/search"
+		}
+	]
 }
