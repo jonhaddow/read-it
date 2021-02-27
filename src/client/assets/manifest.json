@@ -14,25 +14,18 @@
 		}
 	],
 	"start_url": "https://alligator.haddow.me",
-	"background_color": "#ffffff",
+	"background_color": "#333333",
 	"scope": "/",
 	"display": "standalone",
-	"theme_color": "#ffffff",
+	"theme_color": "#333333",
 	"description": "Save bookmarks across the web",
 	"share_target": {
-		"action": "/_share-target",
-		"enctype": "multipart/form-data",
-		"method": "POST",
+		"action": "/create-bookmark",
+		"method": "GET",
 		"params": {
 			"title": "title",
 			"text": "text",
 			"url": "url"
 		}
-	},
-	"shortcuts": [
-		{
-			"name": "Search",
-			"url": "/search"
-		}
-	]
+	}
 }
