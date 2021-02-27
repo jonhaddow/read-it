@@ -66,6 +66,7 @@ module.exports = ({ production }) => ({
 			API_URL: production
 				? JSON.stringify("https://alligator.app.haddow.me")
 				: JSON.stringify(""),
+			PRODUCTION: !!production,
 		}),
 		new CopyWebpackPlugin({
 			patterns: [{ from: "src/client/assets", to: "" }],
