@@ -10,12 +10,16 @@ interface CreateBookmarkProps {
 export const CreateBookmark: React.FC<CreateBookmarkProps> = ({
 	addBookmark,
 }) => {
-	const [url, setUrl] = useState<string>();
 	const { search } = useLocation();
 
 	const textParam = new URLSearchParams(search).get("text");
 	const urlParam = new URLSearchParams(search).get("url");
 	const titleParam = new URLSearchParams(search).get("title");
+
+	// Url would be priority, however some platforms will populate the text, or title params.
+	const [url, setUrl] = useState<string>(
+		urlParam ?? textParam ?? titleParam ?? ""
+	);
 
 	return (
 		<form>
@@ -25,10 +29,6 @@ export const CreateBookmark: React.FC<CreateBookmarkProps> = ({
 				value={url}
 				onChange={(e) => setUrl(e.currentTarget.value)}
 			/>
-			<pre>
-				Suggested - text: &quot;{textParam}&quot; url: &quot;{urlParam}&quot;
-				title: &quot;{titleParam}&quot;
-			</pre>
 			<button
 				onClick={async () => {
 					const response = await Api.post("/api/bookmarks", { url });
