@@ -31,7 +31,6 @@
 	},
 	"homepage": "https://github.com/jonhaddow/read-it#readme",
 	"devDependencies": {
-		"commitlint": "^11.0.0",
 		"eslint": "^7.20.0",
 		"eslint-config-jonhaddow": "^2.1.0",
 		"husky": "^4.3.8",
@@ -111,7 +110,6 @@
 	},
 	"husky": {
 		"hooks": {
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
 			"pre-commit": "lint-staged"
 		}
 	},
