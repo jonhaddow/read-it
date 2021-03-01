@@ -7,6 +7,9 @@ import {
 	Redirect,
 } from "react-router-dom";
 import { useAuth } from "./hooks";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
 	const auth = useAuth();
@@ -26,28 +29,26 @@ export const App: React.FC = () => {
 	}
 
 	return (
-		<Router>
-			<Switch>
-				<Route path="/login">
-					<Login />
-				</Route>
-				{auth.user !== null ? (
-					<>
-						<Route path="/create-bookmark">
-							<CreateBookmark
-								addBookmark={() => {
-									// TODO
-								}}
-							/>
-						</Route>
-						<Route exact path="/">
-							<Dashboard />
-						</Route>
-					</>
-				) : (
-					<Redirect to="/login" />
-				)}
-			</Switch>
-		</Router>
+		<QueryClientProvider client={queryClient}>
+			<Router>
+				<Switch>
+					<Route path="/login">
+						<Login />
+					</Route>
+					{auth.user !== null ? (
+						<Switch>
+							<Route path="/create-bookmark">
+								<CreateBookmark />
+							</Route>
+							<Route path="/">
+								<Dashboard />
+							</Route>
+						</Switch>
+					) : (
+						<Redirect to="/login" />
+					)}
+				</Switch>
+			</Router>
+		</QueryClientProvider>
 	);
 };
