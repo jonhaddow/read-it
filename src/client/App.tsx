@@ -35,18 +35,27 @@ export const App: React.FC = () => {
 					<Route path="/login">
 						<Login />
 					</Route>
-					{auth.user !== null ? (
-						<Switch>
-							<Route path="/create-bookmark">
-								<CreateBookmark />
-							</Route>
-							<Route path="/">
-								<Dashboard />
-							</Route>
-						</Switch>
-					) : (
-						<Redirect to="/login" />
-					)}
+					<Route
+						render={({ location }) =>
+							auth.user !== null ? (
+								<Switch>
+									<Route path="/create-bookmark">
+										<CreateBookmark />
+									</Route>
+									<Route path="/">
+										<Dashboard />
+									</Route>
+								</Switch>
+							) : (
+								<Redirect
+									to={{
+										pathname: "/login",
+										state: { from: location },
+									}}
+								/>
+							)
+						}
+					/>
 				</Switch>
 			</Router>
 		</QueryClientProvider>
