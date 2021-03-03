@@ -3,8 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Location } from "history";
 
 export const Login: React.FC = () => {
-	const location = useLocation<{ from?: Location }>();
-	const { from } = location.state;
+	const from = useLocation<{ from?: Location } | undefined>()?.state?.from;
 
 	return (
 		<>
