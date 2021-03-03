@@ -12,7 +12,7 @@ export const Login: React.FC = () => {
 				<li>
 					<a
 						href={`${API_URL}/api/auth/google?returnTo=${
-							from ? from.pathname + from.search : "/"
+							from ? encodeURIComponent(from.pathname + from.search) : "/"
 						}`}
 					>
 						Login with Google
