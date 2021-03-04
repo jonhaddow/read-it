@@ -1,16 +1,25 @@
-import config from "config";
-import { Connection, createConnection } from "typeorm";
+import { Connection, createConnection, getConnectionOptions } from "typeorm";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { BookmarkEntity, Session, UserEntity } from "./entities";
 
-export const createDBConnection = (name?: string): Promise<Connection> => {
-	const dbName = name ?? config.get<string>("db_config.database");
+export const createDBConnection = async (
+	name?: string
+): Promise<Connection> => {
+	// read connection options from ENV variables.
+	const connectionOptions = (await getConnectionOptions()) as PostgresConnectionOptions;
+
+	const dbName = name ?? connectionOptions.database;
 
 	return createConnection({
+		...connectionOptions,
 		type: "postgres",
 		entities: [BookmarkEntity, Session, UserEntity],
-		synchronize: true,
 		logging: ["warn", "error"],
-		...config.get("db_config"),
 		database: dbName,
+		synchronize: true,
+		migrations: ["src/server/migration/*.js"],
+		cli: {
+			migrationsDir: "src/server/migration",
+		},
 	});
 };

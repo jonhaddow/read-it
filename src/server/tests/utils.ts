@@ -1,30 +1,39 @@
 import request, { SuperAgentTest } from "supertest";
-import { getConnection, getRepository } from "typeorm";
+import { getConnection, getConnectionOptions, getRepository } from "typeorm";
 import { Express } from "express";
 import {
 	createDatabase as pgGodCreateDatabase,
 	dropDatabase as pgGodDropDatabase,
 } from "pg-god";
-import config from "config";
 import { User } from "core/models";
 import { hash } from "bcrypt";
 import { createDBConnection } from "../connection";
 import { createApp } from "../app";
 import { closeBrowser } from "../services/puppeteer";
 import { UserEntity } from "server/entities";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
 /**
  * Creates a database with the provided name.
  * @param name The name of the database.
  */
 export const createDatabase = async (name: string): Promise<void> => {
+	const ormOpts = (await getConnectionOptions()) as PostgresConnectionOptions;
 	await pgGodCreateDatabase(
 		{
 			databaseName: name,
 			errorIfExist: false,
 		},
 		{
-			...config.get("db_config"),
+			user: ormOpts.username,
+			port: ormOpts.port,
+			host: ormOpts.host,
+			password:
+				typeof ormOpts.password === "undefined"
+					? undefined
+					: typeof ormOpts.password === "string"
+					? ormOpts.password
+					: await ormOpts.password(),
 		}
 	);
 };
@@ -34,6 +43,7 @@ export const createDatabase = async (name: string): Promise<void> => {
  * @param name The name of the database.
  */
 export const dropDatabase = async (name: string): Promise<void> => {
+	const ormOpts = (await getConnectionOptions()) as PostgresConnectionOptions;
 	await pgGodDropDatabase(
 		{
 			databaseName: name,
@@ -41,7 +51,15 @@ export const dropDatabase = async (name: string): Promise<void> => {
 			errorIfNonExist: false,
 		},
 		{
-			...config.get("db_config"),
+			user: ormOpts.username,
+			port: ormOpts.port,
+			host: ormOpts.host,
+			password:
+				typeof ormOpts.password === "undefined"
+					? undefined
+					: typeof ormOpts.password === "string"
+					? ormOpts.password
+					: await ormOpts.password(),
 		}
 	);
 };

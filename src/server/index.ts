@@ -1,5 +1,9 @@
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 
+// Loading environment variables first.
+import { config } from "dotenv";
+config();
+
 import { createApp } from "./app";
 import { createDBConnection } from "./connection";
 import { registerSubscribers } from "./subscribers";

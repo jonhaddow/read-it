@@ -1,12 +1,4 @@
 {
-	"db_config": {
-		"url": "",
-		"host": "localhost",
-		"database": "postgres",
-		"username": "postgres",
-		"password": "",
-		"port": "5432"
-	},
 	"google_auth": {
 		"client_id": "clientId",
 		"client_secret": "clientSecret",
