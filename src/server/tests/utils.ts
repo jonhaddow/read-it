@@ -18,8 +18,8 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
  * @param name The name of the database.
  */
 export const createDatabase = async (name: string): Promise<void> => {
+	console.log(JSON.stringify(process.env.TYPEORM_CONNECTION));
 	const ormOpts = (await getConnectionOptions()) as PostgresConnectionOptions;
-	console.log(ormOpts);
 	await pgGodCreateDatabase(
 		{
 			databaseName: name,
