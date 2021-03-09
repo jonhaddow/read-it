@@ -73,6 +73,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     container: node:14
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
