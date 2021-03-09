@@ -6,7 +6,6 @@ import {
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { IVerifyOptions, Strategy as LocalStrategy } from "passport-local";
 import { Express } from "express";
-import config from "config";
 import { getRepository } from "typeorm";
 import { compare } from "bcrypt";
 import { UserEntity } from "../entities";
@@ -54,11 +53,11 @@ const setupGoogleLogin = (): void => {
 	passport.use(
 		new GoogleStrategy(
 			{
-				clientID: config.get("google_auth.client_id"),
-				clientSecret: config.get("google_auth.client_secret"),
-				callbackURL: config.get("google_auth.callback_url"),
+				clientID: process.env.GOOGLE_AUTH_ID || "",
+				clientSecret: process.env.GOOGLE_AUTH_SECRET || "",
+				callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL || "",
 			},
-			async (accessToken, refreshToken, profile, done) => {
+			async (_accessToken, _refreshToken, profile, done) => {
 				await handleIdentity(profile, done);
 			}
 		)
@@ -69,13 +68,13 @@ const setupGithub = (): void => {
 	passport.use(
 		new GitHubStrategy(
 			{
-				clientID: config.get("github_auth.client_id"),
-				clientSecret: config.get("github_auth.client_secret"),
-				callbackURL: config.get("github_auth.callback_url"),
+				clientID: process.env.GITHUB_AUTH_ID || "",
+				clientSecret: process.env.GITHUB_AUTH_SECRET || "",
+				callbackURL: process.env.GITHUB_AUTH_CALLBACK_URL || "",
 			},
 			async (
-				accessToken: string,
-				refreshToken: string,
+				_accessToken: string,
+				_refreshToken: string,
 				profile: Profile,
 				done: VerifyCallback
 			) => {

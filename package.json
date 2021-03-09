@@ -12,7 +12,6 @@
 		"dev": "concurrently \"npm:dev:client\" \"npm:dev:server\" -c green,blue",
 		"build:client": "webpack --env=production",
 		"build:server": "npx tsc --build ./src/server/tsconfig.json",
-		"configure:server": "cp -r ./src/server/config/ ./dist/server/",
 		"start:server": "node dist/server/index.js",
 		"test": "jest"
 	},
@@ -48,7 +47,6 @@
 		"@babel/preset-react": "^7.12.13",
 		"@babel/preset-typescript": "^7.12.16",
 		"@types/bcrypt": "^3.0.0",
-		"@types/config": "0.0.37",
 		"@types/cors": "^2.8.10",
 		"@types/express": "^4.17.11",
 		"@types/express-session": "^1.17.3",
@@ -73,7 +71,6 @@
 		"babel-plugin-transform-typescript-metadata": "^0.3.1",
 		"bcrypt": "^5.0.0",
 		"concurrently": "^5.3.0",
-		"config": "^3.3.3",
 		"connect-typeorm": "^1.1.4",
 		"copy-webpack-plugin": "^7.0.0",
 		"cors": "^2.8.5",

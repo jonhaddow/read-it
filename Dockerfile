@@ -17,7 +17,6 @@ COPY . .
 
 RUN npm install
 RUN npm run build:server
-RUN npm run configure:server
 
 ENV PORT 80
 EXPOSE 80

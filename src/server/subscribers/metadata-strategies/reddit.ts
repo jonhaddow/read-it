@@ -5,7 +5,6 @@ import {
 	findMetadata,
 	openWebpage,
 } from "../../services/puppeteer";
-import config from "config";
 import { Bookmark } from "core/models";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
@@ -42,7 +41,10 @@ export class RedditStrategy implements IMetadataStrategy {
 
 		const r = new snoowrap({
 			userAgent: "read-it v0 /u/read-it-bot",
-			...config.get<Partial<SnoowrapOptions>>("redditAPI"),
+			clientId: process.env.REDDIT_CLIENT_ID,
+			clientSecret: process.env.REDDIT_CLIENT_SECRET,
+			username: process.env.REDDIT_USERNAME,
+			password: process.env.REDDIT_PASSWORD,
 		});
 
 		const metadata: MetadataProps = {

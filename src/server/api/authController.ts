@@ -1,10 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
-import config from "config";
 
 export const authRouter = Router();
 
-const clientUrl = config.get<string>("client_url");
+const clientUrl = process.env.CLIENT_URL || "";
 const homeRedirect = clientUrl;
 const loginRedirect = `${clientUrl}/login`;
 

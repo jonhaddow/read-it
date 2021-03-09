@@ -1,5 +1,4 @@
 // Set environment variables for use within tests
-process.env["NODE_CONFIG_DIR"] = __dirname + "/src/server/config";
 require("dotenv").config();
 
 /*

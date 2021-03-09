@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import config from "config";
 import express, { Express } from "express";
 import { Session } from "./entities";
 import { authRouter, bookmarksRouter, userRouter } from "./api";
@@ -15,7 +14,7 @@ export const createApp = (): Express => {
 
 	app.use(
 		cors({
-			origin: config.get<string>("client_url"),
+			origin: process.env.CLIENT_URL,
 			credentials: true,
 		})
 	);
@@ -27,9 +26,9 @@ export const createApp = (): Express => {
 	app.use(
 		session({
 			cookie: {
-				domain: config.get("cookie_domain"),
+				domain: process.env.COOKIE_DOMAIN,
 			},
-			secret: config.get("session_secret"),
+			secret: process.env.SESSION_SECRET || "",
 			resave: false,
 			saveUninitialized: false,
 			store: new TypeormStore({
