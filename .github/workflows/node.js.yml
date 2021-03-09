@@ -22,6 +22,7 @@ jobs:
 
     env:
       TYPEORM_CONNECTION: postgres
+      TYPEORM_HOST: postgres
       TYPEORM_DATABASE: postgres
       TYPEORM_USERNAME: postgres
       TYPEORM_PASSWORD: postgres
