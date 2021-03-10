@@ -28,7 +28,7 @@ export const createApp = (): Express => {
 			cookie: {
 				domain: process.env.COOKIE_DOMAIN,
 			},
-			secret: process.env.SESSION_SECRET || "",
+			secret: process.env.SESSION_SECRET || "session_secret",
 			resave: false,
 			saveUninitialized: false,
 			store: new TypeormStore({
