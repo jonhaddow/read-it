@@ -49,14 +49,14 @@ const handleIdentity = async (
 	}
 };
 
-const setupGoogleLogin = (): void => {
+const setupGoogleLogin = (
+	clientID: string,
+	clientSecret: string,
+	callbackURL: string
+): void => {
 	passport.use(
 		new GoogleStrategy(
-			{
-				clientID: process.env.GOOGLE_AUTH_ID || "",
-				clientSecret: process.env.GOOGLE_AUTH_SECRET || "",
-				callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL || "",
-			},
+			{ clientID, clientSecret, callbackURL },
 			async (_accessToken, _refreshToken, profile, done) => {
 				await handleIdentity(profile, done);
 			}
@@ -64,14 +64,14 @@ const setupGoogleLogin = (): void => {
 	);
 };
 
-const setupGithub = (): void => {
+const setupGithub = (
+	clientID: string,
+	clientSecret: string,
+	callbackURL: string
+): void => {
 	passport.use(
 		new GitHubStrategy(
-			{
-				clientID: process.env.GITHUB_AUTH_ID || "",
-				clientSecret: process.env.GITHUB_AUTH_SECRET || "",
-				callbackURL: process.env.GITHUB_AUTH_CALLBACK_URL || "",
-			},
+			{ clientID, clientSecret, callbackURL },
 			async (
 				_accessToken: string,
 				_refreshToken: string,
@@ -129,8 +129,28 @@ export const setupPassport = (app: Express): void => {
 	setupLocal();
 
 	// External authentication methods
-	setupGoogleLogin();
-	setupGithub();
+	if (
+		process.env.GOOGLE_AUTH_ID &&
+		process.env.GOOGLE_AUTH_SECRET &&
+		process.env.GOOGLE_AUTH_CALLBACK_URL
+	) {
+		setupGoogleLogin(
+			process.env.GOOGLE_AUTH_ID,
+			process.env.GOOGLE_AUTH_SECRET,
+			process.env.GOOGLE_AUTH_CALLBACK_URL
+		);
+	}
+	if (
+		process.env.GITHUB_AUTH_ID &&
+		process.env.GITHUB_AUTH_SECRET &&
+		process.env.GITHUB_AUTH_CALLBACK_URL
+	) {
+		setupGithub(
+			process.env.GITHUB_AUTH_ID,
+			process.env.GITHUB_AUTH_SECRET,
+			process.env.GITHUB_AUTH_CALLBACK_URL
+		);
+	}
 
 	passport.serializeUser((user, cb) => cb(null, user));
 
