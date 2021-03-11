@@ -4,7 +4,6 @@ import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
 import { populateBookmark } from "../subscribers/populateBookmark";
 import { Submission } from "snoowrap";
-import { assert } from "console";
 
 // Mocking the reddit API response.
 jest.mock("snoowrap", () => {
