@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express, { Express } from "express";
-import { Session } from "./entities";
+import { SessionEntity } from "./entities";
 import { authRouter, bookmarksRouter, userRouter } from "./api";
 import { setupPassport } from "./utils";
 import session from "express-session";
@@ -34,7 +34,7 @@ export const createApp = (): Express => {
 			store: new TypeormStore({
 				cleanupLimit: 2,
 				ttl: 86400,
-			}).connect(getRepository(Session)),
+			}).connect(getRepository(SessionEntity)),
 		})
 	);
 

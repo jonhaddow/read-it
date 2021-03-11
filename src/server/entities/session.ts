@@ -1,15 +1,24 @@
 import { ISession } from "connect-typeorm";
-import { Column, Entity, Index, PrimaryColumn } from "typeorm";
+import { EntitySchema } from "typeorm";
 
-@Entity()
-export class Session implements ISession {
-	@Index()
-	@Column("bigint")
-	public expiredAt = Date.now();
-
-	@PrimaryColumn("varchar", { length: 255 })
-	public id = "";
-
-	@Column("text")
-	public json = "";
-}
+export const SessionEntity = new EntitySchema<ISession>({
+	name: "session",
+	columns: {
+		expiredAt: {
+			type: "bigint",
+		},
+		id: {
+			primary: true,
+			type: "varchar",
+			length: 255,
+		},
+		json: {
+			type: "text",
+		},
+	},
+	indices: [
+		{
+			columns: ["expiredAt"],
+		},
+	],
+});

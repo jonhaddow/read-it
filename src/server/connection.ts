@@ -1,6 +1,5 @@
 import { Connection, createConnection, getConnectionOptions } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { BookmarkEntity, Session, UserEntity } from "./entities";
 
 export const createDBConnection = async (
 	name?: string
