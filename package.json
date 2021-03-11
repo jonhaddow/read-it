@@ -13,7 +13,11 @@
 		"build:client": "webpack --env=production",
 		"build:server": "npx tsc --build ./src/server/tsconfig.json",
 		"start:server": "node dist/server/index.js",
-		"test": "jest"
+		"test": "jest",
+		"typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+		"typeorm:generate": "node --require ts-node/register ./node_modules/typeorm/cli.js migration:generate -o -n ",
+		"typeorm:run": "node --require ts-node/register ./node_modules/typeorm/cli.js migration:run",
+		"typeorm:revert": "node --require ts-node/register ./node_modules/typeorm/cli.js migration:revert"
 	},
 	"repository": {
 		"type": "git",

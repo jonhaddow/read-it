@@ -12,14 +12,6 @@ export const createDBConnection = async (
 
 	return createConnection({
 		...connectionOptions,
-		type: "postgres",
-		entities: [BookmarkEntity, Session, UserEntity],
-		logging: ["warn", "error"],
 		database: dbName,
-		synchronize: true,
-		migrations: ["src/server/migration/*.js"],
-		cli: {
-			migrationsDir: "src/server/migration",
-		},
 	});
 };
