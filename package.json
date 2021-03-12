@@ -11,7 +11,7 @@
 		"dev:server": "nodemon ./src/server/index.ts",
 		"dev": "concurrently \"npm:dev:client\" \"npm:dev:server\" -c green,blue",
 		"build:client": "webpack --env=production",
-		"build:server": "npx tsc --build ./src/server/tsconfig.json",
+		"build:server": "tsc --build ./src/server/tsconfig.json",
 		"start:server": "node dist/server/index.js",
 		"test": "jest",
 		"typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
