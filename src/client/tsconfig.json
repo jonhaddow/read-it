@@ -4,12 +4,16 @@
 		/* Visit https://aka.ms/tsconfig.json to read more about this file */
 
 		/* Basic Options */
-		"target": "esNext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
+		"target": "es6" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
+
+		"module": "ESNext",
+		"moduleResolution": "node",
 
 		"jsx": "react",
 
 		"lib": [
 			"webworker" // needed for use of service workers
 		]
-	}
+	},
+	"include": [".", "../core"]
 }
