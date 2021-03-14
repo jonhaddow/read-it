@@ -2,7 +2,7 @@
 	"name": "read-it",
 	"version": "1.0.0",
 	"description": "Store links from across the web",
-	"main": "dist/app.js",
+	"main": "dist/client/index.ts",
 	"engines": {
 		"node": "14.x"
 	},
