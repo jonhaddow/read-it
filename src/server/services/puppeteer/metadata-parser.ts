@@ -1,4 +1,4 @@
-import { ElementHandle, Page } from "puppeteer";
+import { ElementHandle, EvaluateFn, Page } from "puppeteer";
 import readingTime from "reading-time";
 
 type MetadataType = "title" | "description" | "thumbnail";
@@ -76,7 +76,9 @@ export const estimateReadingTime = async (
 	let results: number | undefined = undefined;
 	const body = (await page.$("body")) as ElementHandle<HTMLElement>;
 	if (body) {
-		const text = await body.evaluate((b) => b.innerText);
+		const text = await body.evaluate<EvaluateFn<HTMLElement>>(
+			(b) => b.innerText
+		);
 		results = readingTime(text).minutes;
 	}
 
