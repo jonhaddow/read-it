@@ -1,5 +1,5 @@
 import { IMetadataStrategy, MetadataProps } from ".";
-import snoowrap, { SnoowrapOptions } from "snoowrap";
+import snoowrap from "snoowrap";
 import {
 	estimateReadingTime,
 	findMetadata,

@@ -10,6 +10,10 @@ export interface AuthContextValue {
 	user?: User | null;
 }
 
+export const authContext = createContext<AuthContextValue | undefined>(
+	undefined
+);
+
 export const ProvideAuth: React.FC = ({ children }) => {
 	const [user, setUser] = useState<User | null>();
 
@@ -35,7 +39,3 @@ export const ProvideAuth: React.FC = ({ children }) => {
 		</authContext.Provider>
 	);
 };
-
-export const authContext = createContext<AuthContextValue | undefined>(
-	undefined
-);
