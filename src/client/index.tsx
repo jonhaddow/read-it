@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 import { App } from "./App";
 import { ProvideAuth } from "./services";
 
+import "./index.css";
+
 ReactDOM.render(
 	<ProvideAuth>
 		<App />
