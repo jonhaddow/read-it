@@ -1,10 +1,11 @@
 import { useBookmarks } from "client/hooks";
 import React from "react";
+import { StateMessage } from ".";
 
 export const BookmarkList: React.FC = () => {
 	const { data, isLoading } = useBookmarks();
 
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading) return <StateMessage>Loading...</StateMessage>;
 
 	return (
 		<>
@@ -19,7 +20,7 @@ export const BookmarkList: React.FC = () => {
 					))}
 				</ul>
 			) : (
-				<p>No bookmarks</p>
+				<StateMessage>No bookmarks</StateMessage>
 			)}
 		</>
 	);

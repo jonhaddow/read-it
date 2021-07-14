@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { ResultSet } from "server/interfaces";
 import { string } from "yup";
+import { Label, Title } from ".";
+import { FormGroup } from "./FormGroup";
 
 export const BookmarkEditor: React.FC = () => {
 	const [title, setTitle] = useState<string>("");
@@ -32,6 +34,7 @@ export const BookmarkEditor: React.FC = () => {
 
 	return (
 		<form
+			className="max-w-sm m-auto p-6 shadow-md"
 			onSubmit={async (e) => {
 				e.preventDefault();
 				const response = await mutateAsync({ url, title });
@@ -44,23 +47,32 @@ export const BookmarkEditor: React.FC = () => {
 				);
 			}}
 		>
-			<label htmlFor="url">Url:</label>
-			<input
-				id="url"
-				name="url"
-				type="url"
-				value={url}
-				onChange={(e) => setUrl(e.target.value)}
-			/>
-			<label htmlFor="title">Title:</label>
-			<span>(optional)</span>
-			<input
-				id="title"
-				name="title"
-				type="text"
-				value={title}
-				onChange={(e) => setTitle(e.target.value)}
-			/>
+			<Title as="h1" className="pb-3">
+				Add bookmark
+			</Title>
+			<FormGroup>
+				<Label htmlFor="url">Url</Label>
+				<input
+					id="url"
+					className="border-gray-500 border rounded"
+					name="url"
+					type="url"
+					value={url}
+					onChange={(e) => setUrl(e.target.value)}
+				/>
+			</FormGroup>
+			<FormGroup>
+				<Label htmlFor="title">Title</Label>
+				<span className="text-xs text-gray-700">(optional)</span>
+				<input
+					id="title"
+					className="border-gray-500 border rounded"
+					name="title"
+					type="text"
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+				/>
+			</FormGroup>
 			{!isValid && <p>Invalid</p>}
 			<button disabled={!isValid} type="submit">
 				Save
