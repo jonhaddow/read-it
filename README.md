@@ -2,6 +2,11 @@
 
 Store links from across the web
 
+# Prerequites
+
+- Install Node v12+
+- Install Postgres
+
 ## Local Development
 
 Run `npm install`
