@@ -1,21 +1,22 @@
 import { Api } from "client/services";
 import { Bookmark } from "core/models";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { ResultSet } from "server/interfaces";
-import { string } from "yup";
-import { Label, Title } from ".";
 import { FormGroup } from "./FormGroup";
 
-export const BookmarkEditor: React.FC = () => {
-	const [title, setTitle] = useState<string>("");
-	const [url, setUrl] = useState<string>("");
+interface BookmarkEditorProps {
+	onSave: () => void;
+}
 
-	const [isValid, setIsValid] = useState<boolean>(false);
+export const BookmarkEditor = ({
+	onSave,
+}: BookmarkEditorProps): ReactElement => {
+	const [url, setUrl] = useState<string>("");
 
 	const queryClient = useQueryClient();
 
-	const { mutateAsync, isSuccess, isLoading, isError } = useMutation(
+	const { mutateAsync, isLoading } = useMutation(
 		async (createBookmarkModel: { url: string; title?: string }) => {
 			const response = await Api.post("/api/bookmarks", {
 				url: createBookmarkModel.url,
@@ -28,16 +29,12 @@ export const BookmarkEditor: React.FC = () => {
 		}
 	);
 
-	React.useEffect(() => {
-		setIsValid(() => string().required().url().isValidSync(url));
-	}, [url]);
-
 	return (
 		<form
-			className="max-w-sm m-auto p-6 shadow-md"
+			className="max-w-sm m-auto p-6"
 			onSubmit={async (e) => {
 				e.preventDefault();
-				const response = await mutateAsync({ url, title });
+				const response = await mutateAsync({ url });
 				const data = (await response.json()) as Bookmark;
 				queryClient.setQueryData<ResultSet<Bookmark>>(
 					"bookmarks",
@@ -45,47 +42,39 @@ export const BookmarkEditor: React.FC = () => {
 						results: [data, ...(bookmarks?.results ?? [])],
 					})
 				);
+				onSave();
 			}}
 		>
-			<Title as="h1" className="pb-3">
-				Add bookmark
-			</Title>
 			<FormGroup>
-				<Label htmlFor="url">Url</Label>
+				<label
+					htmlFor="url"
+					className="block text-sm text-gray-800 py-2 px-2 uppercase tracking-wider leading-3"
+				>
+					Add a link
+				</label>
 				<input
 					id="url"
-					className="border-gray-500 border rounded"
+					className="border-gray-500 border px-4 py-2 w-72 rounded-2xl focus:shadow-md outline-none"
 					name="url"
 					type="url"
+					placeholder="https://"
 					value={url}
-					onChange={(e) => setUrl(e.target.value)}
+					onChange={(e) => {
+						setUrl(e.target.value);
+					}}
 				/>
 			</FormGroup>
-			<FormGroup>
-				<Label htmlFor="title">Title</Label>
-				<span className="text-xs text-gray-700">(optional)</span>
-				<input
-					id="title"
-					className="border-gray-500 border rounded"
-					name="title"
-					type="text"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-				/>
-			</FormGroup>
-			{!isValid && <p>Invalid</p>}
-			<button disabled={!isValid} type="submit">
-				Save
+			<button
+				disabled={!url}
+				className={`${
+					url && !isLoading
+						? "text-gray-700 hover:bg-blue-300"
+						: "text-gray-400 cursor-default"
+				} focus:border-black outline-none bg-blue-100  py-2 px-3 rounded-lg`}
+				type="submit"
+			>
+				Create
 			</button>
-			<p>
-				{isLoading
-					? "Saving..."
-					: isSuccess
-					? "Saved!"
-					: isError
-					? "Failed"
-					: ""}
-			</p>
 		</form>
 	);
 };

@@ -5,5 +5,5 @@ interface FormGroupProps {
 }
 
 export const FormGroup = ({ children }: FormGroupProps): React.ReactElement => {
-	return <div className="block mb-5 pb-5 border-b">{children}</div>;
+	return <div className="block mb-5 pb-5">{children}</div>;
 };
