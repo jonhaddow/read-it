@@ -11,7 +11,7 @@ export const Dashboard: React.FC = () => {
 					Bookmarks
 				</Title>
 				<button
-					className="rounded-lg bg-blue-100 hover:bg-blue-300 transition-colors px-2 py-1 mr-4 focus:outline-black"
+					className="rounded-lg bg-primary-100 hover:bg-primary-300 transition-colors px-2 py-1 mr-4 focus:outline-black"
 					onClick={() => setIsOpen(true)}
 				>
 					Create bookmark
