@@ -5,7 +5,7 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { ESBuildMinifyPlugin } = require("esbuild-loader");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = ({ production }) => {
 	const plugins = [
@@ -56,10 +56,14 @@ module.exports = ({ production }) => {
 					test: /\.tsx?$/,
 					exclude: /(node_modules|bower_components)/,
 					use: {
-						loader: "esbuild-loader",
+						loader: "babel-loader",
 						options: {
-							loader: "tsx",
-							target: "esnext",
+							cacheDirectory: true,
+							presets: [
+								"@babel/preset-env",
+								"@babel/preset-react",
+								"@babel/preset-typescript",
+							],
 						},
 					},
 				},
@@ -96,12 +100,7 @@ module.exports = ({ production }) => {
 		},
 		plugins,
 		optimization: {
-			minimizer: [
-				new ESBuildMinifyPlugin({
-					target: "esnext",
-					css: true, // Apply minification to CSS assets
-				}),
-			],
+			minimizer: [`...`, new CssMinimizerPlugin()],
 		},
 	};
 };
