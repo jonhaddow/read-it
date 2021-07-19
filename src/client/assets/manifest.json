@@ -18,7 +18,7 @@
 	"scope": "/",
 	"display": "standalone",
 	"theme_color": "#333333",
-	"description": "Save bookmarks across the web",
+	"description": "Store links from across the web.",
 	"share_target": {
 		"action": "/create-bookmark",
 		"method": "GET",
