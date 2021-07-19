@@ -34,7 +34,7 @@ export const Modal = ({
 				role="dialog"
 				aria-labelledby="dialog_label"
 				aria-modal="true"
-				className="p-6 bg-white relative shadow-lg"
+				className="p-6 bg-white relative shadow-lg rounded-md"
 			>
 				{title && (
 					<h2 id="dialog_label" className="hidden">

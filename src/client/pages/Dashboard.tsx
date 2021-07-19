@@ -5,8 +5,8 @@ export const Dashboard: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
-		<div className="m-auto max-w-screen-md my-4">
-			<header className="flex mb-6 items-center">
+		<div className="m-auto max-w-screen-md my-4 p-4">
+			<header className="flex flex-wrap mb-6 items-center">
 				<Title className="flex-grow" as="h1">
 					Bookmarks
 				</Title>
