@@ -10,12 +10,24 @@ import { Link, useLocation } from "react-router-dom";
 export const CreateBookmark: React.FC = () => {
 	const { search } = useLocation();
 
-	// The following params will be used to pick up the URL.
-	const textParam = new URLSearchParams(search).get("text");
-	const urlParam = new URLSearchParams(search).get("url");
+	// There are some defined params which should be passed by the share mechanism.
+	// https://web.dev/web-share-target/
 
-	// `url` would be priority, however some platforms (Android) will populate the `text` params.
-	const url = urlParam ?? textParam ?? undefined;
+	// `url` would be priority so check that first
+	const urlParam = new URLSearchParams(search).get("url");
+	let url = urlParam;
+
+	if (!url) {
+		// however some platforms (Android) will populate the `text` params with a combination of title and URL instead.
+		// We just need to extract the URL part to save the bookmark.
+		const textParam = new URLSearchParams(search).get("text");
+		if (textParam) {
+			const result = /(https?:\/\/[^\s]+)/g.exec(textParam);
+			if (result?.length) {
+				url = result[0];
+			}
+		}
+	}
 
 	const { mutateAsync, isSuccess, isLoading } = useMutation((url: string) => {
 		return Api.post("/api/bookmarks", { url });
@@ -28,7 +40,7 @@ export const CreateBookmark: React.FC = () => {
 				<p>Saving...</p>
 			) : isSuccess ? (
 				<p>Saved!</p>
-			) : url === undefined ? (
+			) : url === undefined || url === null ? (
 				<p>Failed to detect URL</p>
 			) : (
 				<>
@@ -39,7 +51,7 @@ export const CreateBookmark: React.FC = () => {
 						type="submit"
 						onClick={async (e) => {
 							e.preventDefault();
-							await mutateAsync(url);
+							if (url) await mutateAsync(url);
 						}}
 					>
 						Save Bookmark
