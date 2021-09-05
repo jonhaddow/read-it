@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Login, Dashboard, CreateBookmark } from "./pages";
 import {
 	BrowserRouter as Router,
@@ -14,18 +14,17 @@ const queryClient = new QueryClient();
 export const App: React.FC = () => {
 	const auth = useAuth();
 
+	useEffect(() => {
+		// Check that service workers are supported before registering
+		if ("serviceWorker" in navigator && PRODUCTION) {
+			void navigator.serviceWorker.register("/worker.js"); // Same name as webpack bundle
+		}
+	}, []);
+
 	// If auth is null (still fetching data)
 	// then show loading indicator.
 	if (!auth) {
 		return <>Loading...</>;
-	}
-
-	// Check that service workers are supported
-	if ("serviceWorker" in navigator && PRODUCTION) {
-		// Use the window load event to keep the page load performant
-		window.addEventListener("load", () => {
-			void navigator.serviceWorker.register("/service-worker.js");
-		});
 	}
 
 	return (
