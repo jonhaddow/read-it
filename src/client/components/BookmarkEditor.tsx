@@ -31,7 +31,7 @@ export const BookmarkEditor = ({
 
 	return (
 		<form
-			className="max-w-sm m-auto p-6"
+			className="p-6 m-auto max-w-sm"
 			onSubmit={async (e) => {
 				e.preventDefault();
 				const response = await mutateAsync({ url });
@@ -48,13 +48,13 @@ export const BookmarkEditor = ({
 			<FormGroup>
 				<label
 					htmlFor="url"
-					className="block text-sm text-gray-800 py-2 px-2 uppercase tracking-wider leading-3"
+					className="block py-2 px-2 text-sm tracking-wider leading-3 text-gray-800 uppercase"
 				>
 					Add a link
 				</label>
 				<input
 					id="url"
-					className="border-gray-500 border px-4 py-2 w-72 rounded-2xl focus:shadow-md outline-none"
+					className="py-2 px-4 w-72 rounded-2xl border border-gray-500 focus:shadow-md outline-none"
 					name="url"
 					type="url"
 					placeholder="https://"

@@ -5,13 +5,13 @@ export const Dashboard: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
 	return (
-		<div className="m-auto max-w-screen-md my-4 p-4">
-			<header className="flex flex-wrap mb-6 items-center">
+		<div className="p-4 m-auto my-4 max-w-screen-md">
+			<header className="flex flex-wrap items-center mb-6">
 				<Title className="flex-grow" as="h1">
 					Bookmarks
 				</Title>
 				<button
-					className="rounded-lg bg-primary-100 hover:bg-primary-300 transition-colors px-2 py-1 mr-4 focus:outline-black"
+					className="py-1 px-2 mr-4 bg-primary-100 hover:bg-primary-300 rounded-lg transition-colors focus:outline-black"
 					onClick={() => setIsOpen(true)}
 				>
 					Create bookmark

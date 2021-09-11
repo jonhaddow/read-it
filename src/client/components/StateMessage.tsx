@@ -5,5 +5,5 @@ interface StateMessageProps {
 }
 
 export const StateMessage = (props: StateMessageProps): React.ReactElement => {
-	return <p className="text-center text-gray-700 text-lg">{props.children}</p>;
+	return <p className="text-lg text-center text-gray-700">{props.children}</p>;
 };

@@ -12,14 +12,14 @@ export const Login: React.FC = () => {
 
 	return (
 		<div className="flex justify-center items-center h-screen">
-			<div className="shadow-xl p-4">
-				<h1 className="font-bold text-lg mb-4 text-center">
+			<div className="p-4 shadow-xl">
+				<h1 className="mb-4 text-lg font-bold text-center">
 					<span role="img" aria-label="alligator">
 						🐊
 					</span>{" "}
 					Alligator
 				</h1>
-				<p className="text-sm font-light text-center mb-4">
+				<p className="mb-4 text-sm font-light text-center">
 					Save links from across the web.
 				</p>
 				<ul>

@@ -36,13 +36,13 @@ export function BookmarkListItem({
 	const minutes = minuteEstimate ? Math.ceil(minuteEstimate) : 1;
 
 	return (
-		<li className="py-4 px-2 border-b-2 flex items-center overflow-hidden hover:bg-gray-50">
-			<a href={url} className="p-2 flex flex-col group">
-				<h3 className="font-bold mb-1 text-gray-700 flex items-center">
+		<li className="flex overflow-hidden items-center py-4 px-2 hover:bg-gray-50 border-b-2">
+			<a href={url} className="group flex flex-col p-2">
+				<h3 className="flex items-center mb-1 font-bold text-gray-700">
 					{title}{" "}
-					<FaExternalLinkAlt className="ml-2 opacity-0 text-gray-600 group-hover:opacity-100" />
+					<FaExternalLinkAlt className="ml-2 text-gray-600 opacity-0 group-hover:opacity-100" />
 				</h3>
-				<span className="text-sm text-gray-500 font-semibold">
+				<span className="text-sm font-semibold text-gray-500">
 					{shortUrl} - {createdFromNow} - {minutes} minute
 					{minutes > 1 ? "s" : ""}
 				</span>
@@ -61,7 +61,7 @@ export function BookmarkListItem({
 			</button>
 			{thumbnailUrl && (
 				<img
-					className="object-cover object-center border-r-2 w-14 h-14"
+					className="object-cover object-center w-14 h-14 border-r-2"
 					src={thumbnailUrl}
 					alt=""
 				/>
