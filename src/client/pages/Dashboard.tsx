@@ -1,5 +1,7 @@
 import { BookmarkEditor, BookmarkList, Modal, Title } from "client/components";
 import React, { useState } from "react";
+import { FiLogOut } from "react-icons/fi";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export const Dashboard: React.FC = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,13 +13,15 @@ export const Dashboard: React.FC = () => {
 					Bookmarks
 				</Title>
 				<button
-					className="py-1 px-2 mr-4 bg-primary-100 hover:bg-primary-300 rounded-lg transition-colors focus:outline-black"
+					className="flex items-center py-1 px-2 mr-4 text-sm text-gray-600 hover:text-black focus:outline-none"
 					onClick={() => setIsOpen(true)}
 				>
+					<AiOutlinePlus className="inline mr-1" />
 					Create bookmark
 				</button>
 				<a className="text-sm hover:underline" href={`${API_URL}/api/logout`}>
-					Log out
+					<FiLogOut size={24} />
+					<span className="sr-only">Log out</span>
 				</a>
 			</header>
 			<BookmarkList />

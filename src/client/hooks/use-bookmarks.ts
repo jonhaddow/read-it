@@ -4,11 +4,17 @@ import { useQuery, UseQueryResult } from "react-query";
 import { ResultSet } from "server/interfaces";
 
 export const useBookmarks = (): UseQueryResult<ResultSet<Bookmark>> => {
-	return useQuery("bookmarks", async () => {
-		const response = await Api.get("/api/bookmarks");
-		if (!response.ok) {
-			throw new Error("Network request failed.");
+	return useQuery(
+		"bookmarks",
+		async () => {
+			const response = await Api.get("/api/bookmarks");
+			if (!response.ok) {
+				throw new Error("Network request failed.");
+			}
+			return (await response.json()) as ResultSet<Bookmark>;
+		},
+		{
+			refetchInterval: 3000,
 		}
-		return (await response.json()) as ResultSet<Bookmark>;
-	});
+	);
 };
