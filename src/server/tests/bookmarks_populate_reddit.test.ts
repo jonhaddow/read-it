@@ -2,7 +2,6 @@ import path from "path";
 import { SuperAgentTest } from "supertest";
 import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
-import { populateBookmark } from "../subscribers/populateBookmark";
 import { Submission } from "snoowrap";
 
 // Mocking the reddit API response.
@@ -45,16 +44,15 @@ describe("bookmarks_populate_reddit", () => {
 				const response = await agent.post("/api/bookmarks").send({
 					url: x,
 				});
-				bookmark = response.body;
 
-				// We are manually triggering the event (which would be triggered
-				// automatically within the app) so that Jest is aware of the task
-				// itself and can await it before ending the test.
-				await populateBookmark(bookmark);
+				expect(response.status).toBe(201);
+
+				bookmark = response.body;
 			});
 
 			it("should have the correct details", async () => {
 				if (!bookmark.id) throw new Error("Bookmark should have an ID.");
+
 				const response = await agent.get(`/api/bookmarks/${bookmark.id}`);
 				bookmark = response.body as Bookmark;
 

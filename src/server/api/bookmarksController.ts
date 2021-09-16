@@ -6,7 +6,6 @@ import {
 	getBookmark,
 	getBookmarks,
 	updateBookmark,
-	validateBookmark,
 } from "../services";
 
 export const bookmarksRouter = Router();
@@ -55,15 +54,15 @@ bookmarksRouter.post(
 		try {
 			const bookmark = req.body as Bookmark;
 
-			const validateResult = validateBookmark(bookmark);
-			if (validateResult.error) {
-				res.status(400).send(validateResult.error);
+			const user = req.user as User;
+			const response = await addBookmark(user, bookmark);
+
+			if (!response.isSuccess()) {
+				res.status(response.status).send(response.error);
 				return;
 			}
 
-			const user = req.user as User;
-			const response = await addBookmark(user, req.body);
-			res.status(201).json(response);
+			res.status(response.status).json(response.body);
 		} catch (ex) {
 			console.error(ex);
 			res.status(500).send("Failed to add bookmark");
@@ -83,11 +82,6 @@ bookmarksRouter.put(
 
 			const bookmark = req.body as Bookmark;
 			bookmark.id = id;
-			const validateResult = validateBookmark(bookmark);
-			if (validateResult.error) {
-				res.status(400).send(validateResult.error);
-				return;
-			}
 
 			const user = req.user as User;
 
@@ -99,7 +93,13 @@ bookmarksRouter.put(
 			}
 
 			const updatedBookmark = await updateBookmark(user, bookmark);
-			res.json(updatedBookmark);
+
+			if (!updatedBookmark.isSuccess()) {
+				res.status(updatedBookmark.status).send(updatedBookmark.error);
+				return;
+			}
+
+			res.json(updatedBookmark.body);
 		} catch (ex) {
 			console.error(ex);
 			res.status(500).send("Failed to update bookmark");

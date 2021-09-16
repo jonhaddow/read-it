@@ -1,10 +1,6 @@
-import { IMetadataStrategy, MetadataProps } from ".";
+import { AdvancedMetadataProps, IMetadataStrategy, MetadataProps } from ".";
 import snoowrap from "snoowrap";
-import {
-	estimateReadingTime,
-	findMetadata,
-	openWebpage,
-} from "../../services/puppeteer";
+import { estimateReadingTime, openWebpage } from "../../services/puppeteer";
 import { Bookmark } from "core/models";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
@@ -63,18 +59,25 @@ export class RedditStrategy implements IMetadataStrategy {
 
 				if (url) {
 					metadata.targetURL = url;
-
-					const page = await openWebpage(url);
-					if (!page) return;
-					metadata.minuteEstimate = await estimateReadingTime(page);
-					metadata.description = await findMetadata("description", page);
-					metadata.thumbnailUrl =
-						metadata.thumbnailUrl || (await findMetadata("thumbnail", page));
 				} else {
 					metadata.description = selftext;
 				}
 			});
 
 		return metadata;
+	}
+
+	async getAdvancedMetadata(
+		bookmark: Bookmark
+	): Promise<AdvancedMetadataProps> {
+		let minuteEstimate: number | undefined = undefined;
+		if (bookmark.targetURL) {
+			const page = await openWebpage(bookmark.targetURL);
+			if (page) minuteEstimate = await estimateReadingTime(page);
+		}
+
+		return {
+			minuteEstimate,
+		};
 	}
 }

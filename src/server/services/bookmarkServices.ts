@@ -1,9 +1,10 @@
-import { BookmarkEntity } from "../entities";
-import { ResultSet } from "../interfaces";
+import { BookmarkEntity, BookmarkState } from "../entities";
+import { ResultSet, Response } from "../interfaces";
 import { getRepository } from "typeorm";
 import { getEmitter } from "../events";
 import { Bookmark, User } from "core/models";
 import { isWebUri } from "valid-url";
+import { populateBookmark } from "./populateBookmark";
 
 export const getBookmarks = async (
 	user: User
@@ -27,40 +28,58 @@ export const getBookmark = async (
 export const addBookmark = async (
 	user: User,
 	bookmark: Bookmark
-): Promise<Bookmark> => {
+): Promise<Response<Bookmark>> => {
+	const validateResult = validateBookmark(bookmark);
+
+	if (!validateResult.isSuccess) {
+		return Response.FromResponse<Bookmark>(validateResult);
+	}
+
 	bookmark.user = user;
+	bookmark.state = BookmarkState.CREATED;
+
+	await populateBookmark(bookmark);
 
 	bookmark = await getRepository(BookmarkEntity).save(bookmark);
 
 	getEmitter().emit("addBookmark", bookmark);
 
-	return bookmark;
+	return Response.Create(bookmark);
 };
 
 export const updateBookmark = async (
 	user: User,
 	bookmark: Bookmark
-): Promise<Bookmark> => {
+): Promise<Response<Bookmark>> => {
+	const validateResult = validateBookmark(bookmark);
+
+	if (!validateResult.isSuccess) {
+		return Response.FromResponse<Bookmark>(validateResult);
+	}
+
 	bookmark.user = user;
+
+	await populateBookmark(bookmark);
 
 	bookmark = await getRepository(BookmarkEntity).save(bookmark);
 
 	getEmitter().emit("updateBookmark", bookmark);
 
-	return bookmark;
+	return Response.Ok(bookmark);
 };
 
 export const deleteBookmark = async (user: User, id: number): Promise<void> => {
 	await getRepository(BookmarkEntity).delete({ id, user });
 };
 
-export const validateBookmark = (bookmark: Bookmark): { error?: string } => {
+function validateBookmark(bookmark: Bookmark): Response {
 	if (bookmark.url) {
 		if (isWebUri(bookmark.url) === undefined) {
-			return { error: "Bookmark URL invalid" };
+			return Response.BadRequest("Bookmark URL invalid");
 		}
 	} else {
-		return { error: "Bookmark URL required" };
+		return Response.BadRequest("Bookmark URL required");
 	}
-	return {};
-};
+
+	return Response.Ok();
+}

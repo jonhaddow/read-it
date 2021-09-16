@@ -45,7 +45,7 @@ const handleIdentity = async (
 			done(undefined, user);
 		}
 	} catch (ex) {
-		done(ex);
+		done(ex as string);
 	}
 };
 

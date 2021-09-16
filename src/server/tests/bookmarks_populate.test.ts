@@ -2,7 +2,6 @@ import path from "path";
 import { SuperAgentTest } from "supertest";
 import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
-import { populateBookmark } from "../subscribers/populateBookmark";
 
 describe("populate_bookmarks", () => {
 	let bookmark: Bookmark;
@@ -24,11 +23,6 @@ describe("populate_bookmarks", () => {
 			url: "https://www.eff.org",
 		});
 		bookmark = response.body;
-
-		// We are manually triggering the event (which would be triggered
-		// automatically within the app) so that Jest is aware of the task
-		// itself and can await it before ending the test.
-		await populateBookmark(bookmark);
 	});
 
 	it("should have the correct details", async () => {

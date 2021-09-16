@@ -46,7 +46,9 @@ export function BookmarkListItem({
 	dayjs.extend(relativeTime);
 	const createdFromNow = dayjs(dateCreated).fromNow();
 
-	const minutes = minuteEstimate ? Math.ceil(minuteEstimate) : 1;
+	const minutes = minuteEstimate ? Math.ceil(minuteEstimate) : undefined;
+	const minuteWrapper =
+		minutes !== undefined ? `${minutes} minute${minutes > 1 ? "s" : ""}` : null;
 
 	return (
 		<li className="group flex overflow-hidden items-center py-4 px-2 hover:bg-gray-50 border-b-2">
@@ -59,8 +61,11 @@ export function BookmarkListItem({
 							{title}
 						</h3>
 						<span className="text-sm font-semibold text-gray-500">
-							{shortUrl} - {createdFromNow} - {minutes} minute
-							{minutes > 1 ? "s" : ""}
+							{([shortUrl, createdFromNow, minuteWrapper].filter(
+								Boolean
+							) as string[]).reduce((prev, curr) =>
+								curr ? `${prev} - ${curr}` : prev
+							)}
 						</span>
 					</div>
 					<div className=" flex flex-1 gap-4 justify-start items-center">

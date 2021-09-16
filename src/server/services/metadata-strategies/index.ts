@@ -4,13 +4,10 @@ import { RedditStrategy } from "./reddit";
 
 export type MetadataProps = Pick<
 	Bookmark,
-	| "title"
-	| "description"
-	| "minuteEstimate"
-	| "specialType"
-	| "targetURL"
-	| "thumbnailUrl"
+	"title" | "description" | "specialType" | "targetURL" | "thumbnailUrl"
 >;
+
+export type AdvancedMetadataProps = Pick<Bookmark, "minuteEstimate">;
 
 export interface IMetadataStrategy {
 	/**
@@ -22,6 +19,13 @@ export interface IMetadataStrategy {
 	 * Gets the provided bookmarks metadata and updates the bookmark
 	 */
 	getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps>;
+
+	/**
+	 * Gets the provided bookmarks advanced metadata and updates the bookmark
+	 */
+	getAdvancedMetadata(
+		bookmark: Readonly<Bookmark>
+	): Promise<AdvancedMetadataProps>;
 }
 
 export const getStrategies = (): IMetadataStrategy[] => [new RedditStrategy()];
