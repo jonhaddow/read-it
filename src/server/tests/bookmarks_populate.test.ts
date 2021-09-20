@@ -2,6 +2,16 @@ import path from "path";
 import { SuperAgentTest } from "supertest";
 import { Bookmark } from "core/models";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
+import fs from "fs";
+
+const mockHtml = fs.readFileSync(__dirname + "/eff.html");
+
+// Mocking the fetch API response.
+jest.mock("node-fetch", () =>
+	jest.fn().mockImplementation(() => ({
+		text: jest.fn().mockResolvedValue(mockHtml),
+	}))
+);
 
 describe("populate_bookmarks", () => {
 	let bookmark: Bookmark;

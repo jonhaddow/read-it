@@ -106,6 +106,6 @@ describe("bookmarks_multiple_users", () => {
 			title: "customTitle",
 		});
 
-		expect(response.status).toBe(403);
+		expect(response.status).toBe(404);
 	});
 });

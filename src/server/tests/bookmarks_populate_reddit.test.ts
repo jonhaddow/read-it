@@ -57,9 +57,6 @@ describe("bookmarks_populate_reddit", () => {
 				bookmark = response.body as Bookmark;
 
 				expect(bookmark.title).toEqual("Reddit Title");
-				expect(bookmark.description).toEqual(
-					"Defending your rights in the digital world"
-				);
 				expect(bookmark.thumbnailUrl).toEqual("https://thumbnail.test.com");
 				expect(bookmark.targetURL).toEqual("https://www.eff.org");
 				expect(bookmark.specialType).toEqual("reddit");

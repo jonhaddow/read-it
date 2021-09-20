@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-type MetadataType = "title" | "description" | "thumbnail";
+type MetadataType = "title" | "description" | "thumbnailUrl";
 interface ElementChecker {
 	selector: string;
 	extractor: (el: Element) => string | null | undefined;
@@ -36,7 +36,7 @@ const ELEMENT_MATCHERS: {
 			extractor: (el) => el.getAttribute("content"),
 		},
 	],
-	thumbnail: [
+	thumbnailUrl: [
 		{
 			selector: `meta[property="og:image"]`,
 			extractor: (el) => el.getAttribute("content"),
@@ -62,8 +62,6 @@ export const findMetadata = (
 			if (content) return content;
 		}
 	}
-
-	console.log(`Failed to find a suitable ${type}.`);
 };
 
 /**
@@ -79,6 +77,6 @@ export function findAllMetadata(
 	return {
 		title: findMetadata("title", dom),
 		description: findMetadata("description", dom),
-		thumbnail: findMetadata("thumbnail", dom),
+		thumbnailUrl: findMetadata("thumbnailUrl", dom),
 	};
 }
