@@ -86,26 +86,4 @@ describe("bookmarks_multiple_users", () => {
 
 		expect(response.status).toBe(404);
 	});
-
-	it("should allow bookmark 1 to be update by user 1", async () => {
-		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
-
-		const response = await user1.put(`/api/bookmarks/${bookmark.id}`).send({
-			...bookmark,
-			title: "customTitle",
-		});
-
-		expect(response.status).toBe(200);
-	});
-
-	it("should not allow bookmark 1 to be update by user 2", async () => {
-		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
-
-		const response = await user2.put(`/api/bookmarks/${bookmark.id}`).send({
-			...bookmark,
-			title: "customTitle",
-		});
-
-		expect(response.status).toBe(404);
-	});
 });

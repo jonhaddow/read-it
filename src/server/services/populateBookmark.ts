@@ -1,5 +1,3 @@
-import { BookmarkEntity } from "../entities";
-import { getRepository } from "typeorm";
 import { getDefaultStrategy, getStrategies } from "./metadata-strategies";
 import { Bookmark } from "core/models";
 

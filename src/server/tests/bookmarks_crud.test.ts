@@ -38,20 +38,6 @@ describe("bookmarks_crud", () => {
 		bookmark = response.body;
 	});
 
-	it("should allow a bookmark to be edited", async () => {
-		if (!bookmark.id) throw new Error("Bookmark should have an ID.");
-		const response = await agent.put(`/api/bookmarks/${bookmark.id}`).send({
-			...bookmark,
-			title: "customTitle",
-			description: "customDescription",
-		});
-
-		expect(response.status).toBe(200);
-
-		expect(response.body).toHaveProperty("title", "customTitle");
-		expect(response.body).toHaveProperty("description", "customDescription");
-	});
-
 	it("should return a list of bookmarks with 1 item", async () => {
 		const response = await agent.get("/api/bookmarks");
 

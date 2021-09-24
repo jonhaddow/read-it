@@ -47,5 +47,8 @@ describe("populate_bookmarks", () => {
 		expect(bookmark.thumbnailUrl).toEqual(
 			"https://www.eff.org/files/eff-og.png"
 		);
+		expect(bookmark.favicon).toEqual(
+			"https://www.eff.org/sites/all/themes/frontier/favicon.ico"
+		);
 	});
 });

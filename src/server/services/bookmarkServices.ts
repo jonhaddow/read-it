@@ -47,27 +47,6 @@ export const addBookmark = async (
 	return Response.Create(bookmark);
 };
 
-export const updateBookmark = async (
-	user: User,
-	bookmark: Bookmark
-): Promise<Response<Bookmark>> => {
-	const validateResult = validateBookmark(bookmark);
-
-	if (!validateResult.isSuccess) {
-		return Response.FromResponse<Bookmark>(validateResult);
-	}
-
-	bookmark.user = user;
-
-	await populateBookmark(bookmark);
-
-	bookmark = await getRepository(BookmarkEntity).save(bookmark);
-
-	getEmitter().emit("updateBookmark", bookmark);
-
-	return Response.Ok(bookmark);
-};
-
 export const deleteBookmark = async (user: User, id: number): Promise<void> => {
 	await getRepository(BookmarkEntity).delete({ id, user });
 };

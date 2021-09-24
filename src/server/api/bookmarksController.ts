@@ -5,7 +5,6 @@ import {
 	deleteBookmark,
 	getBookmark,
 	getBookmarks,
-	updateBookmark,
 } from "../services";
 
 export const bookmarksRouter = Router();
@@ -66,43 +65,6 @@ bookmarksRouter.post(
 		} catch (ex) {
 			console.error(ex);
 			res.status(500).send("Failed to add bookmark");
-		}
-	}
-);
-
-bookmarksRouter.put(
-	"/:id",
-	async (req, res): Promise<void> => {
-		try {
-			if (!req.params.id) {
-				res.status(400).send("Bookmark ID required");
-				return;
-			}
-			const id = parseInt(req.params.id);
-
-			const bookmark = req.body as Bookmark;
-			bookmark.id = id;
-
-			const user = req.user as User;
-
-			// Check the entity exists for the current user
-			const currentBookmark = await getBookmark(user, id);
-			if (!currentBookmark) {
-				res.status(404).end();
-				return;
-			}
-
-			const updatedBookmark = await updateBookmark(user, bookmark);
-
-			if (!updatedBookmark.isSuccess()) {
-				res.status(updatedBookmark.status).send(updatedBookmark.error);
-				return;
-			}
-
-			res.json(updatedBookmark.body);
-		} catch (ex) {
-			console.error(ex);
-			res.status(500).send("Failed to update bookmark");
 		}
 	}
 );
