@@ -8,7 +8,9 @@ import { Bookmark } from "core/models";
  * Various strategies may be used to handle particular links.
  * @param bookmark The bookmark to populate.
  */
-export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
+export const populateBookmark = async (
+	bookmark: Bookmark
+): Promise<Bookmark> => {
 	let strategy = getStrategies().find((x) => {
 		if (x.shouldProcess) {
 			return x.shouldProcess.call(this, bookmark);
@@ -20,25 +22,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 		strategy = getDefaultStrategy();
 	}
 
-	const {
-		title,
-		description,
-		specialType,
-		targetURL,
-		thumbnailUrl,
-		favicon,
-	} = await strategy.getMetadata(bookmark);
+	const metadataProps = await strategy.getMetadata(bookmark);
 
-	if (title) bookmark.title = title;
-	if (description) bookmark.description = description;
-	if (specialType) bookmark.specialType = specialType;
-	if (targetURL) bookmark.targetURL = targetURL;
-	if (thumbnailUrl) bookmark.thumbnailUrl = thumbnailUrl;
-	if (favicon) bookmark.favicon = favicon;
-
-	try {
-		await getRepository(BookmarkEntity).save(bookmark);
-	} catch (ex) {
-		console.error("Failed to populate bookmarks", ex);
-	}
+	return { ...bookmark, ...metadataProps };
 };

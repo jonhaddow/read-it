@@ -38,7 +38,7 @@ export const addBookmark = async (
 	bookmark.user = user;
 	bookmark.state = BookmarkState.CREATED;
 
-	await populateBookmark(bookmark);
+	bookmark = await populateBookmark(bookmark);
 
 	bookmark = await getRepository(BookmarkEntity).save(bookmark);
 
