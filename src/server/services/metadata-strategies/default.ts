@@ -15,7 +15,7 @@ export class DefaultStrategy implements IMetadataStrategy {
 			const response = await fetch(bookmark.url);
 			const html = await response.text();
 
-			return findAllMetadata(html);
+			return findAllMetadata(html, bookmark.url);
 		} catch (ex) {
 			console.error(`Failed to fetch html from url ${bookmark.url}`);
 			console.error(ex);

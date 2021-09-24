@@ -63,4 +63,9 @@ export interface Bookmark {
 	 * The user this bookmark belongs to.
 	 */
 	user: User;
+
+	/**
+	 * The URL of the favicon used by this site.
+	 */
+	favicon?: string;
 }

@@ -26,6 +26,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 		specialType,
 		targetURL,
 		thumbnailUrl,
+		favicon,
 	} = await strategy.getMetadata(bookmark);
 
 	if (title) bookmark.title = title;
@@ -33,6 +34,7 @@ export const populateBookmark = async (bookmark: Bookmark): Promise<void> => {
 	if (specialType) bookmark.specialType = specialType;
 	if (targetURL) bookmark.targetURL = targetURL;
 	if (thumbnailUrl) bookmark.thumbnailUrl = thumbnailUrl;
+	if (favicon) bookmark.favicon = favicon;
 
 	try {
 		await getRepository(BookmarkEntity).save(bookmark);

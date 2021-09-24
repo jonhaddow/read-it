@@ -7,14 +7,7 @@ import { FaExternalLinkAlt, FaLink } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { ResultSet } from "server/interfaces";
 
-export function BookmarkListItem({
-	id,
-	url,
-	title,
-	thumbnailUrl,
-	dateCreated,
-	minuteEstimate,
-}: Bookmark): ReactElement {
+export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 	const queryClient = useQueryClient();
 	const { mutateAsync, isLoading: isMutating } = useMutation(
 		async ({
@@ -31,22 +24,24 @@ export function BookmarkListItem({
 
 	async function onDelete(): Promise<void> {
 		// Delete the bookmark
-		await mutateAsync({ bookmarkId: id });
+		await mutateAsync({ bookmarkId: bookmark.id });
 
 		// Cancel pending fetches (as we will be optimistically updating state)
 		await queryClient.cancelQueries("bookmarks");
 
-		queryClient.setQueryData<ResultSet<Bookmark>>("bookmarks", (bookmark) => ({
-			results: bookmark?.results?.filter((x) => x?.id !== id) ?? [],
+		queryClient.setQueryData<ResultSet<Bookmark>>("bookmarks", (b) => ({
+			results: b?.results?.filter((x) => x?.id !== bookmark.id) ?? [],
 		}));
 	}
 
-	const shortUrl = new URL(url).hostname;
+	const baseUrl = new URL(bookmark.url).hostname;
 
 	dayjs.extend(relativeTime);
-	const createdFromNow = dayjs(dateCreated).fromNow();
+	const createdFromNow = dayjs(bookmark.dateCreated).fromNow();
 
-	const minutes = minuteEstimate ? Math.ceil(minuteEstimate) : undefined;
+	const minutes = bookmark.minuteEstimate
+		? Math.ceil(bookmark.minuteEstimate)
+		: undefined;
 	const minuteWrapper =
 		minutes !== undefined ? `${minutes} minute${minutes > 1 ? "s" : ""}` : null;
 
@@ -58,18 +53,25 @@ export function BookmarkListItem({
 				<>
 					<div className="group flex flex-col p-2">
 						<h3 className="flex items-center mb-1 font-bold text-gray-700">
-							{title}
+							{bookmark.title}
 						</h3>
-						<span className="text-sm font-semibold text-gray-500">
-							{([shortUrl, createdFromNow, minuteWrapper].filter(
-								Boolean
-							) as string[]).reduce((prev, curr) =>
-								curr ? `${prev} - ${curr}` : prev
-							)}
+						<span className="text-sm font-semibold text-gray-500 align-middle">
+							<img
+								className="inline mr-2 w-4 h-4"
+								src={bookmark.favicon}
+								alt=""
+							/>
+							{baseUrl} - {createdFromNow}
+							{minuteWrapper ? `- ${minuteWrapper}` : ""}
 						</span>
 					</div>
 					<div className=" flex flex-1 gap-4 justify-start items-center">
-						<a href={url} target="_blank" rel="noreferrer" className="">
+						<a
+							href={bookmark.url}
+							target="_blank"
+							rel="noreferrer"
+							className=""
+						>
 							<FaExternalLinkAlt className="ml-2 text-gray-600" />
 						</a>
 						<button
@@ -82,10 +84,10 @@ export function BookmarkListItem({
 					</div>
 
 					<div className="flex justify-center items-center w-14 h-14 border">
-						{thumbnailUrl ? (
+						{bookmark.thumbnailUrl ? (
 							<img
 								className="object-cover object-center border-r-2"
-								src={thumbnailUrl}
+								src={bookmark.thumbnailUrl}
 								alt=""
 							/>
 						) : (

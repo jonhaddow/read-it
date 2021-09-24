@@ -1,6 +1,11 @@
+import { Bookmark } from "core/models";
 import { JSDOM } from "jsdom";
 
-type MetadataType = "title" | "description" | "thumbnailUrl";
+type MetadataType = keyof Pick<
+	Bookmark,
+	"title" | "description" | "thumbnailUrl" | "favicon"
+>;
+
 interface ElementChecker {
 	selector: string;
 	extractor: (el: Element) => string | null | undefined;
@@ -46,6 +51,12 @@ const ELEMENT_MATCHERS: {
 			extractor: (el) => el.getAttribute("content"),
 		},
 	],
+	favicon: [
+		{
+			selector: `link[rel="icon"],link[rel="shortcut icon"]`,
+			extractor: (el) => el.getAttribute("href"),
+		},
+	],
 };
 
 /**
@@ -68,15 +79,28 @@ export const findMetadata = (
  * Finds metadata given a html string.
  */
 export function findAllMetadata(
-	html: string
+	html: string,
+	url: string
 ): {
 	[key in MetadataType]: string | undefined;
 } {
 	const dom = new JSDOM(html);
 
+	const title = findMetadata("title", dom);
+	const description = findMetadata("description", dom);
+	const thumbnailUrl = findMetadata("thumbnailUrl", dom);
+
+	let favicon = findMetadata("favicon", dom);
+	if (favicon?.startsWith("/")) {
+		favicon = `${new URL(url).origin}${favicon}`;
+	} else if (favicon == undefined) {
+		favicon = `${new URL(url).origin}/favicon.ico`;
+	}
+
 	return {
-		title: findMetadata("title", dom),
-		description: findMetadata("description", dom),
-		thumbnailUrl: findMetadata("thumbnailUrl", dom),
+		title,
+		description,
+		thumbnailUrl,
+		favicon,
 	};
 }

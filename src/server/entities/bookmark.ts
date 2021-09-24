@@ -52,6 +52,10 @@ export const BookmarkEntity = new EntitySchema<Bookmark>({
 			type: String,
 			nullable: true,
 		},
+		favicon: {
+			type: String,
+			nullable: true,
+		},
 	},
 	relations: {
 		user: {
