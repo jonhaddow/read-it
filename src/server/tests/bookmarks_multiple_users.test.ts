@@ -3,7 +3,17 @@ import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "core/models";
 import { stopTestServer, startTestServer, createSuperAgent } from "./utils";
+import fs from "fs";
 import { Express } from "express";
+
+const mockHtml = fs.readFileSync(__dirname + "/eff.html");
+
+// Mocking the fetch API response.
+jest.mock("node-fetch", () =>
+	jest.fn().mockImplementation(() => ({
+		text: jest.fn().mockResolvedValue(mockHtml),
+	}))
+);
 
 describe("bookmarks_multiple_users", () => {
 	let app: Express;

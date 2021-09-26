@@ -2,7 +2,17 @@ import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "core/models";
+import fs from "fs";
 import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
+
+const mockHtml = fs.readFileSync(__dirname + "/eff.html");
+
+// Mocking the fetch API response.
+jest.mock("node-fetch", () =>
+	jest.fn().mockImplementation(() => ({
+		text: jest.fn().mockResolvedValue(mockHtml),
+	}))
+);
 
 describe("bookmarks_crud", () => {
 	let agent: SuperAgentTest;
@@ -47,8 +57,11 @@ describe("bookmarks_crud", () => {
 		expect(resultSet.results).toHaveLength(1);
 
 		const bookmark = resultSet.results[0];
-		expect(bookmark).toHaveProperty("title", "customTitle");
-		expect(bookmark).toHaveProperty("description", "customDescription");
+		expect(bookmark).toHaveProperty("title", "Electronic Frontier Foundation");
+		expect(bookmark).toHaveProperty(
+			"description",
+			"Defending your rights in the digital world"
+		);
 	});
 
 	it("should allow a single bookmark to be retrieved", async () => {
@@ -57,8 +70,11 @@ describe("bookmarks_crud", () => {
 
 		expect(response.status).toBe(200);
 
-		expect(response.body).toHaveProperty("title", "customTitle");
-		expect(response.body).toHaveProperty("description", "customDescription");
+		expect(bookmark).toHaveProperty("title", "Electronic Frontier Foundation");
+		expect(bookmark).toHaveProperty(
+			"description",
+			"Defending your rights in the digital world"
+		);
 	});
 
 	it("should allow a bookmark to be removed", async () => {
