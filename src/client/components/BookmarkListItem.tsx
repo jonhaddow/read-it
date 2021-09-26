@@ -3,7 +3,7 @@ import { Bookmark } from "core/models";
 import { useMutation, useQueryClient } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { FaExternalLinkAlt, FaLink } from "react-icons/fa";
+import { FaLink } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { ResultSet } from "server/interfaces";
 
@@ -52,9 +52,20 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 			) : (
 				<>
 					<div className="group flex flex-col p-2">
-						<h3 className="flex items-center mb-1 font-bold text-gray-700">
-							{bookmark.title}
-						</h3>
+						<div className="mb-2">
+							<a
+								href={bookmark.url}
+								target="_blank"
+								rel="noreferrer"
+								className="items-center mb-1 w-auto font-bold text-gray-700"
+							>
+								{bookmark.title}
+							</a>
+							<span className="text-sm font-bold text-gray-500">
+								{minuteWrapper ? ` - ${minuteWrapper}` : ""}
+							</span>
+						</div>
+						<p className="mb-2 text-sm text-gray-600">{bookmark.description}</p>
 						<span className="text-sm font-semibold text-gray-500 align-middle">
 							<img
 								className="inline mr-2 w-4 h-4"
@@ -62,20 +73,11 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 								alt=""
 							/>
 							{baseUrl} - {createdFromNow}
-							{minuteWrapper ? `- ${minuteWrapper}` : ""}
 						</span>
 					</div>
-					<div className=" flex flex-1 gap-4 justify-start items-center">
-						<a
-							href={bookmark.url}
-							target="_blank"
-							rel="noreferrer"
-							className=""
-						>
-							<FaExternalLinkAlt className="ml-2 text-gray-600" />
-						</a>
+					<div className=" flex flex-1 gap-4 justify-end items-center">
 						<button
-							className="mr-2 text-gray-500 hover:text-red-400 transition-colors"
+							className="mr-4 text-gray-500 hover:text-red-400 transition-colors"
 							onClick={onDelete}
 						>
 							<MdDelete size={24} />
@@ -83,7 +85,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 						</button>
 					</div>
 
-					<div className="flex justify-center items-center w-14 h-14 border">
+					<div className="flex justify-center items-center w-32 h-24 border">
 						{bookmark.thumbnailUrl ? (
 							<img
 								className="object-cover object-center border-r-2"
