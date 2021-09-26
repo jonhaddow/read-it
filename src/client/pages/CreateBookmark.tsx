@@ -1,5 +1,5 @@
 import { Api } from "client/services";
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation } from "react-query";
 import { Link, useLocation } from "react-router-dom";
 
@@ -33,31 +33,35 @@ export const CreateBookmark: React.FC = () => {
 		return Api.post("/api/bookmarks", { url });
 	});
 
+	useEffect(() => {
+		if (url) {
+			void mutateAsync(url);
+		}
+	}, [mutateAsync, url]);
+
+	const statusText = (
+		<p className="text-lg font-bold">
+			{isLoading
+				? "Saving..."
+				: url === undefined || url === null
+				? "Failed to detect share URL"
+				: isSuccess
+				? "Saved bookmark!"
+				: "Failed to save bookmark"}
+		</p>
+	);
+
 	return (
-		<>
-			<Link to="/">Dashboard</Link>
-			{isLoading ? (
-				<p>Saving...</p>
-			) : isSuccess ? (
-				<p>Saved!</p>
-			) : url === undefined || url === null ? (
-				<p>Failed to detect URL</p>
-			) : (
-				<>
-					<p>
-						Save the following URL? <strong>{url}</strong>
-					</p>
-					<button
-						type="submit"
-						onClick={async (e) => {
-							e.preventDefault();
-							if (url) await mutateAsync(url);
-						}}
-					>
-						Save Bookmark
-					</button>
-				</>
+		<div className="flex flex-col justify-center items-center m-10">
+			{statusText}
+			{!isLoading && (
+				<Link
+					to="/"
+					className="p-2 m-5 hover:bg-gray-100 border border-gray-400 transition-colors"
+				>
+					View bookmarks
+				</Link>
 			)}
-		</>
+		</div>
 	);
 };
