@@ -12,18 +12,20 @@ import { Bookmark } from "core/models";
  * @param bookmark The bookmark to populate.
  */
 export const advancedMetadata = async (bookmark: Bookmark): Promise<void> => {
-	let strategy = getStrategies().find((x) => {
-		if (x.shouldProcess) {
-			return x.shouldProcess.call(this, bookmark);
-		}
-		return false;
-	});
+	const strategy = getStrategies().find((x) => x.shouldProcess(bookmark));
 
-	if (!strategy) {
-		strategy = getDefaultStrategy();
+	let minuteEstimate: number | undefined;
+	if (strategy) {
+		const metaDataProps = await strategy.getAdvancedMetadata(
+			bookmark.targetURL ?? bookmark.url
+		);
+		minuteEstimate = metaDataProps.minuteEstimate;
+	} else {
+		const defaultMetadataProps = await getDefaultStrategy().getAdvancedMetadata(
+			bookmark.targetURL ?? bookmark.url
+		);
+		minuteEstimate = defaultMetadataProps.minuteEstimate;
 	}
-
-	const { minuteEstimate } = await strategy.getAdvancedMetadata(bookmark);
 
 	if (minuteEstimate) bookmark.minuteEstimate = minuteEstimate;
 

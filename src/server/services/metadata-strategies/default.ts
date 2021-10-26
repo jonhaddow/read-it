@@ -1,5 +1,8 @@
-import { Bookmark } from "core/models";
-import { AdvancedMetadataProps, IMetadataStrategy, MetadataProps } from ".";
+import {
+	AdvancedMetadataProps,
+	IDefaultMetadataStrategy,
+	MetadataProps,
+} from ".";
 import { estimateReadingTime, openWebpage } from "../../services/puppeteer";
 import { findAllMetadata } from "../metadata-parser";
 import fetch from "node-fetch";
@@ -9,24 +12,22 @@ import fetch from "node-fetch";
  * The raw HTML is fetched and processed to retrieve the metadata
  * from open graph and meta tags.
  */
-export class DefaultStrategy implements IMetadataStrategy {
-	async getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps> {
+export class DefaultStrategy implements IDefaultMetadataStrategy {
+	async getMetadata(url: string): Promise<MetadataProps> {
 		try {
-			const response = await fetch(bookmark.url);
+			const response = await fetch(url);
 			const html = await response.text();
 
-			return findAllMetadata(html, bookmark.url);
+			return findAllMetadata(html, url);
 		} catch (ex) {
-			console.error(`Failed to fetch html from url ${bookmark.url}`);
+			console.error(`Failed to fetch html from url ${url}`);
 			console.error(ex);
 			return {};
 		}
 	}
 
-	async getAdvancedMetadata(
-		bookmark: Readonly<Bookmark>
-	): Promise<AdvancedMetadataProps> {
-		const page = await openWebpage(bookmark.url);
+	async getAdvancedMetadata(url: string): Promise<AdvancedMetadataProps> {
+		const page = await openWebpage(url);
 		if (!page) {
 			return {};
 		}

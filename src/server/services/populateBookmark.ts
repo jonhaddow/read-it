@@ -1,4 +1,8 @@
-import { getDefaultStrategy, getStrategies } from "./metadata-strategies";
+import {
+	getDefaultStrategy,
+	getStrategies,
+	MetadataProps,
+} from "./metadata-strategies";
 import { Bookmark } from "core/models";
 
 /**
@@ -7,20 +11,19 @@ import { Bookmark } from "core/models";
  * @param bookmark The bookmark to populate.
  */
 export const populateBookmark = async (
-	bookmark: Bookmark
+	bookmark: Readonly<Bookmark>
 ): Promise<Bookmark> => {
-	let strategy = getStrategies().find((x) => {
-		if (x.shouldProcess) {
-			return x.shouldProcess.call(this, bookmark);
-		}
-		return false;
-	});
+	const strategy = getStrategies().find((x) => x.shouldProcess(bookmark));
 
-	if (!strategy) {
-		strategy = getDefaultStrategy();
+	let metadataProps: MetadataProps = {};
+
+	if (strategy) {
+		metadataProps = await strategy.getMetadata(bookmark.url);
 	}
 
-	const metadataProps = await strategy.getMetadata(bookmark);
+	const defaultMetadataProps = await getDefaultStrategy().getMetadata(
+		bookmark.targetURL ?? bookmark.url
+	);
 
-	return { ...bookmark, ...metadataProps };
+	return { ...bookmark, ...defaultMetadataProps, ...metadataProps };
 };

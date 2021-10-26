@@ -18,22 +18,21 @@ export interface IMetadataStrategy {
 	/**
 	 * Determines whether the strategy should process this particular bookmark.
 	 */
-	shouldProcess?(bookmark: Readonly<Bookmark>): boolean;
+	shouldProcess(bookmark: Readonly<Bookmark>): boolean;
 
 	/**
-	 * Gets the provided bookmarks metadata and updates the bookmark
+	 * Gets the metadata given a URL.
 	 */
-	getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps>;
+	getMetadata(url: string): Promise<MetadataProps>;
 
 	/**
-	 * Gets the provided bookmarks advanced metadata and updates the bookmark
+	 * Gets the advanced metadata given a URL.
 	 */
-	getAdvancedMetadata(
-		bookmark: Readonly<Bookmark>
-	): Promise<AdvancedMetadataProps>;
+	getAdvancedMetadata(url: string): Promise<AdvancedMetadataProps>;
 }
+export type IDefaultMetadataStrategy = Omit<IMetadataStrategy, "shouldProcess">;
 
 export const getStrategies = (): IMetadataStrategy[] => [new RedditStrategy()];
 
-export const getDefaultStrategy = (): IMetadataStrategy =>
+export const getDefaultStrategy = (): IDefaultMetadataStrategy =>
 	new DefaultStrategy();

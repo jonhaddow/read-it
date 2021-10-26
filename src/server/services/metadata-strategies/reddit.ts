@@ -19,11 +19,11 @@ export class RedditStrategy implements IMetadataStrategy {
 		return REDDIT_LINK_REGEXES.some((x) => x.test(bookmark.url));
 	}
 
-	async getMetadata(bookmark: Readonly<Bookmark>): Promise<MetadataProps> {
+	async getMetadata(url: string): Promise<MetadataProps> {
 		let shortId: string | undefined;
 
 		for (const regex of REDDIT_LINK_REGEXES) {
-			const match = regex.exec(bookmark.url);
+			const match = regex.exec(url);
 			if (match) {
 				shortId = match[1];
 				break;
@@ -67,14 +67,11 @@ export class RedditStrategy implements IMetadataStrategy {
 		return metadata;
 	}
 
-	async getAdvancedMetadata(
-		bookmark: Bookmark
-	): Promise<AdvancedMetadataProps> {
+	async getAdvancedMetadata(url: string): Promise<AdvancedMetadataProps> {
 		let minuteEstimate: number | undefined = undefined;
-		if (bookmark.targetURL) {
-			const page = await openWebpage(bookmark.targetURL);
-			if (page) minuteEstimate = await estimateReadingTime(page);
-		}
+
+		const page = await openWebpage(url);
+		if (page) minuteEstimate = await estimateReadingTime(page);
 
 		return {
 			minuteEstimate,
