@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaLink } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { TiTick } from "react-icons/ti";
 import { ResultSet } from "server/interfaces";
 
 export function BookmarkListItem(bookmark: Bookmark): ReactElement {
@@ -22,7 +22,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 		}
 	);
 
-	async function onDelete(): Promise<void> {
+	async function onDone(): Promise<void> {
 		// Delete the bookmark
 		await mutateAsync({ bookmarkId: bookmark.id });
 
@@ -46,12 +46,28 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 		minutes !== undefined ? `${minutes} minute${minutes > 1 ? "s" : ""}` : null;
 
 	return (
-		<li className="group flex overflow-hidden items-center py-4 px-2 hover:bg-gray-50 border-b-2">
+		<li className="group flex overflow-hidden flex-col md:flex-row md:py-4 md:px-2 my-2 md:mx-2 hover:bg-gray-50 border-b-2 shadow-md">
 			{isMutating ? (
 				<div>Removing...</div>
 			) : (
 				<>
-					<div className="group flex flex-col p-2">
+					<a
+						href={bookmark.url}
+						target="_blank"
+						rel="noreferrer"
+						className="flex justify-center items-center w-full md:w-24 h-16 border"
+					>
+						{bookmark.thumbnailUrl ? (
+							<img
+								className="object-cover object-center w-full h-full"
+								src={bookmark.thumbnailUrl}
+								alt=""
+							/>
+						) : (
+							<FaLink />
+						)}
+					</a>
+					<div className="group flex flex-col flex-1 py-2 md:py-0 px-2">
 						<div className="mb-2">
 							<a
 								href={bookmark.url}
@@ -65,7 +81,9 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 								{minuteWrapper ? ` - ${minuteWrapper}` : ""}
 							</span>
 						</div>
-						<p className="mb-2 text-sm text-gray-600">{bookmark.description}</p>
+						<p className="hidden md:block mb-2 text-sm text-gray-600">
+							{bookmark.description}
+						</p>
 						<span className="text-sm font-semibold text-gray-500 align-middle">
 							<img
 								className="inline mr-2 w-4 h-4"
@@ -75,26 +93,14 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 							{baseUrl} - {createdFromNow}
 						</span>
 					</div>
-					<div className=" flex flex-1 gap-4 justify-end items-center">
+					<div className="flex md:flex-col justify-start p-2 md:p-0">
 						<button
-							className="mr-4 text-gray-500 hover:text-red-400 transition-colors"
-							onClick={onDelete}
+							className="mr-4 text-gray-500 hover:text-green-400 transition-colors"
+							onClick={onDone}
 						>
-							<MdDelete size={24} />
-							<span className="sr-only">Delete</span>
+							<TiTick size={24} />
+							<span className="sr-only">Done</span>
 						</button>
-					</div>
-
-					<div className="flex justify-center items-center w-32 h-24 border">
-						{bookmark.thumbnailUrl ? (
-							<img
-								className="object-cover object-center border-r-2"
-								src={bookmark.thumbnailUrl}
-								alt=""
-							/>
-						) : (
-							<FaLink />
-						)}
 					</div>
 				</>
 			)}
