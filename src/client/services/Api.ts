@@ -17,10 +17,18 @@ const post = async (url: string, body: unknown): Promise<Response> => {
 	});
 };
 
+const del = async (url: string): Promise<Response> => {
+	return await fetch(`${API_URL}${url}`, {
+		method: "DELETE",
+		...defaultRequestOptions,
+	});
+};
+
 /**
  * Holds a collection of methods to make requests to the server.
  */
 export const Api = {
 	get,
 	post,
+	del,
 };

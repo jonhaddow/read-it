@@ -6,6 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { FaLink } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { ResultSet } from "server/interfaces";
+import { Api } from "client/services";
 
 export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 	const queryClient = useQueryClient();
@@ -15,10 +16,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 		}: {
 			bookmarkId: number | undefined;
 		}): Promise<void> => {
-			if (bookmarkId)
-				await fetch(`/api/bookmarks/${bookmarkId}`, {
-					method: "DELETE",
-				});
+			if (bookmarkId) await Api.del(`/api/bookmarks/${bookmarkId}`);
 		}
 	);
 
