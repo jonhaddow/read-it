@@ -1,7 +1,7 @@
 import {
+	MetadataProps,
 	getDefaultStrategy,
 	getStrategies,
-	MetadataProps,
 } from "./metadata-strategies";
 import { Bookmark } from "core/models";
 

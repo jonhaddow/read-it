@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { Login, Dashboard, CreateBookmark } from "./pages";
+import { CreateBookmark, Dashboard, Login } from "./pages";
 import {
+	Redirect,
+	Route,
 	BrowserRouter as Router,
 	Switch,
-	Route,
-	Redirect,
 } from "react-router-dom";
 import { useAuth } from "./hooks";
 import { QueryClient, QueryClientProvider } from "react-query";

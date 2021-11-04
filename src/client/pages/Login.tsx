@@ -2,8 +2,8 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { Location } from "history";
 import {
-	GoogleLoginButton,
 	GithubLoginButton,
+	GoogleLoginButton,
 } from "react-social-login-buttons";
 
 export const Login: React.FC = () => {

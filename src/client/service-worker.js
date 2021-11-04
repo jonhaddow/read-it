@@ -1,8 +1,8 @@
 import {
-	pageCache,
 	imageCache,
-	staticResourceCache,
 	offlineFallback,
+	pageCache,
+	staticResourceCache,
 } from "workbox-recipes";
 
 // Respond to page requests with a network first caching strategy

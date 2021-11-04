@@ -1,5 +1,5 @@
 import { BookmarkEntity, BookmarkState } from "../entities";
-import { ResultSet, Response } from "../interfaces";
+import { Response, ResultSet } from "../interfaces";
 import { getRepository } from "typeorm";
 import { getEmitter } from "../events";
 import { Bookmark, User } from "core/models";

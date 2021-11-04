@@ -2,7 +2,7 @@ import path from "path";
 import { SuperAgentTest } from "supertest";
 import { ResultSet } from "../interfaces";
 import { Bookmark } from "core/models";
-import { stopTestServer, startTestServer, createSuperAgent } from "./utils";
+import { createSuperAgent, startTestServer, stopTestServer } from "./utils";
 import fs from "fs";
 import { Express } from "express";
 

@@ -1,6 +1,6 @@
 import { Api } from "client/services";
 import { Bookmark } from "core/models";
-import { useQuery, UseQueryResult } from "react-query";
+import { UseQueryResult, useQuery } from "react-query";
 import { ResultSet } from "server/interfaces";
 
 export const useBookmarks = (): UseQueryResult<ResultSet<Bookmark>> => {
