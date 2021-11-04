@@ -1,8 +1,4 @@
 module.exports = {
-	extends: [
-		"jonhaddow",
-		"jonhaddow/typescript",
-		"plugin:tailwindcss/recommended",
-	],
+	extends: ["jonhaddow", "plugin:tailwindcss/recommended"],
 	plugins: ["tailwindcss"],
 };

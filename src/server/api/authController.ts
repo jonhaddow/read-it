@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import passport from "passport";
 
 export const authRouter = Router();
@@ -32,7 +32,7 @@ authRouter.get(
 	"/api/auth/google/callback",
 	passport.authenticate("google", {
 		failureRedirect: loginRedirect,
-	}),
+	}) as RequestHandler,
 	(req, res) => {
 		try {
 			const { state }: { state?: string } = req.query;
@@ -60,7 +60,7 @@ authRouter.get(
 	"/api/auth/github/callback",
 	passport.authenticate("github", {
 		failureRedirect: loginRedirect,
-	}),
+	}) as RequestHandler,
 	(req, res) => {
 		try {
 			const { state }: { state?: string } = req.query;
@@ -80,7 +80,7 @@ authRouter.post(
 	passport.authenticate("local", {
 		successRedirect: homeRedirect,
 		failureRedirect: loginRedirect,
-	})
+	}) as RequestHandler
 );
 
 authRouter.get("/api/logout", (req, res) => {

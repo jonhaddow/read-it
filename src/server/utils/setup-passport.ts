@@ -5,7 +5,7 @@ import {
 } from "passport-google-oauth20";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { IVerifyOptions, Strategy as LocalStrategy } from "passport-local";
-import { Express } from "express";
+import { Express, RequestHandler } from "express";
 import { getRepository } from "typeorm";
 import { compare } from "bcrypt";
 import { UserEntity } from "../entities";
@@ -157,5 +157,5 @@ export const setupPassport = (app: Express): void => {
 	passport.deserializeUser<Express.User>((obj, cb) => cb(null, obj));
 
 	app.use(passport.initialize());
-	app.use(passport.session());
+	app.use(passport.session() as RequestHandler);
 };

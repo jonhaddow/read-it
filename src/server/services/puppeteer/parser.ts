@@ -13,7 +13,9 @@ export const estimateReadingTime = async (
 		const text = await body.evaluate<EvaluateFn<HTMLElement>>(
 			(b) => b.innerText
 		);
-		results = readingTime(text).minutes;
+		if (typeof text === "string") {
+			results = readingTime(text).minutes;
+		}
 	}
 
 	return results;

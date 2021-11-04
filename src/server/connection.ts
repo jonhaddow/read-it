@@ -5,7 +5,8 @@ export const createDBConnection = async (
 	name?: string
 ): Promise<Connection> => {
 	// read connection options from ENV variables.
-	const connectionOptions = (await getConnectionOptions()) as PostgresConnectionOptions;
+	const connectionOptions =
+		(await getConnectionOptions()) as PostgresConnectionOptions;
 
 	const dbName = name ?? connectionOptions.database;
 
