@@ -23,7 +23,7 @@ module.exports = ({ production }) => {
 		new DefinePlugin({
 			API_URL: production
 				? JSON.stringify("https://alligator.app.haddow.me")
-				: JSON.stringify(""),
+				: JSON.stringify("http://localhost:3000"),
 			PRODUCTION: !!production,
 		}),
 		new CopyWebpackPlugin({
@@ -92,10 +92,6 @@ module.exports = ({ production }) => {
 			contentBase: path.join(__dirname, "dist/client"),
 			compress: true,
 			port: 9000,
-			proxy: {
-				// Pass through to the server api
-				"/api": "http://localhost:3000",
-			},
 			historyApiFallback: true,
 		},
 		plugins,
