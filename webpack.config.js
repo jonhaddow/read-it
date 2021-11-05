@@ -7,8 +7,62 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-module.exports = ({ production }) => {
-	const plugins = [
+module.exports = ({ production }) => ({
+	entry: {
+		main: "./src/client/index.tsx",
+		worker: "./src/client/service-worker.js",
+	},
+	output: {
+		path: path.resolve(__dirname, "dist/client"),
+	},
+	resolve: {
+		extensions: [".tsx", ".ts", ".js"],
+		plugins: [
+			new TsconfigPathsPlugin({ configFile: "./src/client/tsconfig.json" }),
+		],
+	},
+	mode: production ? "production" : "development",
+	module: {
+		rules: [
+			{
+				test: /\.tsx?$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: "babel-loader",
+					options: {
+						cacheDirectory: true,
+						presets: [
+							"@babel/preset-env",
+							"@babel/preset-react",
+							"@babel/preset-typescript",
+						],
+					},
+				},
+			},
+			{
+				test: /\.css$/i,
+				use: [
+					production ? MiniCssExtractPlugin.loader : "style-loader",
+					"css-loader",
+					{
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								plugins: ["postcss-preset-env", "autoprefixer", "tailwindcss"],
+							},
+						},
+					},
+				],
+			},
+		],
+	},
+	devServer: {
+		static: { directory: path.join(__dirname, "dist/client") },
+		port: 9000,
+		hot: false,
+		historyApiFallback: true,
+	},
+	plugins: [
 		new ForkTsCheckerWebpackPlugin({
 			typescript: {
 				configFile: "./src/client/tsconfig.json",
@@ -29,74 +83,9 @@ module.exports = ({ production }) => {
 		new CopyWebpackPlugin({
 			patterns: [{ from: "src/client/assets", to: "" }],
 		}),
-	];
-
-	if (production) {
-		plugins.push(new MiniCssExtractPlugin());
-	}
-
-	return {
-		entry: {
-			main: "./src/client/index.tsx",
-			worker: "./src/client/service-worker.js",
-		},
-		output: {
-			path: path.resolve(__dirname, "dist/client"),
-		},
-		resolve: {
-			extensions: [".tsx", ".ts", ".js"],
-			plugins: [
-				new TsconfigPathsPlugin({ configFile: "./src/client/tsconfig.json" }),
-			],
-		},
-		mode: production ? "production" : "development",
-		module: {
-			rules: [
-				{
-					test: /\.tsx?$/,
-					exclude: /(node_modules|bower_components)/,
-					use: {
-						loader: "babel-loader",
-						options: {
-							cacheDirectory: true,
-							presets: [
-								"@babel/preset-env",
-								"@babel/preset-react",
-								"@babel/preset-typescript",
-							],
-						},
-					},
-				},
-				{
-					test: /\.css$/i,
-					use: [
-						production ? MiniCssExtractPlugin.loader : "style-loader",
-						"css-loader",
-						{
-							loader: "postcss-loader",
-							options: {
-								postcssOptions: {
-									plugins: [
-										"postcss-preset-env",
-										"autoprefixer",
-										"tailwindcss",
-									],
-								},
-							},
-						},
-					],
-				},
-			],
-		},
-		devServer: {
-			contentBase: path.join(__dirname, "dist/client"),
-			compress: true,
-			port: 9000,
-			historyApiFallback: true,
-		},
-		plugins,
-		optimization: {
-			minimizer: [`...`, new CssMinimizerPlugin()],
-		},
-	};
-};
+		production && new MiniCssExtractPlugin(),
+	].filter(Boolean),
+	optimization: {
+		minimizer: [`...`, new CssMinimizerPlugin()],
+	},
+});
