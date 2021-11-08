@@ -12,7 +12,18 @@ export const bookmarksRouter = Router();
 bookmarksRouter.get("/", async (req, res): Promise<void> => {
 	try {
 		const user = req.user as User;
-		const bookmarks = await getBookmarks(user);
+
+		let skip = Number(req.query.skip);
+		let take = Number(req.query.take);
+
+		if (isNaN(skip)) {
+			skip = 0;
+		}
+		if (isNaN(take)) {
+			take = 25;
+		}
+
+		const bookmarks = await getBookmarks(user, skip, take);
 		res.json(bookmarks);
 	} catch (ex) {
 		console.error(ex);

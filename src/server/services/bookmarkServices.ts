@@ -7,12 +7,19 @@ import { isWebUri } from "valid-url";
 import { populateBookmark } from "./populateBookmark";
 
 export const getBookmarks = async (
-	user: User
+	user: User,
+	skip: number,
+	take: number
 ): Promise<ResultSet<Bookmark>> => {
-	const results = await getRepository(BookmarkEntity).find({
+	const total = await getRepository(BookmarkEntity).count({
 		where: { user: user },
 	});
-	return { results };
+	const results = await getRepository(BookmarkEntity).find({
+		where: { user: user },
+		skip: skip,
+		take: take,
+	});
+	return { results, total };
 };
 
 export const getBookmark = async (
