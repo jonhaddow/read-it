@@ -32,6 +32,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 
 		queryClient.setQueryData<ResultSet<Bookmark>>("bookmarks", (b) => ({
 			results: b?.results?.filter((x) => x?.id !== bookmark.id) ?? [],
+			total: (b?.total ?? 0) - 1,
 		}));
 
 		// Close modal

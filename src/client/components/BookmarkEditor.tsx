@@ -40,6 +40,7 @@ export const BookmarkEditor = ({
 					"bookmarks",
 					(bookmarks) => ({
 						results: [data, ...(bookmarks?.results ?? [])],
+						total: (bookmarks?.total ?? 0) + 1,
 					})
 				);
 				onSave();

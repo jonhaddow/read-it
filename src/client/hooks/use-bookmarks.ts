@@ -3,11 +3,18 @@ import { Bookmark } from "core/models";
 import { UseQueryResult, useQuery } from "react-query";
 import { ResultSet } from "server/interfaces";
 
-export const useBookmarks = (): UseQueryResult<ResultSet<Bookmark>> => {
+interface BookmarkParams {
+	skip: number;
+	take: number;
+}
+export const useBookmarks = ({
+	skip,
+	take,
+}: BookmarkParams): UseQueryResult<ResultSet<Bookmark>> => {
 	return useQuery(
 		"bookmarks",
 		async () => {
-			const response = await Api.get("/api/bookmarks");
+			const response = await Api.get("/api/bookmarks", { skip, take });
 			if (!response.ok) {
 				throw new Error("Network request failed.");
 			}
