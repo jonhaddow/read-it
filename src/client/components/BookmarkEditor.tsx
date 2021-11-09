@@ -1,8 +1,7 @@
+import { bookmarkKeys } from "client/hooks";
 import { Api } from "client/services";
-import { Bookmark } from "core/models";
 import React, { ReactElement, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { ResultSet } from "server/interfaces";
 import { FormGroup } from "./FormGroup";
 
 interface BookmarkEditorProps {
@@ -34,15 +33,13 @@ export const BookmarkEditor = ({
 			className="p-6 m-auto max-w-sm"
 			onSubmit={async (e) => {
 				e.preventDefault();
+
+				// Add the new bookmark
 				const response = await mutateAsync({ url });
-				const data = (await response.json()) as Bookmark;
-				queryClient.setQueryData<ResultSet<Bookmark>>(
-					"bookmarks",
-					(bookmarks) => ({
-						results: [data, ...(bookmarks?.results ?? [])],
-						total: (bookmarks?.total ?? 0) + 1,
-					})
-				);
+				await response.json();
+
+				// Invalidate the previous queries (this will automatically update the list)
+				queryClient.invalidateQueries(bookmarkKeys.all());
 				onSave();
 			}}
 		>
