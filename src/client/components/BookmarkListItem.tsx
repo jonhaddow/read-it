@@ -5,9 +5,9 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaLink } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
-import { ResultSet } from "server/interfaces";
 import { Api } from "client/services";
 import { Modal } from ".";
+import { bookmarkKeys } from "client/hooks";
 
 export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 	const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
@@ -27,12 +27,8 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 		// Delete the bookmark
 		await mutateAsync({ bookmarkId: bookmark.id });
 
-		// Cancel pending fetches (as we will be optimistically updating state)
-		await queryClient.cancelQueries("bookmarks");
-
-		queryClient.setQueryData<ResultSet<Bookmark>>("bookmarks", (b) => ({
-			results: b?.results?.filter((x) => x?.id !== bookmark.id) ?? [],
-		}));
+		// Invalidate existing queries (this will trigger refresh)
+		queryClient.invalidateQueries(bookmarkKeys.all());
 
 		// Close modal
 		setDeleteModalOpen(false);

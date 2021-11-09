@@ -4,5 +4,6 @@ export * from "./BookmarkListItem";
 export * from "./FormGroup";
 export * from "./Label";
 export * from "./Modal";
+export * from "./Pagination";
 export * from "./StateMessage";
 export * from "./Title";
