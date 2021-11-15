@@ -18,6 +18,15 @@ jest.mock("snoowrap", () => {
 		};
 	});
 });
+jest.mock("node-fetch", () => {
+	return jest.fn().mockImplementation(() => {
+		return {
+			text: jest
+				.fn()
+				.mockResolvedValue(`<html><body><h1>Test</h1></body></html>`),
+		};
+	});
+});
 
 describe("bookmarks_populate_reddit", () => {
 	let agent: SuperAgentTest;

@@ -1,5 +1,6 @@
 import { Bookmark } from "core/models";
 import { DefaultStrategy } from "./default";
+import { HackerNewsStrategy } from "./hackernews";
 import { RedditStrategy } from "./reddit";
 
 export type MetadataProps = Pick<
@@ -32,7 +33,10 @@ export interface IMetadataStrategy {
 }
 export type IDefaultMetadataStrategy = Omit<IMetadataStrategy, "shouldProcess">;
 
-export const getStrategies = (): IMetadataStrategy[] => [new RedditStrategy()];
+export const getStrategies = (): IMetadataStrategy[] => [
+	new RedditStrategy(),
+	new HackerNewsStrategy(),
+];
 
 export const getDefaultStrategy = (): IDefaultMetadataStrategy =>
 	new DefaultStrategy();
