@@ -91,9 +91,15 @@ export function findAllMetadata(
 	const thumbnailUrl = findMetadata("thumbnailUrl", dom);
 
 	let favicon = findMetadata("favicon", dom);
-	if (favicon?.startsWith("/")) {
-		favicon = `${new URL(url).origin}${favicon}`;
-	} else if (favicon == undefined) {
+	if (favicon) {
+		// Ensure favicon is a full valid URL
+		try {
+			const url = new URL(favicon);
+			favicon = url.href;
+		} catch (_) {
+			favicon = `${new URL(url).origin}${favicon}`;
+		}
+	} else {
 		favicon = `${new URL(url).origin}/favicon.ico`;
 	}
 

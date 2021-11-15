@@ -55,7 +55,10 @@ export class RedditStrategy implements IMetadataStrategy {
 				const { title, url, thumbnail, selftext } = postData;
 
 				metadata.title = title;
-				metadata.thumbnailUrl = thumbnail !== "default" ? thumbnail : undefined;
+
+				if (thumbnail !== "default") {
+					metadata.thumbnailUrl = thumbnail;
+				}
 
 				if (url) {
 					metadata.targetURL = url;

@@ -21,9 +21,10 @@ export const populateBookmark = async (
 		metadataProps = await strategy.getMetadata(bookmark.url);
 	}
 
-	const defaultMetadataProps = await getDefaultStrategy().getMetadata(
-		bookmark.targetURL ?? bookmark.url
-	);
+	// Use the targetUrl if we've got it.
+	const url = metadataProps.targetURL ?? bookmark.url;
+
+	const defaultMetadataProps = await getDefaultStrategy().getMetadata(url);
 
 	return { ...bookmark, ...defaultMetadataProps, ...metadataProps };
 };
