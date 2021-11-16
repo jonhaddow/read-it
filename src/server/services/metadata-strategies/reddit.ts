@@ -80,4 +80,8 @@ export class RedditStrategy implements IMetadataStrategy {
 			minuteEstimate,
 		};
 	}
+
+	favicon(): string {
+		return "https://www.redditstatic.com/favicon.ico";
+	}
 }

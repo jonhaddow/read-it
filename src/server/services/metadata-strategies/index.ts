@@ -30,8 +30,16 @@ export interface IMetadataStrategy {
 	 * Gets the advanced metadata given a URL.
 	 */
 	getAdvancedMetadata(url: string): Promise<AdvancedMetadataProps>;
+
+	/**
+	 * Gets the favicon to use for this type of link.
+	 */
+	favicon(): string;
 }
-export type IDefaultMetadataStrategy = Omit<IMetadataStrategy, "shouldProcess">;
+export type IDefaultMetadataStrategy = Omit<
+	IMetadataStrategy,
+	"shouldProcess" | "favicon"
+>;
 
 export const getStrategies = (): IMetadataStrategy[] => [
 	new RedditStrategy(),

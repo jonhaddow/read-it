@@ -19,6 +19,7 @@ export const populateBookmark = async (
 
 	if (strategy) {
 		metadataProps = await strategy.getMetadata(bookmark.url);
+		metadataProps.favicon = strategy.favicon();
 	}
 
 	// Use the targetUrl if we've got it.

@@ -53,4 +53,8 @@ export class HackerNewsStrategy implements IMetadataStrategy {
 			minuteEstimate,
 		};
 	}
+
+	favicon(): string {
+		return "https://news.ycombinator.com/favicon.ico";
+	}
 }
