@@ -37,12 +37,14 @@ export class YouTubeStrategy implements IMetadataStrategy {
 				throw new Error("Could not find id in url");
 			}
 
-			if (!process.env.YOUTUBE_API_KEY) {
+			if (!process.env.YOUTUBE_API_KEY && process.env.NODE_ENV !== "test") {
 				throw new Error("Missing YouTube API key");
 			}
 
 			const getVideo = await fetch(
-				`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${process.env.YOUTUBE_API_KEY}&part=contentDetails&part=snippet`
+				`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${
+					process.env.YOUTUBE_API_KEY ?? ""
+				}&part=contentDetails&part=snippet`
 			);
 			const json = await getVideo.json();
 
