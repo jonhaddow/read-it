@@ -14,6 +14,10 @@ export class HackerNewsStrategy implements IMetadataStrategy {
 	}
 
 	async getMetadata(url: string): Promise<MetadataProps> {
+		const metadata: MetadataProps = {
+			favicon: "https://news.ycombinator.com/favicon.ico",
+			specialType: "hacker-news",
+		};
 		try {
 			const match = url.match(LINK_REGEXES[0]);
 
@@ -35,11 +39,11 @@ export class HackerNewsStrategy implements IMetadataStrategy {
 			return {
 				title: data.title,
 				targetURL: data.url,
-				specialType: "hacker-news",
+				...metadata,
 			};
 		} catch (error) {
 			console.error(error);
-			return {};
+			return metadata;
 		}
 	}
 
@@ -52,9 +56,5 @@ export class HackerNewsStrategy implements IMetadataStrategy {
 		return {
 			minuteEstimate,
 		};
-	}
-
-	favicon(): string {
-		return "https://news.ycombinator.com/favicon.ico";
 	}
 }

@@ -20,6 +20,10 @@ export class RedditStrategy implements IMetadataStrategy {
 	}
 
 	async getMetadata(url: string): Promise<MetadataProps> {
+		const metadata: MetadataProps = {
+			specialType: "reddit",
+			favicon: "https://www.redditstatic.com/favicon.ico",
+		};
 		let shortId: string | undefined;
 
 		for (const regex of REDDIT_LINK_REGEXES) {
@@ -32,7 +36,7 @@ export class RedditStrategy implements IMetadataStrategy {
 
 		if (!shortId) {
 			console.error("failed to detect Reddit shortId.");
-			return {};
+			return metadata;
 		}
 
 		const r = new snoowrap({
@@ -42,10 +46,6 @@ export class RedditStrategy implements IMetadataStrategy {
 			username: process.env.REDDIT_USERNAME,
 			password: process.env.REDDIT_PASSWORD,
 		});
-
-		const metadata: MetadataProps = {
-			specialType: "reddit",
-		};
 
 		// Process the metadata of the full article link of the reddit submission.
 		await r
@@ -79,9 +79,5 @@ export class RedditStrategy implements IMetadataStrategy {
 		return {
 			minuteEstimate,
 		};
-	}
-
-	favicon(): string {
-		return "https://www.redditstatic.com/favicon.ico";
 	}
 }

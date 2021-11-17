@@ -16,15 +16,20 @@ export const advancedMetadata = async (bookmark: Bookmark): Promise<void> => {
 
 	let minuteEstimate: number | undefined;
 	if (strategy) {
-		const metaDataProps = await strategy.getAdvancedMetadata(
+		const metaDataProps = await strategy.getAdvancedMetadata?.(
 			bookmark.targetURL ?? bookmark.url
 		);
-		minuteEstimate = metaDataProps.minuteEstimate;
+		if (metaDataProps) {
+			minuteEstimate = metaDataProps.minuteEstimate;
+		}
 	} else {
-		const defaultMetadataProps = await getDefaultStrategy().getAdvancedMetadata(
-			bookmark.targetURL ?? bookmark.url
-		);
-		minuteEstimate = defaultMetadataProps.minuteEstimate;
+		const defaultMetadataProps =
+			await getDefaultStrategy().getAdvancedMetadata?.(
+				bookmark.targetURL ?? bookmark.url
+			);
+		if (defaultMetadataProps) {
+			minuteEstimate = defaultMetadataProps.minuteEstimate;
+		}
 	}
 
 	if (minuteEstimate) bookmark.minuteEstimate = minuteEstimate;
