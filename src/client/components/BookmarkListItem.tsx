@@ -82,7 +82,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 									{minuteWrapper ? ` - ${minuteWrapper}` : ""}
 								</span>
 							</div>
-							<p className="hidden md:block mb-2 text-sm text-gray-600">
+							<p className="hidden overflow-hidden mb-2 text-sm text-gray-600 md:line-clamp-3">
 								{bookmark.description}
 							</p>
 							<span className="text-sm font-semibold text-gray-500 align-middle">
