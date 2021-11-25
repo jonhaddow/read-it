@@ -33,7 +33,7 @@ export const createApp = (): Express => {
 			saveUninitialized: false,
 			store: new TypeormStore({
 				cleanupLimit: 2,
-				ttl: 86400,
+				ttl: 60 * 60 * 24 * 7 * 4, // 4 weeks
 			}).connect(getRepository(SessionEntity)),
 		})
 	);
