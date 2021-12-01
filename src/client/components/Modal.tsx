@@ -42,9 +42,12 @@ export const Modal = ({
 					</h2>
 				)}
 				<button className="absolute top-0 right-0 p-2" onClick={close}>
-					<FaTimes size={24} className="text-gray-600 fill-current" />
+					<FaTimes
+						size={24}
+						className="text-gray-500 hover:text-gray-600 fill-current"
+					/>
 				</button>
-				<div>{children}</div>
+				<div className="px-2 pt-2">{children}</div>
 			</div>
 		</div>,
 		modalRootNode

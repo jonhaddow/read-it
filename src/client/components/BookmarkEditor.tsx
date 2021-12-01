@@ -2,7 +2,6 @@ import { bookmarkKeys } from "client/hooks";
 import { Api } from "client/services";
 import React, { ReactElement, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { FormGroup } from "./FormGroup";
 
 interface BookmarkEditorProps {
 	onSave: () => void;
@@ -30,7 +29,7 @@ export const BookmarkEditor = ({
 
 	return (
 		<form
-			className="p-6 m-auto max-w-sm"
+			className="m-auto max-w-sm"
 			onSubmit={async (e) => {
 				e.preventDefault();
 
@@ -43,10 +42,10 @@ export const BookmarkEditor = ({
 				onSave();
 			}}
 		>
-			<FormGroup>
+			<div className="block pb-5">
 				<label
 					htmlFor="url"
-					className="block py-2 px-2 text-sm tracking-wider leading-3 text-gray-800 uppercase"
+					className="block py-4 px-2 text-sm tracking-wider leading-3 text-gray-800 uppercase"
 				>
 					Add a link
 				</label>
@@ -55,13 +54,12 @@ export const BookmarkEditor = ({
 					className="py-2 px-4 w-72 rounded-2xl border border-gray-500 focus:shadow-md outline-none"
 					name="url"
 					type="url"
-					placeholder="https://"
 					value={url}
 					onChange={(e) => {
 						setUrl(e.target.value);
 					}}
 				/>
-			</FormGroup>
+			</div>
 			<button
 				disabled={!url}
 				className={`${
