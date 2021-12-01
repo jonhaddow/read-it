@@ -47,56 +47,58 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 
 	return (
 		<>
-			<li className="group flex overflow-hidden flex-col md:flex-row md:py-4 md:px-2 my-2 md:mx-2 hover:bg-gray-50 border-b-2 shadow-md">
+			<li className="overflow-hidden relative m-2 hover:bg-gray-50 border-b-2 shadow-md">
 				{isMutating ? (
 					<div>Removing...</div>
 				) : (
 					<>
-						<a
-							href={bookmark.url}
-							target="_blank"
-							rel="noreferrer"
-							className="flex justify-center items-center w-full md:w-24 h-16 border"
-						>
-							{bookmark.thumbnailUrl ? (
-								<img
-									className="object-cover object-center w-full h-full"
-									src={bookmark.thumbnailUrl}
-									alt=""
-								/>
-							) : (
-								<FaLink />
-							)}
-						</a>
-						<div className="group flex flex-col flex-1 py-2 md:py-0 px-2">
-							<div className="mb-2">
-								<a
-									href={bookmark.url}
-									target="_blank"
-									rel="noreferrer"
-									className="items-center mb-1 w-auto font-bold text-gray-700"
-								>
-									{bookmark.title}
-								</a>
-								<span className="text-sm font-bold text-gray-500">
-									{minuteWrapper ? ` - ${minuteWrapper}` : ""}
+						<div className="flex items-center p-2">
+							<a
+								href={bookmark.url}
+								target="_blank"
+								rel="noreferrer"
+								className="flex justify-center items-center w-24 md:w-32 h-16 md:h-24 border"
+							>
+								{bookmark.thumbnailUrl ? (
+									<img
+										className="object-cover object-center w-full h-full"
+										src={bookmark.thumbnailUrl}
+										alt=""
+									/>
+								) : (
+									<FaLink />
+								)}
+							</a>
+							<div className="flex flex-col flex-1 py-0 px-4 mr-8">
+								<div className="mb-2">
+									<a
+										href={bookmark.url}
+										target="_blank"
+										rel="noreferrer"
+										className="items-center mb-1 w-auto font-bold text-gray-700 line-clamp-3"
+									>
+										{bookmark.title}
+									</a>
+									<span className="text-sm font-bold text-gray-500">
+										{minuteWrapper ? ` - ${minuteWrapper}` : ""}
+									</span>
+								</div>
+								<p className="hidden overflow-hidden mb-2 text-sm text-gray-600 md:line-clamp-2">
+									{bookmark.description}
+								</p>
+								<span className="text-sm font-semibold text-gray-500 align-middle">
+									<img
+										className="inline mr-2 w-4 h-4"
+										src={bookmark.favicon}
+										alt=""
+									/>
+									{baseUrl} - {createdFromNow}
 								</span>
 							</div>
-							<p className="hidden overflow-hidden mb-2 text-sm text-gray-600 md:line-clamp-3">
-								{bookmark.description}
-							</p>
-							<span className="text-sm font-semibold text-gray-500 align-middle">
-								<img
-									className="inline mr-2 w-4 h-4"
-									src={bookmark.favicon}
-									alt=""
-								/>
-								{baseUrl} - {createdFromNow}
-							</span>
 						</div>
-						<div className="flex md:flex-col justify-start p-2 md:p-0">
+						<div className="flex absolute top-0 right-0 flex-col justify-start items-center p-0 h-full border-l-2">
 							<button
-								className="mr-4 text-gray-500 hover:text-green-400 transition-colors"
+								className="m-2 text-gray-500 hover:text-green-400 transition-colors"
 								onClick={() => setDeleteModalOpen(true)}
 							>
 								<TiTick size={24} />
