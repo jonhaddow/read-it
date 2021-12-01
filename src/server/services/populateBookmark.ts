@@ -1,4 +1,5 @@
 import {
+	IMetadataStrategy,
 	MetadataProps,
 	getDefaultStrategy,
 	getStrategies,
@@ -13,18 +14,41 @@ import { Bookmark } from "core/models";
 export const populateBookmark = async (
 	bookmark: Readonly<Bookmark>
 ): Promise<Bookmark> => {
-	const strategy = getStrategies().find((x) => x.shouldProcess(bookmark));
+	// First, find a strategy to handle this particular link and use it to populate metadata.
+	const strategy = getStrategies().find((x) => x.shouldProcess(bookmark.url));
 
 	let metadataProps: MetadataProps = {};
-
 	if (strategy) {
 		metadataProps = await strategy.getMetadata(bookmark.url);
 	}
 
-	// Use the targetUrl if we've got it.
-	const url = metadataProps.targetURL ?? bookmark.url;
+	// If the link was a news aggregation site, then we may now have a target link.
+	// If we have a target URL, populate further metadata from that.
+	// We may have other strategies available to process that target URL.
+	const targetUrl = metadataProps.targetURL;
+	let targetStrategy: IMetadataStrategy | undefined;
+	if (targetUrl) {
+		targetStrategy = getStrategies().find((x) => x.shouldProcess(targetUrl));
 
-	const defaultMetadataProps = await getDefaultStrategy().getMetadata(url);
+		if (targetStrategy) {
+			const targetMetadataProps = await targetStrategy.getMetadata(targetUrl);
+			metadataProps = {
+				...targetMetadataProps,
+				...metadataProps,
+			};
+		}
+	}
 
-	return { ...bookmark, ...defaultMetadataProps, ...metadataProps };
+	// If there wasn't a target URL or strategy, then use the default link processor to get the remaining metadata.
+	if (!targetStrategy) {
+		// Use the targetUrl if we've got it.
+		const url = metadataProps.targetURL ?? bookmark.url;
+		const defaultMetadataProps = await getDefaultStrategy().getMetadata(url);
+		metadataProps = {
+			...defaultMetadataProps,
+			...metadataProps,
+		};
+	}
+
+	return { ...bookmark, ...metadataProps };
 };

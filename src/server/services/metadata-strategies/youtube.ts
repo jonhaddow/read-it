@@ -1,4 +1,3 @@
-import { Bookmark } from "core/models";
 import { IMetadataStrategy, MetadataProps } from ".";
 import fetch from "node-fetch";
 import { parse } from "iso8601-duration";
@@ -15,8 +14,8 @@ const LINK_REGEXES: RegExp[] = [
  * A metadata strategy for handling YouTube urls
  */
 export class YouTubeStrategy implements IMetadataStrategy {
-	shouldProcess(bookmark: Readonly<Bookmark>): boolean {
-		return LINK_REGEXES.some((x) => x.test(bookmark.url));
+	shouldProcess(url: string): boolean {
+		return LINK_REGEXES.some((x) => x.test(url));
 	}
 
 	async getMetadata(url: string): Promise<MetadataProps> {

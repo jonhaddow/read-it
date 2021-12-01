@@ -1,7 +1,6 @@
 import { AdvancedMetadataProps, IMetadataStrategy, MetadataProps } from ".";
 import snoowrap from "snoowrap";
 import { estimateReadingTime, openWebpage } from "../../services/puppeteer";
-import { Bookmark } from "core/models";
 
 const REDDIT_LINK_REGEXES: RegExp[] = [
 	/reddit\.com\/r\/.*?\/comments\/(.{6})(?:$|\/)/,
@@ -15,8 +14,8 @@ const REDDIT_LINK_REGEXES: RegExp[] = [
  * It additional finds missing metadata from the submission url through Puppeteer.
  */
 export class RedditStrategy implements IMetadataStrategy {
-	shouldProcess(bookmark: Bookmark): boolean {
-		return REDDIT_LINK_REGEXES.some((x) => x.test(bookmark.url));
+	shouldProcess(url: string): boolean {
+		return REDDIT_LINK_REGEXES.some((x) => x.test(url));
 	}
 
 	async getMetadata(url: string): Promise<MetadataProps> {

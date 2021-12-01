@@ -23,7 +23,7 @@ export interface IMetadataStrategy {
 	/**
 	 * Determines whether the strategy should process this particular bookmark.
 	 */
-	shouldProcess(bookmark: Readonly<Bookmark>): boolean;
+	shouldProcess(url: string): boolean;
 
 	/**
 	 * Gets the metadata given a URL.

@@ -1,4 +1,3 @@
-import { Bookmark } from "core/models";
 import { AdvancedMetadataProps, IMetadataStrategy, MetadataProps } from ".";
 import fetch from "node-fetch";
 import { estimateReadingTime, openWebpage } from "../puppeteer";
@@ -9,8 +8,8 @@ const LINK_REGEXES: RegExp[] = [/news\.ycombinator\.com\/item\?id=(.*)/];
  * A metadata strategy for handling HackerNews urls (https://news.ycombinator.com/)
  */
 export class HackerNewsStrategy implements IMetadataStrategy {
-	shouldProcess(bookmark: Readonly<Bookmark>): boolean {
-		return LINK_REGEXES.some((x) => x.test(bookmark.url));
+	shouldProcess(url: string): boolean {
+		return LINK_REGEXES.some((x) => x.test(url));
 	}
 
 	async getMetadata(url: string): Promise<MetadataProps> {
