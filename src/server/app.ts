@@ -27,6 +27,7 @@ export const createApp = (): Express => {
 		session({
 			cookie: {
 				domain: process.env.COOKIE_DOMAIN,
+				maxAge: 1000 * 60 * 60 * 24 * 7 * 4, // 4 weeks
 			},
 			secret: process.env.SESSION_SECRET || "session_secret",
 			resave: false,
