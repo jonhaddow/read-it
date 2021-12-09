@@ -47,7 +47,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 
 	return (
 		<>
-			<li className="overflow-hidden relative m-2 hover:bg-gray-50 border-b-2 shadow-md">
+			<li className="overflow-hidden relative m-2 bg-card-shade hover:bg-card-shade-hover shadow-md hover:shadow-lg transition-colors">
 				{isMutating ? (
 					<div>Removing...</div>
 				) : (
@@ -70,25 +70,27 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 								)}
 							</a>
 							<div className="flex flex-col flex-1 py-0 px-4 mr-8">
-								<div className="flex-1 mb-2">
+								<div className="flex flex-1 mb-2">
 									<a
 										href={bookmark.url}
 										target="_blank"
 										rel="noreferrer"
-										className="items-center mb-1 w-auto font-bold text-gray-700 line-clamp-3"
+										className="items-center mr-2 mb-1 w-auto font-bold text-text-main line-clamp-3"
 									>
 										{bookmark.title}
 									</a>
-									<span className="text-sm font-bold text-gray-500">
-										{minuteWrapper ? ` - ${minuteWrapper}` : ""}
-									</span>
+									{minuteWrapper && (
+										<span className="overflow-hidden flex-shrink-0 ml-auto text-sm font-bold text-text-dimmed whitespace-nowrap">
+											{minuteWrapper}
+										</span>
+									)}
 								</div>
 								{bookmark.description && (
-									<p className="hidden overflow-hidden mb-2 text-sm text-gray-600 md:line-clamp-2">
+									<p className="hidden overflow-hidden mb-2 text-sm text-text-main md:line-clamp-2">
 										{bookmark.description}
 									</p>
 								)}
-								<span className="text-sm font-semibold text-gray-500 align-middle">
+								<span className="text-sm font-semibold text-text-dimmed align-middle">
 									<img
 										className="inline mr-2 w-4 h-4"
 										src={bookmark.favicon}
@@ -100,7 +102,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 						</div>
 						<div className="flex absolute top-0 right-0 flex-col justify-start items-center p-0 h-full">
 							<button
-								className="m-2 text-gray-500 hover:text-red-400 transition-colors"
+								className="m-2 text-text-main hover:text-red-400 transition-colors"
 								onClick={() => setDeleteModalOpen(true)}
 							>
 								<TiTick size={24} />
@@ -116,7 +118,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 						<span>Are you sure you want to delete this bookmark?</span>
 						<div className="flex flex-row justify-center mt-4">
 							<button
-								className="py-1 px-3 m-1 mb-0 bg-red-200 hover:bg-red-300 rounded-sm"
+								className="py-1 px-3 m-1 mb-0 text-text-main bg-warning hover:bg-warning-hover rounded-sm"
 								onClick={() => {
 									onDone();
 								}}

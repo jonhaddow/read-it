@@ -7,6 +7,14 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: colors.emerald,
+				"text-main": "var(--text-main)",
+				"text-dimmed": "var(--text-dimmed)",
+				background: "var(--background)",
+				"background-shadow": "var(--background-shadow)",
+				"card-shade": "var(--card-shade)",
+				"card-shade-hover": "var(--card-shade-hover)",
+				warning: "var(--warning)",
+				"warning-hover": "var(--warning-hover)",
 			},
 		},
 	},

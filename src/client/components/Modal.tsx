@@ -34,7 +34,7 @@ export const Modal = ({
 				role="dialog"
 				aria-labelledby="dialog_label"
 				aria-modal="true"
-				className="relative p-6 bg-white rounded-md shadow-lg"
+				className="relative p-6 bg-card-shade rounded-md shadow-lg"
 			>
 				{title && (
 					<h2 id="dialog_label" className="hidden">
@@ -44,7 +44,7 @@ export const Modal = ({
 				<button className="absolute top-0 right-0 p-2" onClick={close}>
 					<FaTimes
 						size={24}
-						className="text-gray-500 hover:text-gray-600 fill-current"
+						className="text-text-main hover:text-text-dimmed fill-current"
 					/>
 				</button>
 				<div className="px-2 pt-2">{children}</div>

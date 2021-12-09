@@ -11,9 +11,9 @@ export const Login: React.FC = () => {
 	const returnTo = from ? encodeURIComponent(from.pathname + from.search) : "/";
 
 	return (
-		<div className="flex justify-center items-center h-screen">
-			<div className="p-4 shadow-xl">
-				<h1 className="mb-4 text-lg font-bold text-center">
+		<div className="flex justify-center items-center h-screen bg-background">
+			<div className="p-4 bg-card-shade rounded-md shadow-xl">
+				<h1 className="mb-4 text-lg font-bold text-center uppercase">
 					<span role="img" aria-label="alligator">
 						🐊
 					</span>{" "}

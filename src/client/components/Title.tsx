@@ -14,7 +14,9 @@ export const Title = ({
 	React.createElement(
 		as,
 		{
-			className: `uppercase text-gray-700 text-sm font-bold ${className ?? ""}`,
+			className: `uppercase text-text-main text-sm font-bold ${
+				className ?? ""
+			}`,
 		},
 		children
 	);

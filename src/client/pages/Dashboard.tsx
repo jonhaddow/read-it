@@ -13,7 +13,7 @@ export const Dashboard: React.FC = () => {
 					Bookmarks
 				</Title>
 				<button
-					className="flex items-center py-1 px-2 mr-4 text-sm text-gray-600 hover:text-black focus:outline-none"
+					className="flex items-center py-1 px-2 mr-4 text-sm text-text-dimmed hover:text-text-main focus:outline-none"
 					onClick={() => setIsOpen(true)}
 				>
 					<AiOutlinePlus className="inline mr-1" />
