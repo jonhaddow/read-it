@@ -45,13 +45,13 @@ export const BookmarkEditor = ({
 			<div className="block pb-5">
 				<label
 					htmlFor="url"
-					className="block py-4 px-2 text-sm tracking-wider leading-3 text-gray-800 uppercase"
+					className="block py-4 px-2 text-sm tracking-wider leading-3 text-text-main uppercase"
 				>
 					Add a link
 				</label>
 				<input
 					id="url"
-					className="py-2 px-4 w-72 rounded-2xl border border-gray-500 focus:shadow-md outline-none"
+					className="py-2 px-4 w-72 bg-background rounded-2xl border border-gray-500 focus:shadow-md outline-none"
 					name="url"
 					type="url"
 					value={url}
@@ -64,9 +64,9 @@ export const BookmarkEditor = ({
 				disabled={!url}
 				className={`${
 					url && !isLoading
-						? "text-gray-700 hover:bg-primary-300"
-						: "text-gray-400 cursor-default"
-				} focus:border-black outline-none bg-primary-100  py-2 px-3 rounded-lg`}
+						? "hover:bg-primary-hover"
+						: "cursor-default opacity-70"
+				} text-text-light focus:border-black outline-none bg-primary py-2 px-3 rounded-lg`}
 				type="submit"
 			>
 				Create

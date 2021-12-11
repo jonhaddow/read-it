@@ -28,13 +28,13 @@ export const Modal = ({
 	}, [close]);
 
 	return ReactDOM.createPortal(
-		<div className="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-gray-400 bg-opacity-70">
+		<div className="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-gray-900 bg-opacity-70">
 			<div
 				ref={modal}
 				role="dialog"
 				aria-labelledby="dialog_label"
 				aria-modal="true"
-				className="relative p-6 bg-white rounded-md shadow-lg"
+				className="relative p-6 bg-card-shade rounded-md shadow-lg"
 			>
 				{title && (
 					<h2 id="dialog_label" className="hidden">
@@ -44,7 +44,7 @@ export const Modal = ({
 				<button className="absolute top-0 right-0 p-2" onClick={close}>
 					<FaTimes
 						size={24}
-						className="text-gray-500 hover:text-gray-600 fill-current"
+						className="text-text-main hover:text-text-secondary fill-current"
 					/>
 				</button>
 				<div className="px-2 pt-2">{children}</div>

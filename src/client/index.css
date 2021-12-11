@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Theme agnostic variables */
+:root {
+	--primary: #33691e;
+	--primary-hover: #003d00;
+
+	--text-light: #eeeeee;
+	--text-dark: #000000;
+}
+
+body.dark-mode {
+	--text-main: #f1f1f1;
+	--text-secondary: #cccccc;
+
+	--background: #121212;
+	--background-hover: #2c2c2c;
+	--card-shade: #1f1f1f;
+	--card-shade-hover: #313131;
+
+	--warning: #991b1b;
+	--warning-hover: #b91c1c;
+}
+
+body.light-mode {
+	--text-main: #000000;
+	--text-secondary: #252525;
+
+	--background: #ffffff;
+	--background-hover: #eeeeee;
+	--card-shade: #ffffff;
+	--card-shade-hover: #ffffff;
+
+	--warning: #fecaca;
+	--warning-hover: #fca5a5;
+}
+
+body {
+	background: var(--background);
+	color: var(--text-main);
+}

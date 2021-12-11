@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { useAuth } from "./hooks";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { DarkModeToggle } from "./components";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ export const App: React.FC = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
+			<DarkModeToggle />
 			<Router>
 				<Switch>
 					<Route path="/login">

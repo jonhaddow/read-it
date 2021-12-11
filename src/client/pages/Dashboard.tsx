@@ -1,4 +1,4 @@
-import { BookmarkEditor, BookmarkList, Modal, Title } from "client/components";
+import { BookmarkEditor, BookmarkList, Modal } from "client/components";
 import React, { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -9,11 +9,11 @@ export const Dashboard: React.FC = () => {
 	return (
 		<div className="p-4 m-auto my-4 max-w-screen-md">
 			<header className="flex flex-wrap items-center mb-6">
-				<Title className="flex-grow" as="h1">
+				<h1 className="flex-grow text-sm font-bold text-text-main uppercase">
 					Bookmarks
-				</Title>
+				</h1>
 				<button
-					className="flex items-center py-1 px-2 mr-4 text-sm text-gray-600 hover:text-black focus:outline-none"
+					className="flex items-center py-1 px-2 mr-4 text-sm text-text-secondary hover:text-text-main focus:outline-none"
 					onClick={() => setIsOpen(true)}
 				>
 					<AiOutlinePlus className="inline mr-1" />

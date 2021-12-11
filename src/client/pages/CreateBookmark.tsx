@@ -57,7 +57,7 @@ export const CreateBookmark: React.FC = () => {
 			{!isLoading && (
 				<Link
 					to="/"
-					className="p-2 m-5 hover:bg-gray-100 border border-gray-400 transition-colors"
+					className="p-2 m-5 hover:bg-background-hover border border-gray-400 transition-colors"
 				>
 					View bookmarks
 				</Link>
