@@ -28,27 +28,40 @@ export function Pagination(props: PaginationProps): React.ReactElement | null {
 	return (
 		<div className="flex justify-center items-center p-2">
 			{showPrev && (
-				<button
-					className="left-0 p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+				<NavButton
 					onClick={() =>
 						props.onChange(Math.max(0, props.skip - props.take), props.take)
 					}
 				>
 					Previous
-				</button>
+				</NavButton>
 			)}
-			<span className="p-2 mx-auto text-sm font-bold text-gray-700 uppercase">
+			<span className="p-2 mx-auto text-sm font-bold text-text-secondary uppercase">
 				{props.skip + 1} - {Math.min(props.total, props.skip + props.take)} /{" "}
 				{props.total}
 			</span>
 			{showNext && (
-				<button
-					className="right-0 p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+				<NavButton
 					onClick={() => props.onChange(props.skip + props.take, props.take)}
 				>
 					Next
-				</button>
+				</NavButton>
 			)}
 		</div>
+	);
+}
+
+interface NavButtonProps {
+	onClick: () => void;
+	children: React.ReactNode;
+}
+function NavButton(props: NavButtonProps): React.ReactElement {
+	return (
+		<button
+			className="p-2 text-text-secondary bg-background hover:bg-background-hover rounded-lg transition-colors"
+			onClick={props.onClick}
+		>
+			{props.children}
+		</button>
 	);
 }

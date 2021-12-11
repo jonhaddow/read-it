@@ -6,11 +6,14 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				primary: colors.emerald,
+				primary: "var(--primary)",
+				"primary-hover": "var(--primary-hover)",
 				"text-main": "var(--text-main)",
-				"text-dimmed": "var(--text-dimmed)",
+				"text-secondary": "var(--text-secondary)",
+				"text-light": "var(--text-light)",
+				"text-dark": "var(--text-dark)",
 				background: "var(--background)",
-				"background-shadow": "var(--background-shadow)",
+				"background-hover": "var(--background-hover)",
 				"card-shade": "var(--card-shade)",
 				"card-shade-hover": "var(--card-shade-hover)",
 				warning: "var(--warning)",

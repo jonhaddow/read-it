@@ -64,9 +64,9 @@ export const BookmarkEditor = ({
 				disabled={!url}
 				className={`${
 					url && !isLoading
-						? "text-text-main hover:bg-primary-300"
-						: "text-text-dimmed cursor-default"
-				} focus:border-black outline-none bg-primary-100  py-2 px-3 rounded-lg`}
+						? "hover:bg-primary-hover"
+						: "cursor-default opacity-70"
+				} text-text-light focus:border-black outline-none bg-primary py-2 px-3 rounded-lg`}
 				type="submit"
 			>
 				Create

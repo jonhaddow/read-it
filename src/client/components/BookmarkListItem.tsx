@@ -80,7 +80,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 										{bookmark.title}
 									</a>
 									{minuteWrapper && (
-										<span className="overflow-hidden flex-shrink-0 ml-auto text-sm font-bold text-text-dimmed whitespace-nowrap">
+										<span className="overflow-hidden flex-shrink-0 ml-auto text-sm font-bold text-text-secondary whitespace-nowrap">
 											{minuteWrapper}
 										</span>
 									)}
@@ -90,7 +90,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 										{bookmark.description}
 									</p>
 								)}
-								<span className="text-sm font-semibold text-text-dimmed align-middle">
+								<span className="text-sm font-semibold text-text-secondary align-middle">
 									<img
 										className="inline mr-2 w-4 h-4"
 										src={bookmark.favicon}
