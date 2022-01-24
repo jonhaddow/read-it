@@ -61,7 +61,6 @@
 		"@types/jest": "^27.0.2",
 		"@types/jsdom": "^16.2.13",
 		"@types/node": "^16.11.6",
-		"@types/node-fetch": "^2.5.12",
 		"@types/passport": "^1.0.7",
 		"@types/passport-github2": "^1.2.5",
 		"@types/passport-google-oauth20": "^2.0.11",
