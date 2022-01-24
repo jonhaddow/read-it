@@ -6,19 +6,27 @@ import { Bookmark, User } from "core/models";
 import { isWebUri } from "valid-url";
 import { populateBookmark } from "./populateBookmark";
 
-export const getBookmarks = async (
-	user: User,
-	skip: number,
-	take: number
-): Promise<ResultSet<Bookmark>> => {
+export const getBookmarks = async (filterArgs: {
+	user: User;
+	skip: number;
+	take: number;
+	sort: "dateCreated" | "contentLength";
+	order: "asc" | "desc";
+}): Promise<ResultSet<Bookmark>> => {
 	const total = await getRepository(BookmarkEntity).count({
-		where: { user: user },
+		where: { user: filterArgs.user },
 	});
+
 	const results = await getRepository(BookmarkEntity).find({
-		where: { user: user },
-		skip: skip,
-		take: take,
+		where: { user: filterArgs.user },
+		skip: filterArgs.skip,
+		take: filterArgs.take,
+		order: {
+			[filterArgs.sort === "dateCreated" ? "dateCreated" : "minuteEstimate"]:
+				filterArgs.order.toUpperCase(),
+		},
 	});
+
 	return { results, total };
 };
 

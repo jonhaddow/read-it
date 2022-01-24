@@ -63,7 +63,4 @@ export const BookmarkEntity = new EntitySchema<Bookmark>({
 			target: "user", // UserEntity
 		},
 	},
-	orderBy: {
-		dateCreated: "DESC",
-	},
 });

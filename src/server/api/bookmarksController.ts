@@ -23,7 +23,12 @@ bookmarksRouter.get("/", async (req, res): Promise<void> => {
 			take = 25;
 		}
 
-		const bookmarks = await getBookmarks(user, skip, take);
+		// Ensure query params are valid inputs
+		const sort =
+			req.query.sort === "dateCreated" ? "dateCreated" : "contentLength";
+		const order = req.query.order === "asc" ? "asc" : "desc";
+
+		const bookmarks = await getBookmarks({ user, skip, take, sort, order });
 		res.json(bookmarks);
 	} catch (ex) {
 		console.error(ex);
