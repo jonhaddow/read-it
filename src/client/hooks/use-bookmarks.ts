@@ -11,13 +11,22 @@ export const bookmarkKeys = {
 interface BookmarkParams {
 	skip: number;
 	take: number;
+	sort?: "dateCreated" | "contentLength";
+	order?: "asc" | "desc";
 }
 export const useBookmarks = ({
 	skip,
 	take,
+	sort = "dateCreated",
+	order = "desc",
 }: BookmarkParams): UseQueryResult<ResultSet<Bookmark>> => {
 	return useQuery(bookmarkKeys.filter(skip, take), async () => {
-		const response = await Api.get("/api/bookmarks", { skip, take });
+		const response = await Api.get("/api/bookmarks", {
+			skip,
+			take,
+			sort,
+			order,
+		});
 		if (!response.ok) {
 			throw new Error("Network request failed.");
 		}

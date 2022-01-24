@@ -1,4 +1,9 @@
-import { BookmarkEditor, BookmarkList, Modal } from "client/components";
+import {
+	BookmarkEditor,
+	BookmarkList,
+	Dropdown,
+	Modal,
+} from "client/components";
 import React, { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -12,6 +17,7 @@ export const Dashboard: React.FC = () => {
 				<h1 className="flex-grow text-sm font-bold text-text-main uppercase">
 					Bookmarks
 				</h1>
+				<Dropdown />
 				<button
 					className="flex items-center py-1 px-2 mr-4 text-sm text-text-secondary hover:text-text-main focus:outline-none"
 					onClick={() => setIsOpen(true)}
