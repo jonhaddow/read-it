@@ -45,31 +45,13 @@ export class YouTubeStrategy implements IMetadataStrategy {
 					process.env.YOUTUBE_API_KEY ?? ""
 				}&part=contentDetails&part=snippet`
 			);
-			const json = (await getVideo.json()) as {
-				items: {
-					snippet: {
-						title: string;
-						description: string;
-						thumbnails: {
-							default: {
-								url: string;
-							};
-							high: {
-								url: string;
-							};
-						};
-					};
-					contentDetails: {
-						duration: string;
-					};
-				}[];
-			};
+			const json = await getVideo.json();
 
 			if (!json.items || !json.items[0]) {
 				throw new Error("Could not find video");
 			}
 
-			const duration = json.items[0].contentDetails.duration;
+			const duration = json.items[0].contentDetails.duration as string;
 			const { hours, minutes, seconds } = parse(duration);
 			const minuteEstimate = dayjs
 				.duration({
