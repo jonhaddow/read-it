@@ -18,7 +18,14 @@ export class HackerNewsStrategy implements IMetadataStrategy {
 			specialType: "hacker-news",
 		};
 		try {
-			const match = url.match(LINK_REGEXES[0]);
+			let match: RegExpMatchArray | null = null;
+
+			for (const regex of LINK_REGEXES) {
+				match = url.match(regex);
+				if (match) {
+					break;
+				}
+			}
 
 			if (!match) {
 				throw new Error("Could not match url");
