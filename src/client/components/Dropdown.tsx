@@ -21,11 +21,17 @@ export function Dropdown(): React.ReactElement | null {
 		items,
 	});
 
-	const [referenceElement, setReferenceElement] = React.useState(null);
+	const [referenceElement, setReferenceElement] =
+		React.useState<HTMLDivElement | null>(null);
 	const [popperElement, setPopperElement] =
-		React.useState<HTMLUListElement | null>(null);
+		React.useState<HTMLDivElement | null>(null);
+	const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(
+		null
+	);
+
 	const { styles, attributes } = usePopper(referenceElement, popperElement, {
-		placement: "right",
+		placement: "bottom-end",
+		modifiers: [{ name: "arrow", options: { element: arrowElement } }],
 	});
 
 	return (
@@ -37,29 +43,36 @@ export function Dropdown(): React.ReactElement | null {
 			>
 				Sort by:
 			</label>
-			<button
-				id="dropdown"
-				ref={setReferenceElement}
-				{...getToggleButtonProps()}
-			>
-				{selectedItem || "Default"}
-			</button>
-			<div {...getMenuProps()}>
-				{isOpen && (
-					<ul
-						ref={setPopperElement}
-						{...attributes.popper}
-						style={styles.popper}
-						className="bg-white"
-					>
+			<div ref={setReferenceElement} className="inline">
+				<button id="dropdown" {...getToggleButtonProps()}>
+					{selectedItem || "Default"}
+				</button>
+			</div>
+			{isOpen && (
+				<div
+					className="z-10"
+					ref={setPopperElement}
+					{...attributes.popper}
+					style={styles.popper}
+				>
+					<div
+						ref={setArrowElement}
+						style={styles.arrow}
+						className="border-4 border-x-transparent border-t-transparent border-b-card-shade border-solid rotate-[-135deg]"
+					/>
+					<ul {...getMenuProps()} className="mt-2 bg-card-shade shadow-md">
 						{items.map((item, index) => (
-							<li key={`${item}${index}`} {...getItemProps({ item, index })}>
+							<li
+								key={`${item}${index}`}
+								{...getItemProps({ item, index })}
+								className="p-2 text-sm hover:bg-card-shade-hover cursor-pointer"
+							>
 								{item}
 							</li>
 						))}
 					</ul>
-				)}
-			</div>
+				</div>
+			)}
 		</div>
 	);
 }
