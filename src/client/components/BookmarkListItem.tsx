@@ -57,7 +57,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 								href={bookmark.url}
 								target="_blank"
 								rel="noreferrer"
-								className="flex justify-center items-center self-center w-24 md:w-32 h-16 md:h-24 border"
+								className="flex justify-center items-center self-center w-24 h-16 border md:w-32 md:h-24"
 							>
 								{bookmark.thumbnailUrl ? (
 									<img
@@ -80,7 +80,7 @@ export function BookmarkListItem(bookmark: Bookmark): ReactElement {
 										{bookmark.title}
 									</a>
 									{minuteWrapper && (
-										<span className="overflow-hidden flex-shrink-0 ml-auto text-sm font-bold text-text-secondary whitespace-nowrap">
+										<span className="overflow-hidden shrink-0 ml-auto text-sm font-bold text-text-secondary whitespace-nowrap">
 											{minuteWrapper}
 										</span>
 									)}

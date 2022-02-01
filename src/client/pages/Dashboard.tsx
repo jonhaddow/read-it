@@ -14,7 +14,7 @@ export const Dashboard: React.FC = () => {
 	return (
 		<div className="p-4 m-auto my-4 max-w-screen-md">
 			<header className="flex flex-wrap items-center mb-6">
-				<h1 className="flex-grow text-sm font-bold text-text-main uppercase">
+				<h1 className="grow text-sm font-bold text-text-main uppercase">
 					Bookmarks
 				</h1>
 				<Dropdown />
