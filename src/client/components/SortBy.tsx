@@ -2,7 +2,7 @@ import * as React from "react";
 import { useSelect } from "downshift";
 import { usePopper } from "react-popper";
 
-export function Dropdown(): React.ReactElement | null {
+export function SortBy(): React.ReactElement | null {
 	const items = [
 		"Newly added",
 		"Oldest added",
@@ -58,9 +58,12 @@ export function Dropdown(): React.ReactElement | null {
 					<div
 						ref={setArrowElement}
 						style={styles.arrow}
-						className="border-4 border-x-transparent border-t-transparent border-b-card-shade border-solid rotate-[-135deg]"
+						className="border-8 border-x-transparent border-t-transparent border-b-card-shade border-solid rotate-[-135deg]"
 					/>
-					<ul {...getMenuProps()} className="mt-2 bg-card-shade shadow-md">
+					<ul
+						{...getMenuProps()}
+						className="overflow-hidden mt-4 bg-card-shade rounded-lg shadow-lg"
+					>
 						{items.map((item, index) => (
 							<li
 								key={`${item}${index}`}
