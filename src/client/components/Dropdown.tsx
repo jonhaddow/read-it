@@ -1,25 +1,17 @@
+import { useClickAway } from "client/hooks";
 import * as React from "react";
-import { useSelect } from "downshift";
 import { usePopper } from "react-popper";
 
-export function SortBy(): React.ReactElement | null {
-	const items = [
-		"Newly added",
-		"Oldest added",
-		"Longest content",
-		"Shortest content",
-	];
+interface DropdownProps<T> {
+	items: T[];
+	onSelect: (item: T) => void;
+	selectedItem: T;
+}
 
-	const {
-		isOpen,
-		selectedItem,
-		getLabelProps,
-		getItemProps,
-		getToggleButtonProps,
-		getMenuProps,
-	} = useSelect({
-		items,
-	});
+export function Dropdown<T>(
+	props: DropdownProps<T>
+): React.ReactElement | null {
+	const [isOpen, setIsOpen] = React.useState(false);
 
 	const [referenceElement, setReferenceElement] =
 		React.useState<HTMLDivElement | null>(null);
@@ -34,18 +26,16 @@ export function SortBy(): React.ReactElement | null {
 		modifiers: [{ name: "arrow", options: { element: arrowElement } }],
 	});
 
+	useClickAway(referenceElement, () => setIsOpen(false));
+
 	return (
 		<div className="mx-2">
-			<label
-				htmlFor="dropdown"
-				className="pr-2 text-text-secondary"
-				{...getLabelProps()}
-			>
+			<label htmlFor="dropdown" className="pr-2 text-text-secondary">
 				Sort by:
 			</label>
 			<div ref={setReferenceElement} className="inline">
-				<button id="dropdown" {...getToggleButtonProps()}>
-					{selectedItem || "Default"}
+				<button id="dropdown" onClick={() => setIsOpen(!isOpen)}>
+					{props.selectedItem}
 				</button>
 			</div>
 			{isOpen && (
@@ -60,17 +50,15 @@ export function SortBy(): React.ReactElement | null {
 						style={styles.arrow}
 						className="border-8 border-x-transparent border-t-transparent border-b-card-shade border-solid rotate-[-135deg]"
 					/>
-					<ul
-						{...getMenuProps()}
-						className="overflow-hidden mt-4 bg-card-shade rounded-lg shadow-lg"
-					>
-						{items.map((item, index) => (
-							<li
-								key={`${item}${index}`}
-								{...getItemProps({ item, index })}
-								className="p-2 text-sm hover:bg-card-shade-hover cursor-pointer"
-							>
-								{item}
+					<ul className="overflow-hidden mt-4 bg-card-shade rounded-lg shadow-lg">
+						{props.items.map((item, index) => (
+							<li key={index} className="text-sm hover:bg-card-shade-hover">
+								<button
+									className="p-2 w-full h-full"
+									onClick={() => props.onSelect(item)}
+								>
+									{item}
+								</button>
 							</li>
 						))}
 					</ul>

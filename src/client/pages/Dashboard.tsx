@@ -1,10 +1,28 @@
-import { BookmarkEditor, BookmarkList, Modal, SortBy } from "client/components";
+import {
+	BookmarkEditor,
+	BookmarkListItem,
+	Dropdown,
+	Modal,
+	Pagination,
+	StateMessage,
+} from "client/components";
 import React, { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useBookmarks, useSortOptions } from "client/hooks";
 
 export const Dashboard: React.FC = () => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [skip, setSkip] = React.useState<number>(0);
+	const [take, setTake] = React.useState<number>(10);
+	const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+
+	const { options, selected, selectedParams, setSelected } = useSortOptions();
+
+	const { data, isLoading } = useBookmarks({
+		skip,
+		take,
+		...selectedParams,
+	});
 
 	return (
 		<div className="p-4 m-auto my-4 max-w-screen-md">
@@ -12,10 +30,17 @@ export const Dashboard: React.FC = () => {
 				<h1 className="grow text-sm font-bold text-text-main uppercase">
 					Bookmarks
 				</h1>
-				<SortBy />
+				<Dropdown
+					items={options}
+					selectedItem={selected}
+					onSelect={(i) => {
+						setSelected(i);
+						setSkip(0);
+					}}
+				/>
 				<button
 					className="flex items-center py-1 px-2 mr-4 text-sm text-text-secondary hover:text-text-main focus:outline-none"
-					onClick={() => setIsOpen(true)}
+					onClick={() => setIsCreateModalOpen(true)}
 				>
 					<AiOutlinePlus className="inline mr-1" />
 					Create bookmark
@@ -25,10 +50,34 @@ export const Dashboard: React.FC = () => {
 					<span className="sr-only">Log out</span>
 				</a>
 			</header>
-			<BookmarkList />
-			{isOpen && (
-				<Modal title="Create Bookmark" close={() => setIsOpen(false)}>
-					<BookmarkEditor onSave={() => setIsOpen(false)} />
+			{isLoading ? (
+				<StateMessage>Loading...</StateMessage>
+			) : data?.results.length ? (
+				<>
+					<ul>
+						{data.results.map((bookmark) => (
+							<BookmarkListItem key={bookmark.id} {...bookmark} />
+						))}
+					</ul>
+					<Pagination
+						skip={skip}
+						take={take}
+						total={data.total}
+						onChange={(s, t) => {
+							setSkip(s);
+							setTake(t);
+						}}
+					/>
+				</>
+			) : (
+				<StateMessage>No bookmarks</StateMessage>
+			)}
+			{isCreateModalOpen && (
+				<Modal
+					title="Create Bookmark"
+					close={() => setIsCreateModalOpen(false)}
+				>
+					<BookmarkEditor onSave={() => setIsCreateModalOpen(false)} />
 				</Modal>
 			)}
 		</div>
