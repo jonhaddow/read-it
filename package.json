@@ -36,7 +36,7 @@
 	"homepage": "https://github.com/jonhaddow/read-it#readme",
 	"devDependencies": {
 		"eslint": "^8.1.0",
-		"eslint-config-jonhaddow": "^3.1.0",
+		"eslint-config-jonhaddow": "^3.2.0",
 		"eslint-formatter-codeframe": "^7.32.1",
 		"eslint-plugin-tailwindcss": "^3.4.3",
 		"husky": "^7.0.4",
@@ -89,7 +89,6 @@
 		"css-minimizer-webpack-plugin": "^3.1.1",
 		"dayjs": "^1.10.7",
 		"dotenv": "^10.0.0",
-		"downshift": "^6.1.7",
 		"ejs": "^3.1.6",
 		"express": "^4.17.1",
 		"express-session": "^1.17.2",
