@@ -61,6 +61,9 @@ module.exports = ({ production }) => ({
 		port: 9000,
 		hot: false,
 		historyApiFallback: true,
+		client: {
+			overlay: false,
+		},
 	},
 	plugins: [
 		new ForkTsCheckerWebpackPlugin({
