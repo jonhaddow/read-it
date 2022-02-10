@@ -28,7 +28,7 @@ export const Modal = ({
 	}, [close]);
 
 	return ReactDOM.createPortal(
-		<div className="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-gray-900 bg-opacity-70">
+		<div className="flex fixed inset-0 justify-center items-center bg-gray-900/70">
 			<div
 				ref={modal}
 				role="dialog"

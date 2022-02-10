@@ -35,7 +35,7 @@ describe("bookmarks paging", () => {
 
 	it("should return the correct page of results", () => {
 		return agent
-			.get(`/api/bookmarks?skip=${20}&take=${25}`)
+			.get(`/api/bookmarks?skip=${20}&take=${25}&sort=dateCreated&order=desc`)
 			.expect(200)
 			.expect((response) => {
 				expect(response.body.total).toBe(60);

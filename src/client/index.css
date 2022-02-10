@@ -30,8 +30,8 @@ body.light-mode {
 
 	--background: #ffffff;
 	--background-hover: #eeeeee;
-	--card-shade: #ffffff;
-	--card-shade-hover: #ffffff;
+	--card-shade: #f9f9f9;
+	--card-shade-hover: #f5f5f5;
 
 	--warning: #fecaca;
 	--warning-hover: #fca5a5;

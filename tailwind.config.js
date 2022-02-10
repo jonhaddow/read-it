@@ -1,8 +1,7 @@
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-	purge: ["./src/client/**/*.tsx"],
-	darkMode: false,
+	content: ["./src/client/**/*.tsx"],
 	theme: {
 		extend: {
 			colors: {
@@ -19,11 +18,6 @@ module.exports = {
 				warning: "var(--warning)",
 				"warning-hover": "var(--warning-hover)",
 			},
-		},
-	},
-	variants: {
-		extend: {
-			opacity: ["group-hover"],
 		},
 	},
 	plugins: [require("@tailwindcss/line-clamp")],

@@ -51,7 +51,7 @@ export const BookmarkEditor = ({
 				</label>
 				<input
 					id="url"
-					className="py-2 px-4 w-72 bg-background rounded-2xl border border-gray-500 focus:shadow-md outline-none"
+					className="py-2 px-4 w-72 bg-background rounded-2xl border border-gray-500 outline-none focus:shadow-md"
 					name="url"
 					type="url"
 					value={url}
