@@ -24,6 +24,14 @@ export const Dashboard: React.FC = () => {
 		...selectedParams,
 	});
 
+	React.useEffect(() => {
+		// If the current page of results is empty, then we need to go back a page.
+		// We can get into this state when deleting the last item on the last page.
+		if (data && data.total !== 0 && data.results.length === 0) {
+			setSkip(skip - take);
+		}
+	}, [data, skip, take]);
+
 	return (
 		<div className="p-4 m-auto my-4 max-w-screen-md">
 			<header className="flex flex-wrap items-center mb-6">
